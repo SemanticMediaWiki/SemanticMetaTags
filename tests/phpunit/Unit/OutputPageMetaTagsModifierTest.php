@@ -65,15 +65,10 @@ class OutputPageMetaTagsModifierTest extends \PHPUnit_Framework_TestCase {
 		$propertyValueContentFinder->expects( $this->once() )
 			->method( 'findContentForProperties' )
 			->with( $this->equalTo( $properties ) )
-			->will( $this->returnValue( $expected ) );
+			->will( $this->returnValue( $expected['content'] ) );
 
 		$instance = new OutputPageMetaTagsModifier( $propertyValueContentFinder );
-
-		$metaTagsContentPropertySelector = array(
-			'foo' => $propertySelector
-		);
-
-		$instance->setMetaTagsContentPropertySelector( $metaTagsContentPropertySelector );
+		$instance->setMetaTagsContentPropertySelector( $propertySelector );
 
 		$outputPage = $this->getMockBuilder( '\OutputPage' )
 			->disableOriginalConstructor()
@@ -82,8 +77,8 @@ class OutputPageMetaTagsModifierTest extends \PHPUnit_Framework_TestCase {
 		$outputPage->expects( $this->once() )
 			->method( 'addMeta' )
 			->with(
-				$this->equalTo( 'foo' ),
-				$this->equalTo( $expected ) );
+				$this->equalTo( $expected['tag'] ),
+				$this->equalTo( $expected['content'] ) );
 
 		$instance->modifyOutputPage( $outputPage );
 	}
@@ -104,21 +99,33 @@ class OutputPageMetaTagsModifierTest extends \PHPUnit_Framework_TestCase {
 	public function validPropertySelectorProvider() {
 
 		$provider[] = array(
-			'foobar',
+			array( 'foo' => 'foobar' ),
 			array( 'foobar' ),
-			'Mo,fo'
+			array( 'tag' => 'foo', 'content' => 'Mo,fo' )
 		);
 
 		$provider[] = array(
-			'foobar,quin',
+			array( 'foo' => 'foobar,quin' ),
 			array( 'foobar', 'quin' ),
-			'Mo,fo'
+			array( 'tag' => 'foo', 'content' => 'Mo,fo' )
 		);
 
 		$provider[] = array(
-			' foobar, quin ',
+			array( 'foo' => ' foobar, quin ' ),
 			array( ' foobar', ' quin ' ),
-			'Mo,fo'
+			array( 'tag' => 'foo', 'content' => 'Mo,fo' )
+		);
+
+		$provider[] = array(
+			array( 'FOO' => 'foobar,quin' ),
+			array( 'foobar', 'quin' ),
+			array( 'tag' => 'foo', 'content' => 'Mo,fo' )
+		);
+
+		$provider[] = array(
+			array( 'FO"O' => 'foobar,quin' ),
+			array( 'foobar', 'quin' ),
+			array( 'tag' => 'fo&quot;o', 'content' => 'Mo,fo' )
 		);
 
 		return $provider;

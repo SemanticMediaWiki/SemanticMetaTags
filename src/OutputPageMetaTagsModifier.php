@@ -60,7 +60,7 @@ class OutputPageMetaTagsModifier {
 			$properties = explode( ',', $propertySelector );
 
 			$outputPage->addMeta(
-				$tag,
+				strtolower( htmlspecialchars( $tag ) ),
 				$this->propertyValueContentFinder->findContentForProperties( $properties )
 			);
 		}

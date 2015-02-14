@@ -42,8 +42,8 @@ call_user_func( function () {
 	$GLOBALS['wgMessagesDirs']['semantic-meta-tags'] = __DIR__ . '/i18n';
 
 	$GLOBALS['egSMTMetaTagsContentPropertySelector'] = array(
-		'keywords' => 'Population, Area',
-		'descriptions' => 'Has description',
+		'keywords' => '',
+		'descriptions' => '',
 		'author' => ''
 	);
 
