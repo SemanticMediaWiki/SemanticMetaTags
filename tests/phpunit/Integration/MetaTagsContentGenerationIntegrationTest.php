@@ -56,7 +56,7 @@ class MetaTagsContentGenerationIntegrationTest extends MwDBaseUnitTestCase {
 		$outputPage = $requestContext->getOutput();
 
 		if ( !method_exists( $outputPage, 'getMetaTags' ) ) {
-			$this->markTestSkipped( 'OutputPage::getMetaTags does not exist for the MW version' );
+			$this->markTestSkipped( 'OutputPage::getMetaTags does not exist for this MW version' );
 		}
 
 		$subject = DIWikiPage::newFromTitle( Title::newFromText( __METHOD__ ) );
