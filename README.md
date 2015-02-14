@@ -21,7 +21,7 @@ with content generated from selected properties.
 
 ## Installation
 
-The recommended way to install Semantic Interlanguage Links is by using [Composer][composer] with an entry in MediaWiki's `composer.json`.
+The recommended way to install Semantic Meta Tags is by using [Composer][composer] with an entry in MediaWiki's `composer.json`.
 
 ```json
 {
