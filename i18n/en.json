@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"mwjames"
+		]
+	},
+	"smt-desc": "A [https://semantic-mediawiki.org Semantic MediaWiki] extension to provide meta tags generated from semantic annotations."
+}
