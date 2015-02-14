@@ -2,10 +2,6 @@
 
 namespace SMT;
 
-use SMW\SemanticData;
-use SMW\DIProperty;
-use SMW\DIWikiPage;
-use SMWDIBlob as DIBlob;
 use OutputPage;
 
 /**
@@ -29,7 +25,7 @@ class OutputPageMetaTagsModifier {
 	/**
 	 * @since 1.0
 	 *
-	 * @param emanticData $propertyValueContentFinder
+	 * @param PropertyValueContentFinder $propertyValueContentFinder
 	 */
 	public function __construct( PropertyValueContentFinder $propertyValueContentFinder ) {
 		$this->propertyValueContentFinder = $propertyValueContentFinder;
@@ -38,21 +34,21 @@ class OutputPageMetaTagsModifier {
 	/**
 	 * @since 1.0
 	 *
-	 * @param  array $metaTagsContentPropertySelector
+	 * @param array $metaTagsContentPropertySelector
 	 */
 	public function setMetaTagsContentPropertySelector( array $metaTagsContentPropertySelector ) {
 		$this->metaTagsContentPropertySelector = $metaTagsContentPropertySelector;
 	}
 
 	/**
-	 * @since  1.0
+	 * @since 1.0
 	 *
 	 * @param OutputPage &$outputPage
 	 */
 	public function modifyOutputPage( OutputPage &$outputPage ) {
 
 		if ( $this->metaTagsContentPropertySelector === array() ) {
-			return true;
+			return;
 		}
 
 		foreach ( $this->metaTagsContentPropertySelector as $tag => $propertySelector ) {
