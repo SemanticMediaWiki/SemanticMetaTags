@@ -13,16 +13,16 @@
          stopOnSkipped="false"
          verbose="true">
     <testsuites>
-        <testsuite name="semantic-meta-tags">
-            <directory>tests/phpunit</directory>
+        <testsuite name="semantic-meta-tags-unit">
+            <directory>tests/phpunit/Unit</directory>
+        </testsuite>
+        <testsuite name="semantic-meta-tags-integration">
+            <directory>tests/phpunit/Integration</directory>
         </testsuite>
     </testsuites>
     <filter>
         <whitelist addUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">src</directory>
         </whitelist>
-        <blacklist>
-            <directory suffix=".php">../src</directory>
-        </blacklist>
     </filter>
 </phpunit>

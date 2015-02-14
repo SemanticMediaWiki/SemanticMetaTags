@@ -85,6 +85,8 @@ class OutputPageMetaTagsModifierTest extends \PHPUnit_Framework_TestCase {
 
 	public function invalidPropertySelectorProvider() {
 
+		$provider = array();
+
 		$provider[] = array(
 			array()
 		);
@@ -97,6 +99,8 @@ class OutputPageMetaTagsModifierTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function validPropertySelectorProvider() {
+
+		$provider = array();
 
 		$provider[] = array(
 			array( 'foo' => 'foobar' ),
