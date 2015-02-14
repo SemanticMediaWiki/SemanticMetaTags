@@ -11,7 +11,7 @@ Semantic Meta Tags (a.k.a. SMT) is a [Semantic Mediawiki][smw] extension to
 enhance the meta description of an article.
 
 This extension enables to automatically extend the HTML `<meta>` tags of an article
-with selected property values to enhance search engine content categorization.
+with content generated from selected properties.
 
 ## Requirements
 
