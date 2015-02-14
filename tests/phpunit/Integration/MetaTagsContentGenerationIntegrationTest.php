@@ -20,7 +20,6 @@ use Title;
 class MetaTagsContentGenerationIntegrationTest extends MwDBaseUnitTestCase {
 
 	private $pageCreator;
-	private $semanticDataValidator;
 	private $subjects = array();
 
 	protected function setUp() {
