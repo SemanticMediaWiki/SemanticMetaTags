@@ -1,7 +1,6 @@
-'''[https://github.com/SemanticMediaWiki/SemanticInterlanguageLinks Semantic Interlanguage Links (SIL)]''' is a free, open-source extension to Semantic MediaWiki that allows to create and manage interlanguage links semantically.
+'''[https://github.com/SemanticMediaWiki/SemanticMetaTags Semantic Meta Tags (SMT)]''' is a free, open-source extension to Semantic MediaWiki to enhance the meta tags of an article with content generated from semantic annotations.
 
-Copyright (C) 2014
-
+Copyright (C) 2015
 
 The license text below "====" applies to all files within this distribution, other than those that are in a directory which contains files named "LICENSE" or "COPYING", or a subdirectory thereof. For those files, the license text contained in said file overrides any license information contained in directories of smaller depth. Alternative licenses are typically used for software that is provided by external parties, and merely packaged with this extension for convenience.
 ----

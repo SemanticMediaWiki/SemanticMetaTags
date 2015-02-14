@@ -7,8 +7,8 @@
 [![Packagist download count](https://poser.pugx.org/mediawiki/semantic-meta-tags/d/total.png)](https://packagist.org/packages/mediawiki/semantic-meta-tags)
 [![Dependency Status](https://www.versioneye.com/php/mediawiki:semantic-meta-tags/badge.png)](https://www.versioneye.com/php/mediawiki:semantic-meta-tags)
 
-Semantic Meta Tags (a.k.a. SMT) is a [Semantic Mediawiki][smw] extension to
-enhance the meta description of an article.
+Semantic Meta Tags (a.k.a. SMT) is a [Semantic Mediawiki][smw] extension to enhance
+the meta tags of an article with content generated from semantic annotations.
 
 This extension enables to automatically extend the HTML `<meta>` tags of an article
 with content generated from selected properties.
