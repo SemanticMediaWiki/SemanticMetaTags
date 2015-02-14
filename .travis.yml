@@ -19,7 +19,7 @@ matrix:
 
 install:
   - bash ./tests/travis/install-mediawiki.sh
-  - bash ./tests/travis/install-semantic-interlanguage-links.sh
+  - bash ./tests/travis/install-semantic-meta-tags.sh
 
 script:
   - bash ./tests/travis/run-tests.sh
