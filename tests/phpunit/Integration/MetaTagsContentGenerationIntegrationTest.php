@@ -30,7 +30,7 @@ class MetaTagsContentGenerationIntegrationTest extends MwDBaseUnitTestCase {
 		$metaTagsContentPropertySelector = array(
 			'keywords' => 'SMT keywords',
 			'descriptions' => '',
-			'author' => ''
+			'og:title' => 'SMT title'
 		);
 
 		$configuration = array(
@@ -38,7 +38,12 @@ class MetaTagsContentGenerationIntegrationTest extends MwDBaseUnitTestCase {
 		);
 
 		$hookRegistry = new HookRegistry( $configuration );
-		$hookRegistry->register( $GLOBALS['wgHooks'] );
+		$hookRegistry->register();
+
+		// Deregister all hooks to ensure that only the one that is ought to be
+		// tested is tested
+		$hookRegistry->deregister();
+		$hookRegistry->register();
 	}
 
 	protected function tearDown() {
@@ -50,7 +55,7 @@ class MetaTagsContentGenerationIntegrationTest extends MwDBaseUnitTestCase {
 		parent::tearDown();
 	}
 
-	public function testFindMetaTags() {
+	public function testAddStandardMetaTag() {
 
 		$requestContext = new \RequestContext();
 		$outputPage = $requestContext->getOutput();
@@ -73,6 +78,33 @@ class MetaTagsContentGenerationIntegrationTest extends MwDBaseUnitTestCase {
 		$this->assertEquals(
 			array( array( 'keywords', 'KeywordMetaTags' ) ),
 			$outputPage->getMetaTags()
+		);
+
+		$this->assertFalse(
+			$outputPage->hasHeadItem( 'meta:property:og:title' )
+		);
+
+		$this->subjects = array( $subject );
+	}
+
+	public function testAddOpenGraphMetaTag() {
+
+		$requestContext = new \RequestContext();
+		$outputPage = $requestContext->getOutput();
+
+		$subject = DIWikiPage::newFromTitle( Title::newFromText( __METHOD__ ) );
+		$requestContext->setTitle( $subject->getTitle() );
+
+		$this->pageCreator
+			->createPage( $subject->getTitle() )
+			->doEdit( '[[SMT title::OGTitleMetaTags]]' );
+
+		$parserOutput = $this->pageCreator->getEditInfo()->output;
+
+		$outputPage->addParserOutputMetadata( $parserOutput );
+
+		$this->assertTrue(
+			$outputPage->hasHeadItem( 'meta:property:og:title' )
 		);
 
 		$this->subjects = array( $subject );

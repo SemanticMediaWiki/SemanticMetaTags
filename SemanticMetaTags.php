@@ -55,7 +55,7 @@ call_user_func( function () {
 		);
 
 		$hookRegistry = new HookRegistry( $configuration );
-		$hookRegistry->register( $GLOBALS['wgHooks'] );
+		$hookRegistry->register();
 	};
 
 } );

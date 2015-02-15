@@ -2,8 +2,8 @@
 
 namespace SMT;
 
-use SMW\Store;
 use SMW\ApplicationFactory;
+use Hooks;
 
 /**
  * @license GNU GPL v2+
@@ -12,6 +12,11 @@ use SMW\ApplicationFactory;
  * @author mwjames
  */
 class HookRegistry {
+
+	/**
+	 * @var array
+	 */
+	private $handlers = array();
 
 	/**
 	 * @var array
@@ -32,14 +37,14 @@ class HookRegistry {
 	 *
 	 * @param array &$wgHooks
 	 */
-	public function register( &$wgHooks ) {
+	public function register() {
 
 		$configuration = $this->configuration;
 
 		/**
 		 * @see https://www.mediawiki.org/wiki/Manual:Hooks/OutputPageParserOutput
 		 */
-		$wgHooks['OutputPageParserOutput'][] = function ( &$outputPage, $parserOutput ) use( $configuration ) {
+		$this->handlers['OutputPageParserOutput'] = function ( &$outputPage, $parserOutput ) use( $configuration ) {
 
 			$parserData = ApplicationFactory::getInstance()->newParserData(
 				$outputPage->getTitle(),
@@ -55,6 +60,46 @@ class HookRegistry {
 
 			return true;
 		};
+
+		foreach ( $this->handlers as $name => $callback ) {
+			Hooks::register( $name, $callback );
+		}
+	}
+
+	/**
+	 * @since  1.0
+	 */
+	public function deregister() {
+		foreach ( array_keys( $this->handlers ) as $name ) {
+
+			Hooks::clear( $name );
+
+			if ( isset( $GLOBALS['wgHooks'][ $name ] ) ) {
+				unset( $GLOBALS['wgHooks'][ $name ] );
+			}
+		}
+	}
+
+	/**
+	 * @since  1.0
+	 *
+	 * @param string $name
+	 *
+	 * @return boolean
+	 */
+	public function isRegistered( $name ) {
+		return Hooks::isRegistered( $name );
+	}
+
+	/**
+	 * @since  1.0
+	 *
+	 * @param string $name
+	 *
+	 * @return array
+	 */
+	public function getHandlers( $name ) {
+		return Hooks::getHandlers( $name );
 	}
 
 }

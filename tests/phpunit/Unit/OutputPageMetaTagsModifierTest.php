@@ -28,10 +28,44 @@ class OutputPageMetaTagsModifierTest extends \PHPUnit_Framework_TestCase {
 		);
 	}
 
+	public function testTryToModifyOutputPageForInvalidTitle() {
+
+		$propertyValueContentFinder = $this->getMockBuilder( '\SMT\PropertyValueContentFinder' )
+			->disableOriginalConstructor()
+			->getMock();
+
+		$propertyValueContentFinder->expects( $this->never() )
+			->method( 'findContentForProperties' );
+
+		$instance = new OutputPageMetaTagsModifier( $propertyValueContentFinder );
+		$instance->setMetaTagsContentPropertySelector( array( 'foo' ) );
+
+		$title = $this->getMockBuilder( '\Title' )
+			->disableOriginalConstructor()
+			->getMock();
+
+		$title->expects( $this->any() )
+			->method( 'isSpecialPage' )
+			->will( $this->returnValue( true ) );
+
+		$outputPage = $this->getMockBuilder( '\OutputPage' )
+			->disableOriginalConstructor()
+			->getMock();
+
+		$outputPage->expects( $this->never() )
+			->method( 'addMeta' );
+
+		$outputPage->expects( $this->once() )
+			->method( 'getTitle' )
+			->will( $this->returnValue( $title ) );
+
+		$instance->modifyOutputPage( $outputPage );
+	}
+
 	/**
 	 * @dataProvider invalidPropertySelectorProvider
 	 */
-	public function testModifyOutputPageForInvalidPropertySelector( $propertySelector ) {
+	public function testTryToModifyOutputPageForInvalidPropertySelector( $propertySelector ) {
 
 		$propertyValueContentFinder = $this->getMockBuilder( '\SMT\PropertyValueContentFinder' )
 			->disableOriginalConstructor()
@@ -43,12 +77,27 @@ class OutputPageMetaTagsModifierTest extends \PHPUnit_Framework_TestCase {
 		$instance = new OutputPageMetaTagsModifier( $propertyValueContentFinder );
 		$instance->setMetaTagsContentPropertySelector( $propertySelector );
 
+		$title = $this->getMockBuilder( '\Title' )
+			->disableOriginalConstructor()
+			->getMock();
+
+		$title->expects( $this->any() )
+			->method( 'isSpecialPage' )
+			->will( $this->returnValue( false ) );
+
 		$outputPage = $this->getMockBuilder( '\OutputPage' )
 			->disableOriginalConstructor()
 			->getMock();
 
 		$outputPage->expects( $this->never() )
 			->method( 'addMeta' );
+
+		$outputPage->expects( $this->never() )
+			->method( 'addHeadItem' );
+
+		$outputPage->expects( $this->once() )
+			->method( 'getTitle' )
+			->will( $this->returnValue( $title ) );
 
 		$instance->modifyOutputPage( $outputPage );
 	}
@@ -70,6 +119,14 @@ class OutputPageMetaTagsModifierTest extends \PHPUnit_Framework_TestCase {
 		$instance = new OutputPageMetaTagsModifier( $propertyValueContentFinder );
 		$instance->setMetaTagsContentPropertySelector( $propertySelector );
 
+		$title = $this->getMockBuilder( '\Title' )
+			->disableOriginalConstructor()
+			->getMock();
+
+		$title->expects( $this->once() )
+			->method( 'isSpecialPage' )
+			->will( $this->returnValue( false ) );
+
 		$outputPage = $this->getMockBuilder( '\OutputPage' )
 			->disableOriginalConstructor()
 			->getMock();
@@ -79,6 +136,52 @@ class OutputPageMetaTagsModifierTest extends \PHPUnit_Framework_TestCase {
 			->with(
 				$this->equalTo( $expected['tag'] ),
 				$this->equalTo( $expected['content'] ) );
+
+		$outputPage->expects( $this->once() )
+			->method( 'getTitle' )
+			->will( $this->returnValue( $title ) );
+
+		$instance->modifyOutputPage( $outputPage );
+	}
+
+	/**
+	 * @dataProvider validOGPropertySelectorProvider
+	 */
+	public function testModifyOutputPageForValidOGPropertySelector( $propertySelector, $properties, $expected ) {
+
+		$propertyValueContentFinder = $this->getMockBuilder( '\SMT\PropertyValueContentFinder' )
+			->disableOriginalConstructor()
+			->getMock();
+
+		$propertyValueContentFinder->expects( $this->once() )
+			->method( 'findContentForProperties' )
+			->with( $this->equalTo( $properties ) )
+			->will( $this->returnValue( $expected['content'] ) );
+
+		$instance = new OutputPageMetaTagsModifier( $propertyValueContentFinder );
+		$instance->setMetaTagsContentPropertySelector( $propertySelector );
+
+		$title = $this->getMockBuilder( '\Title' )
+			->disableOriginalConstructor()
+			->getMock();
+
+		$title->expects( $this->once() )
+			->method( 'isSpecialPage' )
+			->will( $this->returnValue( false ) );
+
+		$outputPage = $this->getMockBuilder( '\OutputPage' )
+			->disableOriginalConstructor()
+			->getMock();
+
+		$outputPage->expects( $this->once() )
+			->method( 'addHeadItem' )
+			->with(
+				$this->equalTo( $expected['tag'] ),
+				$this->equalTo( $expected['item'] ) );
+
+		$outputPage->expects( $this->once() )
+			->method( 'getTitle' )
+			->will( $this->returnValue( $title ) );
 
 		$instance->modifyOutputPage( $outputPage );
 	}
@@ -93,6 +196,10 @@ class OutputPageMetaTagsModifierTest extends \PHPUnit_Framework_TestCase {
 
 		$provider[] = array(
 			array( 'foo' => '' )
+		);
+
+		$provider[] = array(
+			array( 'foo:bar' => '' )
 		);
 
 		return $provider;
@@ -130,6 +237,23 @@ class OutputPageMetaTagsModifierTest extends \PHPUnit_Framework_TestCase {
 			array( 'FO"O' => 'foobar,quin' ),
 			array( 'foobar', 'quin' ),
 			array( 'tag' => 'fo&quot;o', 'content' => 'Mo,fo' )
+		);
+
+		return $provider;
+	}
+
+	public function validOGPropertySelectorProvider() {
+
+		$provider = array();
+
+		$provider[] = array(
+			array( 'foo:bar' => 'foobar' ),
+			array( 'foobar' ),
+			array(
+				'tag' => 'meta:property:foo:bar',
+				'content' => 'Mo,fo',
+				'item' => '<!-- Open Graph protocol markup -->' . "\n" . '<meta property="foo:bar" content="Mo,fo" />'
+			)
 		);
 
 		return $provider;

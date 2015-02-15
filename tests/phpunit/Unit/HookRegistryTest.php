@@ -33,19 +33,20 @@ class HookRegistryTest extends \PHPUnit_Framework_TestCase {
 			'metaTagsContentPropertySelector' => array()
 		);
 
-		$wgHooks = array();
-
 		$instance = new HookRegistry( $configuration );
-		$instance->register( $wgHooks );
+		$instance->register();
 
-		$this->assertNotEmpty(
-			$wgHooks
-		);
-
-		$this->doTestOutputPageParserOutput( $wgHooks );
+		$this->doTestOutputPageParserOutput( $instance );
 	}
 
-	public function doTestOutputPageParserOutput( $wgHooks ) {
+	public function doTestOutputPageParserOutput( $instance ) {
+
+		$instance->deregister();
+		$instance->register();
+
+		$this->assertTrue(
+			$instance->isRegistered( 'OutputPageParserOutput' )
+		);
 
 		$title = Title::newFromText( __METHOD__ );
 
@@ -53,7 +54,7 @@ class HookRegistryTest extends \PHPUnit_Framework_TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$outputPage->expects( $this->once() )
+		$outputPage->expects( $this->atLeastOnce() )
 			->method( 'getTitle' )
 			->will( $this->returnValue( $title ) );
 
@@ -62,14 +63,14 @@ class HookRegistryTest extends \PHPUnit_Framework_TestCase {
 			->getMock();
 
 		$this->assertThatHookIsExcutable(
-			$wgHooks,
-			'OutputPageParserOutput',
+			$instance->getHandlers( 'OutputPageParserOutput' ),
 			array( &$outputPage, $parserOutput )
 		);
 	}
 
-	private function assertThatHookIsExcutable( $wgHooks, $hookName, $arguments ) {
-		foreach ( $wgHooks[ $hookName ] as $hook ) {
+	private function assertThatHookIsExcutable( array $hooks, $arguments ) {
+		foreach ( $hooks as $hook ) {
+
 			$this->assertInternalType(
 				'boolean',
 				call_user_func_array( $hook, $arguments )

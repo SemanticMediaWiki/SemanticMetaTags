@@ -11,7 +11,10 @@ Semantic Meta Tags (a.k.a. SMT) is a [Semantic Mediawiki][smw] extension to enha
 the meta tags of an article with content generated from semantic annotations.
 
 This extension enables to automatically extend the HTML `<meta>` tags of an article
-with content generated from selected properties.
+with content generated from selected properties with:
+- Standard tags being supported (e.g `meta name="keywords" content=""`)
+- [Open Graph protocol][opg]  tags are supported as well (a tag that contains a `:`
+  are identified as metadata and annotated as `meta property="og:title" content=""`)
 
 ## Requirements
 
@@ -41,9 +44,14 @@ SMT expects that selected tags and property assignments are added to the `egSMTM
 
 ```php
 	$GLOBALS['egSMTMetaTagsContentPropertySelector'] = array(
+
+		// Standard meta tags
 		'keywords' => 'Has keywords, Has another keyword',
 		'descriptions' => 'Has some description',
-		'author' => 'Has last editor'
+		'author' => 'Has last editor',
+
+		// Open Graph protocol supported tags
+		'og:title' => 'Has title'
 	);
 ```
 
@@ -71,3 +79,4 @@ but can also be executed using `composer phpunit` from the extension base direct
 [travis]: https://travis-ci.org/SemanticMediaWiki/SemanticMetaTags
 [gpl-licence]: https://www.gnu.org/copyleft/gpl.html
 [composer]: https://getcomposer.org/
+[opg]: http://ogp.me/
