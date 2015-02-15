@@ -92,6 +92,10 @@ class MetaTagsContentGenerationIntegrationTest extends MwDBaseUnitTestCase {
 		$requestContext = new \RequestContext();
 		$outputPage = $requestContext->getOutput();
 
+		if ( !method_exists( $outputPage, 'addParserOutputMetadata' ) ) {
+			$this->markTestSkipped( 'OutputPage::addParserOutputMetadata does not exist for this MW version' );
+		}
+
 		$subject = DIWikiPage::newFromTitle( Title::newFromText( __METHOD__ ) );
 		$requestContext->setTitle( $subject->getTitle() );
 
