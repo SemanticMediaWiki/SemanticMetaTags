@@ -13,8 +13,7 @@ the meta tags of an article with content generated from semantic annotations.
 This extension enables to automatically extend the HTML `<meta>` tags of an article
 with content generated from selected properties with:
 - Standard tags being supported (e.g `meta name="keywords" content=""`)
-- [Open Graph protocol][opg]  tags are supported as well (a tag that contains a `:`
-  are identified as metadata and annotated as `meta property="og:title" content=""`)
+- [Open Graph][opg] tags are supported as well  (e.g `meta property="og:title"`)
 
 ## Requirements
 
@@ -42,6 +41,8 @@ The recommended way to install Semantic Meta Tags is by using [Composer][compose
 
 SMT expects that selected tags and property assignments are added to the `egSMTMetaTagsContentPropertySelector` setting. In order for a tag to match different property assignments a comma-separator (`,`) can be used to add more than one property.
 
+A tag that contains a `:` is identified as an [Open Graph][opg] metadata tag and annotated using `meta property="" content=""`.
+  
 ```php
 	$GLOBALS['egSMTMetaTagsContentPropertySelector'] = array(
 
