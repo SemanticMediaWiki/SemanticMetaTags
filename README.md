@@ -12,8 +12,8 @@ the meta tags of an article with content generated from semantic annotations.
 
 This extension enables to automatically extend the HTML `<meta>` tags of an article
 with content generated from selected properties with:
-- Standard tags being supported (e.g `meta name="keywords" content=""`)
-- [Open Graph][opg] tags are supported as well  (e.g `meta property="og:title"`)
+- Standard tags being supported (e.g `meta name="keywords"`) and
+- [Open Graph][opg] tags being supported as well  (e.g `meta property="og:title"`)
 
 ## Requirements
 
