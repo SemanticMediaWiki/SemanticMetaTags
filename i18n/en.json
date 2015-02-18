@@ -4,5 +4,5 @@
 			"mwjames"
 		]
 	},
-	"smt-desc": "A [https://semantic-mediawiki.org Semantic MediaWiki] extension to provide meta tags generated from semantic annotations."
+	"smt-desc": "Allows to provide meta tags generated from [https://semantic-mediawiki.org semantic annotations]"
 }
