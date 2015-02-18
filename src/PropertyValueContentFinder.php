@@ -69,10 +69,12 @@ class PropertyValueContentFinder {
 
 		foreach ( $propertyValues as $value ) {
 
+			// Content escaping (htmlspecialchars) is being carried out
+			// by the instance that adds the content
 			if ( $value instanceOf DIBlob ) {
-				$values[] = htmlspecialchars( $value->getString() );
+				$values[] = $value->getString();
 			} elseif( $value instanceOf DIWikiPage || $value instanceOf DIUri ) {
-				$values[] = htmlspecialchars( $value->getSortKey() );
+				$values[] = $value->getSortKey();
 			}
 		}
 	}
