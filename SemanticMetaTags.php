@@ -43,7 +43,7 @@ call_user_func( function () {
 
 	$GLOBALS['egSMTMetaTagsContentPropertySelector'] = array(
 		'keywords' => '',
-		'descriptions' => '',
+		'description' => '',
 		'author' => ''
 	);
 
