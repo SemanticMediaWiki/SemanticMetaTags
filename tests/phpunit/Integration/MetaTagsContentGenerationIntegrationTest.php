@@ -29,7 +29,7 @@ class MetaTagsContentGenerationIntegrationTest extends MwDBaseUnitTestCase {
 
 		$metaTagsContentPropertySelector = array(
 			'keywords' => 'SMT keywords',
-			'descriptions' => '',
+			'description' => '',
 			'og:title' => 'SMT title'
 		);
 
