@@ -39,20 +39,28 @@ The recommended way to install Semantic Meta Tags is by using [Composer][compose
 
 ## Usage
 
-The `egSMTMetaTagsContentPropertySelector` setting is expected to contain valid tags together with property assignments. In order for a tag to match different property assignments a comma-separator (`,`) can be used to add more than one property. If assigned properties generate different values for a matched tag then values will be concatenated into in singluar string separated by a comma. Furthermore, if a tag contains a `:` it is identified as an [Open Graph][opg] metadata tag and annotated using `meta property=""` description.
+You can specify which meta tags you want to enable, and where their values should come from with the `egSMTMetaTagsContentPropertySelector` setting.
+
+The setting is an array that has the meta tags as keys (the left part). The values (right part) contain the name of the semantic property on your wiki that you want to use the value of. In case you want to put multiple property values in your meta tag, you can enter multiple property names, separated by commas. If a given property has multiple values on your wiki page, the values concatenated into a single, separated by commas.
+
+If a tag contains a `:` it is identified as an [Open Graph][opg] metadata tag and annotated using `meta property=""` description.
+
+Example:
   
 ```php
-	$GLOBALS['egSMTMetaTagsContentPropertySelector'] = array(
+$GLOBALS['egSMTMetaTagsContentPropertySelector'] = array(
 
-		// Standard meta tags
-		'keywords' => 'Has keywords, Has another keyword',
-		'descriptions' => 'Has some description',
-		'author' => 'Has last editor',
+	// Standard meta tags
+	'keywords' => 'Has keywords, Has another keyword',
+	'descriptions' => 'Has some description',
+	'author' => 'Has last editor',
 
-		// Open Graph protocol supported tags
-		'og:title' => 'Has title'
-	);
+	// Open Graph protocol supported tags
+	'og:title' => 'Has title'
+);
 ```
+
+This setting should as usual be placed near the end of your `LocalSettings.php` file.
 
 ## Contribution and support
 
