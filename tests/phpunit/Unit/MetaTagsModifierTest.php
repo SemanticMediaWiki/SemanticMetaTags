@@ -141,6 +141,70 @@ class MetaTagsModifierTest extends \PHPUnit_Framework_TestCase {
 		$instance->addMetaTags();
 	}
 
+	public function testTryToModifyOutputPageForEmptyStaticContent() {
+
+		$propertyValueContentFinder = $this->getMockBuilder( '\SMT\PropertyValueContentFinder' )
+			->disableOriginalConstructor()
+			->getMock();
+
+		$outputPageTagFormatter = $this->getMockBuilder( '\SMT\OutputPageTagFormatter' )
+			->disableOriginalConstructor()
+			->setMethods( array( 'canUseOutputPage' ) )
+			->getMock();
+
+		$outputPageTagFormatter->expects( $this->once() )
+			->method( 'canUseOutputPage' )
+			->will( $this->returnValue( true ) );
+
+		$outputPageTagFormatter->expects( $this->never() )
+			->method( 'addTagContentToOutputPage' );
+
+		$instance = new MetaTagsModifier(
+			$propertyValueContentFinder,
+			$outputPageTagFormatter
+		);
+
+		$instance->setMetaTagsStaticContentDescriptor( array( 'foo' => '' ) );
+		$instance->addMetaTags();
+	}
+
+	/**
+	 * @dataProvider staticContentProvider
+	 */
+	public function testModifyOutputPageForStaticContentDescriptor( $contentDescriptor, $expected ) {
+
+		$propertyValueContentFinder = $this->getMockBuilder( '\SMT\PropertyValueContentFinder' )
+			->disableOriginalConstructor()
+			->getMock();
+
+		$outputPage = $this->getMockBuilder( '\OutputPage' )
+			->disableOriginalConstructor()
+			->getMock();
+
+		$outputPage->expects( $this->once() )
+			->method( 'addMeta' )
+			->with(
+				$this->equalTo( $expected['tag'] ),
+				$this->equalTo( $expected['content'] ) );
+
+		$outputPageTagFormatter = $this->getMockBuilder( '\SMT\OutputPageTagFormatter' )
+			->setConstructorArgs( array( $outputPage ) )
+			->setMethods( array( 'canUseOutputPage' ) )
+			->getMock();
+
+		$outputPageTagFormatter->expects( $this->once() )
+			->method( 'canUseOutputPage' )
+			->will( $this->returnValue( true ) );
+
+		$instance = new MetaTagsModifier(
+			$propertyValueContentFinder,
+			$outputPageTagFormatter
+		);
+
+		$instance->setMetaTagsStaticContentDescriptor( $contentDescriptor );
+		$instance->addMetaTags();
+	}
+
 	public function invalidPropertySelectorProvider() {
 
 		$provider = array();
@@ -192,6 +256,23 @@ class MetaTagsModifierTest extends \PHPUnit_Framework_TestCase {
 			array( 'FO"O' => 'foobar,quin' ),
 			array( 'foobar', 'quin' ),
 			array( 'tag' => 'fo&quot;o', 'content' => 'Mo,fo' )
+		);
+
+		return $provider;
+	}
+
+	public function staticContentProvider() {
+
+		$provider = array();
+
+		$provider[] = array(
+			array( 'foo' => 'staticDescriptionOfContent' ),
+			array( 'tag' => 'foo', 'content' => 'staticDescriptionOfContent' )
+		);
+
+		$provider[] = array(
+			array( 'FOO' => 'static"Description"OfContent' ),
+			array( 'tag' => 'foo', 'content' => 'static&quot;Description&quot;OfContent' )
 		);
 
 		return $provider;

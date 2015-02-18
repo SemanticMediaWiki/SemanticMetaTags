@@ -26,6 +26,11 @@ class MetaTagsModifier {
 	private $metaTagsContentPropertySelector = array();
 
 	/**
+	 * @var array
+	 */
+	private $metaTagsStaticContentDescriptor = array();
+
+	/**
 	 * @since 1.0
 	 *
 	 * @param PropertyValueContentFinder $propertyValueContentFinder
@@ -47,6 +52,15 @@ class MetaTagsModifier {
 
 	/**
 	 * @since 1.0
+	 *
+	 * @param array $metaTagsStaticContentDescriptor
+	 */
+	public function setMetaTagsStaticContentDescriptor( array $metaTagsStaticContentDescriptor ) {
+		$this->metaTagsStaticContentDescriptor = $metaTagsStaticContentDescriptor;
+	}
+
+	/**
+	 * @since 1.0
 	 */
 	public function addMetaTags() {
 
@@ -55,11 +69,27 @@ class MetaTagsModifier {
 		}
 
 		$this->addMetaTagsForProperties( $this->metaTagsContentPropertySelector );
+		$this->addMetaTagsForStaticContent( $this->metaTagsStaticContentDescriptor );
 	}
 
 	private function addMetaTagsForProperties( $metaTagsContentPropertySelector ) {
 		foreach ( $metaTagsContentPropertySelector as $tag => $propertySelector ) {
 			$this->addMetaTagsForPropertySelector( $tag, $propertySelector );
+		}
+	}
+
+	private function addMetaTagsForStaticContent( $metaTagsStaticContentDescriptor ) {
+
+		foreach ( $metaTagsStaticContentDescriptor as $tag => $content ) {
+
+			if ( $content === '' ) {
+				return;
+			}
+
+			$this->outputPageTagFormatter->addTagContentToOutputPage(
+				$tag,
+				$content
+			);
 		}
 	}
 

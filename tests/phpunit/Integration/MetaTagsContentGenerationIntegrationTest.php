@@ -34,8 +34,13 @@ class MetaTagsContentGenerationIntegrationTest extends MwDBaseUnitTestCase {
 			'og:title' => 'SMT title'
 		);
 
+		$metaTagsStaticContentDescriptor = array(
+			'static:TAG' => 'withStatic<Content>'
+		);
+
 		$configuration = array(
-			'metaTagsContentPropertySelector' => $metaTagsContentPropertySelector
+			'metaTagsContentPropertySelector' => $metaTagsContentPropertySelector,
+			'metaTagsStaticContentDescriptor' => $metaTagsStaticContentDescriptor
 		);
 
 		$hookRegistry = new HookRegistry( $configuration );
@@ -81,7 +86,8 @@ class MetaTagsContentGenerationIntegrationTest extends MwDBaseUnitTestCase {
 
 		$expected = array(
 			array( 'keywords', 'KeywordMetaTag,AnotherKeywordMetaTag' ),
-			array( 'twitter:description', 'Example description' )
+			array( 'twitter:description', 'Example description' ),
+			array( 'static:tag', 'withStatic&lt;Content&gt;' )
 		);
 
 		$this->assertEquals(
