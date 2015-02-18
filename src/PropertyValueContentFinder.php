@@ -6,6 +6,7 @@ use SMW\SemanticData;
 use SMW\DIProperty;
 use SMW\DIWikiPage;
 use SMWDIBlob as DIBlob;
+use SMWDIUri as DIUri;
 
 /**
  * @license GNU GPL v2+
@@ -70,7 +71,7 @@ class PropertyValueContentFinder {
 
 			if ( $value instanceOf DIBlob ) {
 				$values[] = htmlspecialchars( $value->getString() );
-			} elseif( $value instanceOf DIWikiPage ) {
+			} elseif( $value instanceOf DIWikiPage || $value instanceOf DIUri ) {
 				$values[] = htmlspecialchars( $value->getSortKey() );
 			}
 		}
