@@ -69,14 +69,14 @@ class MetaTagsContentGenerationIntegrationTest extends MwDBaseUnitTestCase {
 
 		$this->pageCreator
 			->createPage( $subject->getTitle() )
-			->doEdit( '[[SMT keywords::KeywordMetaTags]]' );
+			->doEdit( '[[SMT keywords::KeywordMetaTag]] [[SMT keywords::AnotherKeywordMetaTag]]' );
 
 		$parserOutput = $this->pageCreator->getEditInfo()->output;
 
 		$outputPage->addParserOutputMetadata( $parserOutput );
 
 		$this->assertEquals(
-			array( array( 'keywords', 'KeywordMetaTags' ) ),
+			array( array( 'keywords', 'KeywordMetaTag,AnotherKeywordMetaTag' ) ),
 			$outputPage->getMetaTags()
 		);
 

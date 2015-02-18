@@ -6,6 +6,7 @@ use SMT\PropertyValueContentFinder;
 use SMW\DIProperty;
 use SMW\DIWikiPage;
 use SMWDIBlob as DIBlob;
+use SMWDIUri as DIUri;
 
 /**
  * @covers \SMT\PropertyValueContentFinder
@@ -100,12 +101,16 @@ class PropertyValueContentFinderTest extends \PHPUnit_Framework_TestCase {
 		$semanticData->expects( $this->at( 0 ) )
 			->method( 'getPropertyValues' )
 			->with( $this->equalTo( DIProperty::newFromUserLabel( 'foo' ) ) )
-			->will( $this->returnValue( array( new DIWikiPage( '"Foo"', NS_MAIN ) ) ) );
+			->will( $this->returnValue( array(
+				new DIUri( 'http', 'username@example.org/foo', '', '' ),
+				new DIWikiPage( '"Foo"', NS_MAIN ) ) ) );
 
 		$semanticData->expects( $this->at( 2 ) )
 			->method( 'getPropertyValues' )
 			->with( $this->equalTo( DIProperty::newFromUserLabel( 'bar' ) ) )
-			->will( $this->returnValue( array( new DIBlob( 'Mo' ), new DIBlob( 'fo' ) ) ) );
+			->will( $this->returnValue( array(
+				new DIBlob( 'Mo' ),
+				new DIBlob( 'fo' ) ) ) );
 
 		$semanticData->expects( $this->any() )
 			->method( 'getSubSemanticData' )
@@ -114,7 +119,7 @@ class PropertyValueContentFinderTest extends \PHPUnit_Framework_TestCase {
 		$instance = new PropertyValueContentFinder( $semanticData );
 
 		$this->assertSame(
-			'&quot;Foo&quot;,Mo,fo',
+			'http://username@example.org/foo,&quot;Foo&quot;,Mo,fo',
 			$instance->findContentForProperties( $properties )
 		);
 	}
