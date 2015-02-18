@@ -41,17 +41,15 @@ call_user_func( function () {
 	// Register message files
 	$GLOBALS['wgMessagesDirs']['semantic-meta-tags'] = __DIR__ . '/i18n';
 
-	$GLOBALS['egSMTMetaTagsContentPropertySelector'] = array(
-		'keywords' => '',
-		'description' => '',
-		'author' => ''
-	);
+	$GLOBALS['egSMTMetaTagsContentPropertySelector'] = array();
+	$GLOBALS['egSMTMetaTagsStaticContentDescriptor'] = array();
 
 	// Finalize extension setup
 	$GLOBALS['wgExtensionFunctions'][] = function() {
 
 		$configuration = array(
-			'metaTagsContentPropertySelector' => $GLOBALS['egSMTMetaTagsContentPropertySelector']
+			'metaTagsContentPropertySelector' => $GLOBALS['egSMTMetaTagsContentPropertySelector'],
+			'metaTagsStaticContentDescriptor' => $GLOBALS['egSMTMetaTagsStaticContentDescriptor']
 		);
 
 		$hookRegistry = new HookRegistry( $configuration );

@@ -55,6 +55,8 @@ class HookRegistry {
 			);
 
 			$metaTagsModifier->setMetaTagsContentPropertySelector( $configuration['metaTagsContentPropertySelector'] );
+			$metaTagsModifier->setMetaTagsStaticContentDescriptor( $configuration['metaTagsStaticContentDescriptor'] );
+
 			$metaTagsModifier->addMetaTags();
 
 			return true;

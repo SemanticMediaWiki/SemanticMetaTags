@@ -30,7 +30,8 @@ class HookRegistryTest extends \PHPUnit_Framework_TestCase {
 	public function testRegister() {
 
 		$configuration = array(
-			'metaTagsContentPropertySelector' => array()
+			'metaTagsContentPropertySelector' => array(),
+			'metaTagsStaticContentDescriptor' => array()
 		);
 
 		$instance = new HookRegistry( $configuration );

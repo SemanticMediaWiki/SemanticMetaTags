@@ -45,6 +45,8 @@ The setting is an array that has the meta tags as keys (the left part). The valu
 
 If a tag contains a `og:` it is identified as an [Open Graph][opg] metadata tag and annotated using `meta property=""` description.
 
+The setting `egSMTMetaTagsStaticContentDescriptor` can be used to describe the static content to be injected for a selected `<meta>` tag.
+
 Example:
 
 ```php
@@ -55,11 +57,17 @@ $GLOBALS['egSMTMetaTagsContentPropertySelector'] = array(
 	'description' => 'Has some description',
 	'author' => 'Has last editor',
 
-	// Twitter summary card tags
+	// Summary card tags
 	'twitter:description' => 'Has some description',
 
 	// Open Graph protocol supported tags
 	'og:title' => 'Has title'
+);
+
+$GLOBALS['egSMTMetaTagsStaticContentDescriptor'] = array(
+
+	// Static content tag
+	'some:tag' => 'Content that is static'
 );
 ```
 
