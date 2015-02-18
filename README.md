@@ -39,9 +39,7 @@ The recommended way to install Semantic Meta Tags is by using [Composer][compose
 
 ## Usage
 
-SMT expects that selected tags and property assignments are added to the `egSMTMetaTagsContentPropertySelector` setting. In order for a tag to match different property assignments a comma-separator (`,`) can be used to add more than one property.
-
-A tag that contains a `:` is identified as an [Open Graph][opg] metadata tag and annotated using `meta property="" content=""`.
+The `egSMTMetaTagsContentPropertySelector` setting is expected to contain valid tags together with property assignments. In order for a tag to match different property assignments a comma-separator (`,`) can be used to add more than one property. If assigned properties generate different values for a matched tag then values will be concatenated into in singluar string separated by a comma. Furthermore, if a tag contains a `:` it is identified as an [Open Graph][opg] metadata tag and annotated using `meta property=""` description.
   
 ```php
 	$GLOBALS['egSMTMetaTagsContentPropertySelector'] = array(
