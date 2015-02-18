@@ -45,7 +45,7 @@ The setting is an array that has the meta tags as keys (the left part). The valu
 
 If a tag contains a `og:` it is identified as an [Open Graph][opg] metadata tag and annotated using `meta property=""` description.
 
-The setting `egSMTMetaTagsStaticContentDescriptor` can be used to describe the static content to be injected for a selected `<meta>` tag.
+The setting `egSMTMetaTagsStaticContentDescriptor` can be used to describe the static content of a selected `<meta>` tag.
 
 Example:
 
