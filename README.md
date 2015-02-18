@@ -12,8 +12,8 @@ the meta tags of an article with content generated from semantic annotations.
 
 This extension enables to automatically extend the HTML `<meta>` tags of an article
 with content generated from selected properties with:
-- Standard tags being supported (e.g `meta name="keywords"`) and
-- [Open Graph][opg] tags being supported as well  (e.g `meta property="og:title"`)
+- Standard tags are supported (e.g `meta name="keywords"`) as well as
+- [Summary card][tw] and [Open Graph][opg] protocol tags (e.g `meta property="og:title"`)
 
 ## Requirements
 
@@ -43,10 +43,10 @@ You can specify which meta tags you want to enable, and where their values shoul
 
 The setting is an array that has the meta tags as keys (the left part). The values (right part) contain the name of the semantic property on your wiki that you want to use the value of. In case you want to put multiple property values in your meta tag, you can enter multiple property names, separated by commas. If a given property has multiple values on your wiki page, the values concatenated into a single, separated by commas.
 
-If a tag contains a `:` it is identified as an [Open Graph][opg] metadata tag and annotated using `meta property=""` description.
+If a tag contains a `og:` it is identified as an [Open Graph][opg] metadata tag and annotated using `meta property=""` description.
 
 Example:
-  
+
 ```php
 $GLOBALS['egSMTMetaTagsContentPropertySelector'] = array(
 
@@ -54,6 +54,9 @@ $GLOBALS['egSMTMetaTagsContentPropertySelector'] = array(
 	'keywords' => 'Has keywords, Has another keyword',
 	'description' => 'Has some description',
 	'author' => 'Has last editor',
+
+	// Twitter summary card tags
+	'twitter:description' => 'Has some description',
 
 	// Open Graph protocol supported tags
 	'og:title' => 'Has title'
@@ -87,3 +90,4 @@ but can also be executed using `composer phpunit` from the extension base direct
 [gpl-licence]: https://www.gnu.org/copyleft/gpl.html
 [composer]: https://getcomposer.org/
 [opg]: http://ogp.me/
+[tw]: https://dev.twitter.com/cards/types/summary

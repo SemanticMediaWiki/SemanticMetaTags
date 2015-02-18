@@ -49,12 +49,13 @@ class HookRegistry {
 				$parserOutput
 			);
 
-			$outputPageMetaTagsModifier = new OutputPageMetaTagsModifier(
-				new PropertyValueContentFinder( $parserData->getSemanticData() )
+			$metaTagsModifier = new MetaTagsModifier(
+				new PropertyValueContentFinder( $parserData->getSemanticData() ),
+				new OutputPageTagFormatter( $outputPage )
 			);
 
-			$outputPageMetaTagsModifier->setMetaTagsContentPropertySelector( $configuration['metaTagsContentPropertySelector'] );
-			$outputPageMetaTagsModifier->modifyOutputPage( $outputPage );
+			$metaTagsModifier->setMetaTagsContentPropertySelector( $configuration['metaTagsContentPropertySelector'] );
+			$metaTagsModifier->addMetaTags();
 
 			return true;
 		};

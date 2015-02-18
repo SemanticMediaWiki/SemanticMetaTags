@@ -68,7 +68,7 @@ class PropertyValueContentFinderTest extends \PHPUnit_Framework_TestCase {
 		$subSemanticData->expects( $this->once() )
 			->method( 'getPropertyValues' )
 			->with( $this->equalTo( DIProperty::newFromUserLabel( 'bar' ) ) )
-			->will( $this->returnValue( array( new DIBlob( 'Foo-with-html-"<>"-escaping' ) ) ) );
+			->will( $this->returnValue( array( new DIBlob( 'Foo-with-html-"<>"-escaping-to-happen-somewhere-else' ) ) ) );
 
 		$semanticData = $this->getMockBuilder( '\SMW\SemanticData' )
 			->disableOriginalConstructor()
@@ -85,7 +85,7 @@ class PropertyValueContentFinderTest extends \PHPUnit_Framework_TestCase {
 		$instance = new PropertyValueContentFinder( $semanticData );
 
 		$this->assertSame(
-			'Foo-with-html-&quot;&lt;&gt;&quot;-escaping',
+			'Foo-with-html-"<>"-escaping-to-happen-somewhere-else',
 			$instance->findContentForProperties( $properties )
 		);
 	}
@@ -119,7 +119,7 @@ class PropertyValueContentFinderTest extends \PHPUnit_Framework_TestCase {
 		$instance = new PropertyValueContentFinder( $semanticData );
 
 		$this->assertSame(
-			'http://username@example.org/foo,&quot;Foo&quot;,Mo,fo',
+			'http://username@example.org/foo,"Foo",Mo,fo',
 			$instance->findContentForProperties( $properties )
 		);
 	}

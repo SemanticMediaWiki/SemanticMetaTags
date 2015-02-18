@@ -28,8 +28,9 @@ class MetaTagsContentGenerationIntegrationTest extends MwDBaseUnitTestCase {
 		$this->pageCreator = UtilityFactory::getInstance()->newpageCreator();
 
 		$metaTagsContentPropertySelector = array(
-			'keywords' => 'SMT keywords',
+			'KEYwoRDS' => 'SMT keywords',
 			'description' => '',
+			'twitter:description' => 'SMT description',
 			'og:title' => 'SMT title'
 		);
 
@@ -69,14 +70,22 @@ class MetaTagsContentGenerationIntegrationTest extends MwDBaseUnitTestCase {
 
 		$this->pageCreator
 			->createPage( $subject->getTitle() )
-			->doEdit( '[[SMT keywords::KeywordMetaTag]] [[SMT keywords::AnotherKeywordMetaTag]]' );
+			->doEdit(
+				'[[SMT keywords::KeywordMetaTag]]' .
+				'[[SMT keywords::AnotherKeywordMetaTag]]' .
+				'[[SMT description::Example description]]' );
 
 		$parserOutput = $this->pageCreator->getEditInfo()->output;
 
 		$outputPage->addParserOutputMetadata( $parserOutput );
 
+		$expected = array(
+			array( 'keywords', 'KeywordMetaTag,AnotherKeywordMetaTag' ),
+			array( 'twitter:description', 'Example description' )
+		);
+
 		$this->assertEquals(
-			array( array( 'keywords', 'KeywordMetaTag,AnotherKeywordMetaTag' ) ),
+			$expected,
 			$outputPage->getMetaTags()
 		);
 
