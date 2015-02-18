@@ -50,7 +50,7 @@ class PropertyValueContentFinderTest extends \PHPUnit_Framework_TestCase {
 
 		$instance = new PropertyValueContentFinder( $semanticData );
 
-		$this->assertEquals(
+		$this->assertSame(
 			'Foo',
 			$instance->findContentForProperties( $properties )
 		);
@@ -83,7 +83,7 @@ class PropertyValueContentFinderTest extends \PHPUnit_Framework_TestCase {
 
 		$instance = new PropertyValueContentFinder( $semanticData );
 
-		$this->assertEquals(
+		$this->assertSame(
 			'Foo-with-html-&quot;&lt;&gt;&quot;-escaping',
 			$instance->findContentForProperties( $properties )
 		);
@@ -113,7 +113,7 @@ class PropertyValueContentFinderTest extends \PHPUnit_Framework_TestCase {
 
 		$instance = new PropertyValueContentFinder( $semanticData );
 
-		$this->assertEquals(
+		$this->assertSame(
 			'&quot;Foo&quot;,Mo,fo',
 			$instance->findContentForProperties( $properties )
 		);
