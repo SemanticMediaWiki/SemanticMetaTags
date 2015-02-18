@@ -32,13 +32,15 @@ class PropertyValueContentFinder {
 	/**
 	 * @since  1.0
 	 *
-	 * @param array $properties
+	 * @param string[] $propertyNames
+	 *
+	 * @return string
 	 */
-	public function findContentForProperties( array $properties ) {
+	public function findContentForProperties( array $propertyNames ) {
 
 		$values = array();
 
-		foreach ( $properties as $property ) {
+		foreach ( $propertyNames as $property ) {
 			$this->findContentForProperty( trim( $property ), $values );
 		}
 

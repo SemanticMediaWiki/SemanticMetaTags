@@ -34,8 +34,6 @@ class HookRegistry {
 
 	/**
 	 * @since  1.0
-	 *
-	 * @param array &$wgHooks
 	 */
 	public function register() {
 
