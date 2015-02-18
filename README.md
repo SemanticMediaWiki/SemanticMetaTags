@@ -52,7 +52,7 @@ $GLOBALS['egSMTMetaTagsContentPropertySelector'] = array(
 
 	// Standard meta tags
 	'keywords' => 'Has keywords, Has another keyword',
-	'descriptions' => 'Has some description',
+	'description' => 'Has some description',
 	'author' => 'Has last editor',
 
 	// Open Graph protocol supported tags
