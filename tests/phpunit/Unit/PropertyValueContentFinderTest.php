@@ -196,7 +196,7 @@ class PropertyValueContentFinderTest extends \PHPUnit_Framework_TestCase {
 			->will( $this->returnValue( $semanticData ) );
 
 		$instance = new PropertyValueContentFinder( $fallbackSemanticDataFetcher );
-		$instance->setMultiplePropertiesToUseForFallback( $fallbackChainUsageState );
+		$instance->useFallbackChainForMultipleProperties( $fallbackChainUsageState );
 
 		$this->assertSame(
 			$expected,

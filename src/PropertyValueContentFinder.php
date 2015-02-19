@@ -21,13 +21,13 @@ class PropertyValueContentFinder {
 	private $fallbackSemanticDataFetcher;
 
 	/**
-	 * Whether multiple properties should be used as fallback chain where the
-	 * first available property with content will determine the end of the
+	 * Whether multiple properties should be used through a fallback chain where
+	 * the first available property with content will determine the end of the
 	 * processing or content being simply concatenated
 	 *
 	 * @var boolean
 	 */
-	private $multiplePropertiesToUseForFallback = false;
+	private $useFallbackChainForMultipleProperties = false;
 
 	/**
 	 * @since 1.0
@@ -41,10 +41,10 @@ class PropertyValueContentFinder {
 	/**
 	 * @since  1.0
 	 *
-	 * @param boolean multiplePropertiesToUseForFallback
+	 * @param boolean useFallbackChainForMultipleProperties
 	 */
-	public function setMultiplePropertiesToUseForFallback( $multiplePropertiesToUseForFallback ) {
-		$this->multiplePropertiesToUseForFallback = $multiplePropertiesToUseForFallback;
+	public function useFallbackChainForMultipleProperties( $useFallbackChainForMultipleProperties ) {
+		$this->useFallbackChainForMultipleProperties = $useFallbackChainForMultipleProperties;
 	}
 
 	/**
@@ -62,7 +62,7 @@ class PropertyValueContentFinder {
 
 			// If content is already present and the fallback is ought to be
 			// used stop requesting additional content
-			if ( $this->multiplePropertiesToUseForFallback && $values !== array() ) {
+			if ( $this->useFallbackChainForMultipleProperties && $values !== array() ) {
 				break;
 			}
 

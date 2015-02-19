@@ -44,7 +44,7 @@ class MetaTagsContentGenerationIntegrationTest extends MwDBaseUnitTestCase {
 			'metaTagsContentPropertySelector' => $metaTagsContentPropertySelector,
 			'metaTagsStaticContentDescriptor' => $metaTagsStaticContentDescriptor,
 			'metaTagsBlacklist' => array(),
-			'metaTagsMultiplePropertiesToUseForFallback' => false
+			'metaTagsFallbackUseForMultipleProperties' => false
 		);
 
 		$hookRegistry = new HookRegistry( $configuration );
