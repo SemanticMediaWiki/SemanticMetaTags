@@ -18,6 +18,11 @@ class OutputPageTagFormatter {
 	private $outputPage;
 
 	/**
+	 * @var array
+	 */
+	private $metaTagsBlacklist = array();
+
+	/**
 	 * @var boolean
 	 */
 	private $usedOpenGraphProtocolMarkup = false;
@@ -29,6 +34,15 @@ class OutputPageTagFormatter {
 	 */
 	public function __construct( OutputPage $outputPage ) {
 		$this->outputPage = $outputPage;
+	}
+
+	/**
+	 * @since 1.0
+	 *
+	 * @param array $metaTagsBlacklist
+	 */
+	public function setMetaTagsBlacklist( array $metaTagsBlacklist ) {
+		$this->metaTagsBlacklist = array_flip( $metaTagsBlacklist );
 	}
 
 	/**
@@ -55,6 +69,10 @@ class OutputPageTagFormatter {
 
 		$tag = strtolower( htmlspecialchars( trim( $tag ) ) );
 		$content = htmlspecialchars( $content );
+
+		if ( isset( $this->metaTagsBlacklist[ $tag ] ) ) {
+			return;
+		}
 
 		// If a tag contains a `og:` such as `og:title` it is expected to be a
 		// OpenGraph protocol tag

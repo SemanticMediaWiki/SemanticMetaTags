@@ -42,7 +42,8 @@ class MetaTagsContentGenerationIntegrationTest extends MwDBaseUnitTestCase {
 
 		$configuration = array(
 			'metaTagsContentPropertySelector' => $metaTagsContentPropertySelector,
-			'metaTagsStaticContentDescriptor' => $metaTagsStaticContentDescriptor
+			'metaTagsStaticContentDescriptor' => $metaTagsStaticContentDescriptor,
+			'metaTagsBlacklist' => array()
 		);
 
 		$hookRegistry = new HookRegistry( $configuration );

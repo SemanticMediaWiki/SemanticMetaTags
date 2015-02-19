@@ -45,12 +45,19 @@ call_user_func( function () {
 	$GLOBALS['egSMTMetaTagsContentPropertySelector'] = array();
 	$GLOBALS['egSMTMetaTagsStaticContentDescriptor'] = array();
 
+	// Tags generally assumed to be reserved or excluded for free use
+	$GLOBALS['egSemanticMetaTagsBlackList'] = array(
+		'generator',
+		'robots'
+	);
+
 	// Finalize extension setup
 	$GLOBALS['wgExtensionFunctions'][] = function() {
 
 		$configuration = array(
 			'metaTagsContentPropertySelector' => $GLOBALS['egSMTMetaTagsContentPropertySelector'],
-			'metaTagsStaticContentDescriptor' => $GLOBALS['egSMTMetaTagsStaticContentDescriptor']
+			'metaTagsStaticContentDescriptor' => $GLOBALS['egSMTMetaTagsStaticContentDescriptor'],
+			'metaTagsBlacklist' => $GLOBALS['egSemanticMetaTagsBlackList']
 		);
 
 		$hookRegistry = new HookRegistry( $configuration );

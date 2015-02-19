@@ -54,9 +54,12 @@ class HookRegistry {
 				ApplicationFactory::getInstance()->getStore()
 			);
 
+			$outputPageTagFormatter = new OutputPageTagFormatter( $outputPage );
+			$outputPageTagFormatter->setMetaTagsBlacklist( $configuration['metaTagsBlacklist'] );
+
 			$metaTagsModifier = new MetaTagsModifier(
 				new PropertyValueContentFinder( $fallbackSemanticDataFetcher ),
-				new OutputPageTagFormatter( $outputPage )
+				$outputPageTagFormatter
 			);
 
 			$metaTagsModifier->setMetaTagsContentPropertySelector( $configuration['metaTagsContentPropertySelector'] );

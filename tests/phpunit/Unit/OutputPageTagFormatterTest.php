@@ -56,6 +56,21 @@ class OutputPageTagFormatterTest extends \PHPUnit_Framework_TestCase {
 		);
 	}
 
+	public function testTryToAddContentForBlacklistedTag() {
+
+		$outputPage = $this->getMockBuilder( '\OutputPage' )
+			->disableOriginalConstructor()
+			->getMock();
+
+		$outputPage->expects( $this->never() )
+			->method( 'addMeta' );
+
+		$instance = new OutputPageTagFormatter( $outputPage );
+		$instance->setMetaTagsBlacklist( array( 'foo' ) );
+
+		$instance->addTagContentToOutputPage( 'FOO', 'bar' );
+	}
+
 	/**
 	 * @dataProvider nonOgTagProvider
 	 */
