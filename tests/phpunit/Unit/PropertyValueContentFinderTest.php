@@ -22,13 +22,13 @@ class PropertyValueContentFinderTest extends \PHPUnit_Framework_TestCase {
 
 	public function testCanConstruct() {
 
-		$lazySemanticDataFetcher = $this->getMockBuilder( '\SMT\LazySemanticDataFetcher' )
+		$fallbackSemanticDataFetcher = $this->getMockBuilder( '\SMT\FallbackSemanticDataFetcher' )
 			->disableOriginalConstructor()
 			->getMock();
 
 		$this->assertInstanceOf(
 			'\SMT\PropertyValueContentFinder',
-			new PropertyValueContentFinder( $lazySemanticDataFetcher )
+			new PropertyValueContentFinder( $fallbackSemanticDataFetcher )
 		);
 	}
 
@@ -49,15 +49,15 @@ class PropertyValueContentFinderTest extends \PHPUnit_Framework_TestCase {
 			->with( $this->equalTo( DIProperty::newFromUserLabel( 'foobar' ) ) )
 			->will( $this->returnValue( array( new DIWikiPage( 'Foo', NS_MAIN ) ) ) );
 
-		$lazySemanticDataFetcher = $this->getMockBuilder( '\SMT\LazySemanticDataFetcher' )
+		$fallbackSemanticDataFetcher = $this->getMockBuilder( '\SMT\FallbackSemanticDataFetcher' )
 			->disableOriginalConstructor()
 			->getMock();
 
-		$lazySemanticDataFetcher->expects( $this->once() )
+		$fallbackSemanticDataFetcher->expects( $this->once() )
 			->method( 'getSemanticData' )
 			->will( $this->returnValue( $semanticData ) );
 
-		$instance = new PropertyValueContentFinder( $lazySemanticDataFetcher );
+		$instance = new PropertyValueContentFinder( $fallbackSemanticDataFetcher );
 
 		$this->assertSame(
 			'Foo',
@@ -90,15 +90,15 @@ class PropertyValueContentFinderTest extends \PHPUnit_Framework_TestCase {
 			->method( 'getSubSemanticData' )
 			->will( $this->returnValue( array( $subSemanticData ) ) );
 
-		$lazySemanticDataFetcher = $this->getMockBuilder( '\SMT\LazySemanticDataFetcher' )
+		$fallbackSemanticDataFetcher = $this->getMockBuilder( '\SMT\FallbackSemanticDataFetcher' )
 			->disableOriginalConstructor()
 			->getMock();
 
-		$lazySemanticDataFetcher->expects( $this->once() )
+		$fallbackSemanticDataFetcher->expects( $this->once() )
 			->method( 'getSemanticData' )
 			->will( $this->returnValue( $semanticData ) );
 
-		$instance = new PropertyValueContentFinder( $lazySemanticDataFetcher );
+		$instance = new PropertyValueContentFinder( $fallbackSemanticDataFetcher );
 
 		$this->assertSame(
 			'Foo-with-html-"<>"-escaping-to-happen-somewhere-else',
@@ -132,15 +132,15 @@ class PropertyValueContentFinderTest extends \PHPUnit_Framework_TestCase {
 			->method( 'getSubSemanticData' )
 			->will( $this->returnValue( array() ) );
 
-		$lazySemanticDataFetcher = $this->getMockBuilder( '\SMT\LazySemanticDataFetcher' )
+		$fallbackSemanticDataFetcher = $this->getMockBuilder( '\SMT\FallbackSemanticDataFetcher' )
 			->disableOriginalConstructor()
 			->getMock();
 
-		$lazySemanticDataFetcher->expects( $this->atLeastOnce() )
+		$fallbackSemanticDataFetcher->expects( $this->atLeastOnce() )
 			->method( 'getSemanticData' )
 			->will( $this->returnValue( $semanticData ) );
 
-		$instance = new PropertyValueContentFinder( $lazySemanticDataFetcher );
+		$instance = new PropertyValueContentFinder( $fallbackSemanticDataFetcher );
 
 		$this->assertSame(
 			'http://username@example.org/foo,"Foo",Mo,fo',

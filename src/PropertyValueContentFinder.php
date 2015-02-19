@@ -16,17 +16,17 @@ use SMWDIUri as DIUri;
 class PropertyValueContentFinder {
 
 	/**
-	 * @var LazySemanticDataFetcher
+	 * @var FallbackSemanticDataFetcher
 	 */
-	private $lazySemanticDataFetcher;
+	private $fallbackSemanticDataFetcher;
 
 	/**
 	 * @since 1.0
 	 *
-	 * @param LazySemanticDataFetcher $lazySemanticDataFetcher
+	 * @param FallbackSemanticDataFetcher $fallbackSemanticDataFetcher
 	 */
-	public function __construct( LazySemanticDataFetcher $lazySemanticDataFetcher ) {
-		$this->lazySemanticDataFetcher = $lazySemanticDataFetcher;
+	public function __construct( FallbackSemanticDataFetcher $fallbackSemanticDataFetcher ) {
+		$this->fallbackSemanticDataFetcher = $fallbackSemanticDataFetcher;
 	}
 
 	/**
@@ -50,7 +50,7 @@ class PropertyValueContentFinder {
 	private function findContentForProperty( $property, &$values ) {
 
 		$property = DIProperty::newFromUserLabel( $property );
-		$semanticData = $this->lazySemanticDataFetcher->getSemanticData();
+		$semanticData = $this->fallbackSemanticDataFetcher->getSemanticData();
 
 		$this->iterateOverPropertyValues(
 			$semanticData->getPropertyValues( $property ),
