@@ -16,17 +16,35 @@ use SMWDIUri as DIUri;
 class PropertyValueContentFinder {
 
 	/**
-	 * @var LazySemanticDataFetcher
+	 * @var FallbackSemanticDataFetcher
 	 */
-	private $lazySemanticDataFetcher;
+	private $fallbackSemanticDataFetcher;
+
+	/**
+	 * Whether multiple properties should be used through a fallback chain where
+	 * the first available property with content will determine the end of the
+	 * processing or content being simply concatenated
+	 *
+	 * @var boolean
+	 */
+	private $useFallbackChainForMultipleProperties = false;
 
 	/**
 	 * @since 1.0
 	 *
-	 * @param LazySemanticDataFetcher $lazySemanticDataFetcher
+	 * @param FallbackSemanticDataFetcher $fallbackSemanticDataFetcher
 	 */
-	public function __construct( LazySemanticDataFetcher $lazySemanticDataFetcher ) {
-		$this->lazySemanticDataFetcher = $lazySemanticDataFetcher;
+	public function __construct( FallbackSemanticDataFetcher $fallbackSemanticDataFetcher ) {
+		$this->fallbackSemanticDataFetcher = $fallbackSemanticDataFetcher;
+	}
+
+	/**
+	 * @since  1.0
+	 *
+	 * @param boolean useFallbackChainForMultipleProperties
+	 */
+	public function useFallbackChainForMultipleProperties( $useFallbackChainForMultipleProperties ) {
+		$this->useFallbackChainForMultipleProperties = $useFallbackChainForMultipleProperties;
 	}
 
 	/**
@@ -41,6 +59,13 @@ class PropertyValueContentFinder {
 		$values = array();
 
 		foreach ( $propertyNames as $property ) {
+
+			// If content is already present and the fallback is ought to be
+			// used stop requesting additional content
+			if ( $this->useFallbackChainForMultipleProperties && $values !== array() ) {
+				break;
+			}
+
 			$this->findContentForProperty( trim( $property ), $values );
 		}
 
@@ -50,7 +75,7 @@ class PropertyValueContentFinder {
 	private function findContentForProperty( $property, &$values ) {
 
 		$property = DIProperty::newFromUserLabel( $property );
-		$semanticData = $this->lazySemanticDataFetcher->getSemanticData();
+		$semanticData = $this->fallbackSemanticDataFetcher->getSemanticData();
 
 		$this->iterateOverPropertyValues(
 			$semanticData->getPropertyValues( $property ),

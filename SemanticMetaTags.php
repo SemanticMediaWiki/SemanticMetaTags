@@ -42,15 +42,25 @@ call_user_func( function () {
 	$GLOBALS['wgMessagesDirs']['semantic-meta-tags'] = __DIR__ . '/i18n';
 
 	// Default settings
-	$GLOBALS['egSMTMetaTagsContentPropertySelector'] = array();
-	$GLOBALS['egSMTMetaTagsStaticContentDescriptor'] = array();
+	$GLOBALS['smtgTagsContentPropertySelector'] = array();
+	$GLOBALS['smtgTagsStaticContentDescriptor'] = array();
+
+	// Tags generally assumed to be reserved or excluded for free use
+	$GLOBALS['smtgTagsBlacklist'] = array(
+		'generator',
+		'robots'
+	);
+
+	$GLOBALS['smtgFallbackUseForMultipleProperties'] = false;
 
 	// Finalize extension setup
 	$GLOBALS['wgExtensionFunctions'][] = function() {
 
 		$configuration = array(
-			'metaTagsContentPropertySelector' => $GLOBALS['egSMTMetaTagsContentPropertySelector'],
-			'metaTagsStaticContentDescriptor' => $GLOBALS['egSMTMetaTagsStaticContentDescriptor']
+			'metaTagsContentPropertySelector' => $GLOBALS['smtgTagsContentPropertySelector'],
+			'metaTagsStaticContentDescriptor' => $GLOBALS['smtgTagsStaticContentDescriptor'],
+			'metaTagsBlacklist' => $GLOBALS['smtgTagsBlacklist'],
+			'metaTagsFallbackUseForMultipleProperties' => $GLOBALS['smtgFallbackUseForMultipleProperties']
 		);
 
 		$hookRegistry = new HookRegistry( $configuration );

@@ -39,18 +39,20 @@ The recommended way to install Semantic Meta Tags is by using [Composer][compose
 
 ## Usage
 
-You can specify which meta tags you want to enable, and where their values should come from with the `egSMTMetaTagsContentPropertySelector` setting.
+You can specify which meta tags you want to enable, and where their values should come from with the `smtgTagsContentPropertySelector` setting.
 
-The setting is an array that has the meta tags as keys (the left part). The values (right part) contain the name of the semantic property on your wiki that you want to use the value of. In case you want to put multiple property values in your meta tag, you can enter multiple property names, separated by commas. If a given property has multiple values on your wiki page, the values concatenated into a single, separated by commas.
+The setting is an array that has the meta tags as keys (the left part). The values (right part) contain the name of the semantic property on your wiki that you want to use the value of. In case you want to put multiple property values in your meta tag, you can enter multiple property names, separated by commas.
+
+If `smtgFallbackUseForMultipleProperties` is set `true` then the first property that returns a valid content for an assigned tag will be used exclusively. If a given property has multiple values (including subobjects) on your wiki page, the values are concatenated into a single string separated by commas.
+
+The setting `smtgTagsStaticContentDescriptor` can be used to describe static content to a selected `<meta>` tag while tags specified in `smtgTagsBlacklist` are generally disabled for free assignments.
 
 If a tag contains a `og:` it is identified as an [Open Graph][opg] metadata tag and annotated using `meta property=""` description.
-
-The setting `egSMTMetaTagsStaticContentDescriptor` can be used to describe the static content of a selected `<meta>` tag.
 
 Example:
 
 ```php
-$GLOBALS['egSMTMetaTagsContentPropertySelector'] = array(
+$GLOBALS['smtgTagsContentPropertySelector'] = array(
 
 	// Standard meta tags
 	'keywords' => 'Has keywords, Has another keyword',
@@ -64,10 +66,17 @@ $GLOBALS['egSMTMetaTagsContentPropertySelector'] = array(
 	'og:title' => 'Has title'
 );
 
-$GLOBALS['egSMTMetaTagsStaticContentDescriptor'] = array(
+$GLOBALS['smtgTagsStaticContentDescriptor'] = array(
 
 	// Static content tag
 	'some:tag' => 'Content that is static'
+);
+
+$GLOBALS['smtgTagsBlacklist'] = array(
+
+	// Disabled for free assignments
+	'generator',
+	'robots'
 );
 ```
 

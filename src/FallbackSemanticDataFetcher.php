@@ -8,7 +8,7 @@ use SMW\ParserData;
 
 /**
  * Sometimes the ParserCache provides an outdated ParserOutput with no
- * external data (e.g SematicData) attached therefore try the get the data
+ * external data (e.g SematicData) attached therefore try to get the data
  * by other means.
  *
  * @license GNU GPL v2+
@@ -16,7 +16,7 @@ use SMW\ParserData;
  *
  * @author mwjames
  */
-class LazySemanticDataFetcher {
+class FallbackSemanticDataFetcher {
 
 	/**
 	 * @var ParserData

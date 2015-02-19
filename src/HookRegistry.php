@@ -49,14 +49,20 @@ class HookRegistry {
 				$parserOutput
 			);
 
-			$lazySemanticDataFetcher = new LazySemanticDataFetcher(
+			$fallbackSemanticDataFetcher = new FallbackSemanticDataFetcher(
 				$parserData,
 				ApplicationFactory::getInstance()->getStore()
 			);
 
+			$outputPageTagFormatter = new OutputPageTagFormatter( $outputPage );
+			$outputPageTagFormatter->setMetaTagsBlacklist( $configuration['metaTagsBlacklist'] );
+
+			$propertyValueContentFinder = new PropertyValueContentFinder( $fallbackSemanticDataFetcher );
+			$propertyValueContentFinder->useFallbackChainForMultipleProperties( $configuration['metaTagsFallbackUseForMultipleProperties'] );
+
 			$metaTagsModifier = new MetaTagsModifier(
-				new PropertyValueContentFinder( $lazySemanticDataFetcher ),
-				new OutputPageTagFormatter( $outputPage )
+				$propertyValueContentFinder,
+				$outputPageTagFormatter
 			);
 
 			$metaTagsModifier->setMetaTagsContentPropertySelector( $configuration['metaTagsContentPropertySelector'] );

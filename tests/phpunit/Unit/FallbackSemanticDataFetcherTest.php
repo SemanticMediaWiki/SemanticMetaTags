@@ -2,11 +2,11 @@
 
 namespace SMT\Tests;
 
-use SMT\LazySemanticDataFetcher;
+use SMT\FallbackSemanticDataFetcher;
 use SMW\DIWikiPage;
 
 /**
- * @covers \SMT\LazySemanticDataFetcher
+ * @covers \SMT\FallbackSemanticDataFetcher
  *
  * @group semantic-meta-tags
  *
@@ -15,7 +15,7 @@ use SMW\DIWikiPage;
  *
  * @author mwjames
  */
-class LazySemanticDataFetcherTest extends \PHPUnit_Framework_TestCase {
+class FallbackSemanticDataFetcherTest extends \PHPUnit_Framework_TestCase {
 
 	public function testCanConstruct() {
 
@@ -28,8 +28,8 @@ class LazySemanticDataFetcherTest extends \PHPUnit_Framework_TestCase {
 			->getMockForAbstractClass();
 
 		$this->assertInstanceOf(
-			'\SMT\LazySemanticDataFetcher',
-			new LazySemanticDataFetcher( $parserData, $store )
+			'\SMT\FallbackSemanticDataFetcher',
+			new FallbackSemanticDataFetcher( $parserData, $store )
 		);
 	}
 
@@ -58,7 +58,7 @@ class LazySemanticDataFetcherTest extends \PHPUnit_Framework_TestCase {
 		$store->expects( $this->never() )
 			->method( 'getSemanticData' );
 
-		$instance = new LazySemanticDataFetcher( $parserData, $store );
+		$instance = new FallbackSemanticDataFetcher( $parserData, $store );
 		$instance->getSemanticData();
 
 		// Internally cached
@@ -98,7 +98,7 @@ class LazySemanticDataFetcherTest extends \PHPUnit_Framework_TestCase {
 		$store->expects( $this->once() )
 			->method( 'getSemanticData' );
 
-		$instance = new LazySemanticDataFetcher( $parserData, $store );
+		$instance = new FallbackSemanticDataFetcher( $parserData, $store );
 		$instance->getSemanticData();
 
 		// Internally cached
