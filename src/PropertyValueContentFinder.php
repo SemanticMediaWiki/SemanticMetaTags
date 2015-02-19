@@ -21,12 +21,30 @@ class PropertyValueContentFinder {
 	private $fallbackSemanticDataFetcher;
 
 	/**
+	 * Whether multiple properties should be used as fallback chain where the
+	 * first available property with content will determine the end of the
+	 * processing or content being simply concatenated
+	 *
+	 * @var boolean
+	 */
+	private $multiplePropertiesToUseForFallback = false;
+
+	/**
 	 * @since 1.0
 	 *
 	 * @param FallbackSemanticDataFetcher $fallbackSemanticDataFetcher
 	 */
 	public function __construct( FallbackSemanticDataFetcher $fallbackSemanticDataFetcher ) {
 		$this->fallbackSemanticDataFetcher = $fallbackSemanticDataFetcher;
+	}
+
+	/**
+	 * @since  1.0
+	 *
+	 * @param boolean multiplePropertiesToUseForFallback
+	 */
+	public function setMultiplePropertiesToUseForFallback( $multiplePropertiesToUseForFallback ) {
+		$this->multiplePropertiesToUseForFallback = $multiplePropertiesToUseForFallback;
 	}
 
 	/**
@@ -41,6 +59,13 @@ class PropertyValueContentFinder {
 		$values = array();
 
 		foreach ( $propertyNames as $property ) {
+
+			// If content is already present and the fallback is ought to be
+			// used stop requesting additional content
+			if ( $this->multiplePropertiesToUseForFallback && $values !== array() ) {
+				break;
+			}
+
 			$this->findContentForProperty( trim( $property ), $values );
 		}
 

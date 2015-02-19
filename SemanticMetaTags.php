@@ -46,10 +46,12 @@ call_user_func( function () {
 	$GLOBALS['egSMTMetaTagsStaticContentDescriptor'] = array();
 
 	// Tags generally assumed to be reserved or excluded for free use
-	$GLOBALS['egSemanticMetaTagsBlackList'] = array(
+	$GLOBALS['egSemanticMetaTagsBlacklist'] = array(
 		'generator',
 		'robots'
 	);
+
+	$GLOBALS['egSemanticMetaTagsMultiplePropertiesToUseForFallback'] = false;
 
 	// Finalize extension setup
 	$GLOBALS['wgExtensionFunctions'][] = function() {
@@ -57,7 +59,8 @@ call_user_func( function () {
 		$configuration = array(
 			'metaTagsContentPropertySelector' => $GLOBALS['egSMTMetaTagsContentPropertySelector'],
 			'metaTagsStaticContentDescriptor' => $GLOBALS['egSMTMetaTagsStaticContentDescriptor'],
-			'metaTagsBlacklist' => $GLOBALS['egSemanticMetaTagsBlackList']
+			'metaTagsBlacklist' => $GLOBALS['egSemanticMetaTagsBlacklist'],
+			'metaTagsMultiplePropertiesToUseForFallback' => $GLOBALS['egSemanticMetaTagsMultiplePropertiesToUseForFallback']
 		);
 
 		$hookRegistry = new HookRegistry( $configuration );

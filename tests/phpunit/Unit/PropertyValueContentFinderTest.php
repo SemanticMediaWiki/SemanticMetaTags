@@ -106,9 +106,20 @@ class PropertyValueContentFinderTest extends \PHPUnit_Framework_TestCase {
 		);
 	}
 
-	public function testFindContentForMultipleProperties() {
+	public function testFindContentForMultiplePropertiesToUseFullContentConcatenation() {
 
 		$properties = array( ' foo ', 'bar' );
+
+		$propertyValues = array(
+			0 => array(
+				new DIUri( 'http', 'username@example.org/foo', '', '' ),
+				new DIWikiPage( '"Foo"', NS_MAIN )
+			),
+			2 => array(
+				new DIBlob( 'Mo' ),
+				new DIBlob( 'fo' )
+			)
+		);
 
 		$semanticData = $this->getMockBuilder( '\SMW\SemanticData' )
 			->disableOriginalConstructor()
@@ -117,20 +128,64 @@ class PropertyValueContentFinderTest extends \PHPUnit_Framework_TestCase {
 		$semanticData->expects( $this->at( 0 ) )
 			->method( 'getPropertyValues' )
 			->with( $this->equalTo( DIProperty::newFromUserLabel( 'foo' ) ) )
-			->will( $this->returnValue( array(
-				new DIUri( 'http', 'username@example.org/foo', '', '' ),
-				new DIWikiPage( '"Foo"', NS_MAIN ) ) ) );
+			->will( $this->returnValue( $propertyValues[0] ) );
 
 		$semanticData->expects( $this->at( 2 ) )
 			->method( 'getPropertyValues' )
 			->with( $this->equalTo( DIProperty::newFromUserLabel( 'bar' ) ) )
-			->will( $this->returnValue( array(
-				new DIBlob( 'Mo' ),
-				new DIBlob( 'fo' ) ) ) );
+			->will( $this->returnValue( $propertyValues[2] ) );
 
 		$semanticData->expects( $this->any() )
 			->method( 'getSubSemanticData' )
 			->will( $this->returnValue( array() ) );
+
+		$this->doAssertContentForMultipleProperties(
+			false,
+			$semanticData,
+			$properties,
+			'http://username@example.org/foo,"Foo",Mo,fo'
+		);
+	}
+
+	public function testFindContentForMultiplePropertiesToUseFallbackChain() {
+
+		$properties = array( ' foo ', 'bar', 'bar' );
+
+		$propertyValues = array(
+			0 => array(),
+			2 => array(
+				new DIBlob( 'Mo' ),
+				new DIBlob( 'fo' )
+			)
+		);
+
+		$semanticData = $this->getMockBuilder( '\SMW\SemanticData' )
+			->disableOriginalConstructor()
+			->getMock();
+
+		$semanticData->expects( $this->at( 0 ) )
+			->method( 'getPropertyValues' )
+			->with( $this->equalTo( DIProperty::newFromUserLabel( 'foo' ) ) )
+			->will( $this->returnValue( $propertyValues[0] ) );
+
+		$semanticData->expects( $this->at( 2 ) )
+			->method( 'getPropertyValues' )
+			->with( $this->equalTo( DIProperty::newFromUserLabel( 'bar' ) ) )
+			->will( $this->returnValue( $propertyValues[2] ) );
+
+		$semanticData->expects( $this->any() )
+			->method( 'getSubSemanticData' )
+			->will( $this->returnValue( array() ) );
+
+		$this->doAssertContentForMultipleProperties(
+			true,
+			$semanticData,
+			$properties,
+			'Mo,fo'
+		);
+	}
+
+	private function doAssertContentForMultipleProperties( $fallbackChainUsageState, $semanticData, $properties, $expected ) {
 
 		$fallbackSemanticDataFetcher = $this->getMockBuilder( '\SMT\FallbackSemanticDataFetcher' )
 			->disableOriginalConstructor()
@@ -141,9 +196,10 @@ class PropertyValueContentFinderTest extends \PHPUnit_Framework_TestCase {
 			->will( $this->returnValue( $semanticData ) );
 
 		$instance = new PropertyValueContentFinder( $fallbackSemanticDataFetcher );
+		$instance->setMultiplePropertiesToUseForFallback( $fallbackChainUsageState );
 
 		$this->assertSame(
-			'http://username@example.org/foo,"Foo",Mo,fo',
+			$expected,
 			$instance->findContentForProperties( $properties )
 		);
 	}

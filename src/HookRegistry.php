@@ -57,8 +57,11 @@ class HookRegistry {
 			$outputPageTagFormatter = new OutputPageTagFormatter( $outputPage );
 			$outputPageTagFormatter->setMetaTagsBlacklist( $configuration['metaTagsBlacklist'] );
 
+			$propertyValueContentFinder = new PropertyValueContentFinder( $fallbackSemanticDataFetcher );
+			$propertyValueContentFinder->setMultiplePropertiesToUseForFallback( $configuration['metaTagsMultiplePropertiesToUseForFallback']  );
+
 			$metaTagsModifier = new MetaTagsModifier(
-				new PropertyValueContentFinder( $fallbackSemanticDataFetcher ),
+				$propertyValueContentFinder,
 				$outputPageTagFormatter
 			);
 
