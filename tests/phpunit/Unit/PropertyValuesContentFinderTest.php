@@ -2,14 +2,14 @@
 
 namespace SMT\Tests;
 
-use SMT\PropertyValueContentFinder;
+use SMT\PropertyValuesContentFinder;
 use SMW\DIProperty;
 use SMW\DIWikiPage;
 use SMWDIBlob as DIBlob;
 use SMWDIUri as DIUri;
 
 /**
- * @covers \SMT\PropertyValueContentFinder
+ * @covers \SMT\PropertyValuesContentFinder
  *
  * @group semantic-meta-tags
  *
@@ -18,7 +18,7 @@ use SMWDIUri as DIUri;
  *
  * @author mwjames
  */
-class PropertyValueContentFinderTest extends \PHPUnit_Framework_TestCase {
+class PropertyValuesContentFinderTest extends \PHPUnit_Framework_TestCase {
 
 	public function testCanConstruct() {
 
@@ -27,8 +27,8 @@ class PropertyValueContentFinderTest extends \PHPUnit_Framework_TestCase {
 			->getMock();
 
 		$this->assertInstanceOf(
-			'\SMT\PropertyValueContentFinder',
-			new PropertyValueContentFinder( $fallbackSemanticDataFetcher )
+			'\SMT\PropertyValuesContentFinder',
+			new PropertyValuesContentFinder( $fallbackSemanticDataFetcher )
 		);
 	}
 
@@ -57,7 +57,7 @@ class PropertyValueContentFinderTest extends \PHPUnit_Framework_TestCase {
 			->method( 'getSemanticData' )
 			->will( $this->returnValue( $semanticData ) );
 
-		$instance = new PropertyValueContentFinder( $fallbackSemanticDataFetcher );
+		$instance = new PropertyValuesContentFinder( $fallbackSemanticDataFetcher );
 
 		$this->assertSame(
 			'Foo',
@@ -98,7 +98,7 @@ class PropertyValueContentFinderTest extends \PHPUnit_Framework_TestCase {
 			->method( 'getSemanticData' )
 			->will( $this->returnValue( $semanticData ) );
 
-		$instance = new PropertyValueContentFinder( $fallbackSemanticDataFetcher );
+		$instance = new PropertyValuesContentFinder( $fallbackSemanticDataFetcher );
 
 		$this->assertSame(
 			'Foo-with-html-"<>"-escaping-to-happen-somewhere-else',
@@ -149,11 +149,14 @@ class PropertyValueContentFinderTest extends \PHPUnit_Framework_TestCase {
 
 	public function testFindContentForMultiplePropertiesToUseFallbackChain() {
 
-		$properties = array( ' foo ', 'bar', 'bar' );
+		$properties = array( ' foo ', 'bar' );
 
 		$propertyValues = array(
-			0 => array(),
-			2 => array(
+			array(
+				new DIUri( 'http', 'username@example.org/foo', '', '' ),
+				new DIWikiPage( '"Foo"', NS_MAIN )
+			),
+			array(
 				new DIBlob( 'Mo' ),
 				new DIBlob( 'fo' )
 			)
@@ -163,15 +166,10 @@ class PropertyValueContentFinderTest extends \PHPUnit_Framework_TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$semanticData->expects( $this->at( 0 ) )
+		$semanticData->expects( $this->exactly( 1 ) )
 			->method( 'getPropertyValues' )
 			->with( $this->equalTo( DIProperty::newFromUserLabel( 'foo' ) ) )
-			->will( $this->returnValue( $propertyValues[0] ) );
-
-		$semanticData->expects( $this->at( 2 ) )
-			->method( 'getPropertyValues' )
-			->with( $this->equalTo( DIProperty::newFromUserLabel( 'bar' ) ) )
-			->will( $this->returnValue( $propertyValues[2] ) );
+			->will( $this->onConsecutiveCalls( $propertyValues[0], $propertyValues[1] ) );
 
 		$semanticData->expects( $this->any() )
 			->method( 'getSubSemanticData' )
@@ -181,7 +179,7 @@ class PropertyValueContentFinderTest extends \PHPUnit_Framework_TestCase {
 			true,
 			$semanticData,
 			$properties,
-			'Mo,fo'
+			'http://username@example.org/foo,"Foo"'
 		);
 	}
 
@@ -195,7 +193,7 @@ class PropertyValueContentFinderTest extends \PHPUnit_Framework_TestCase {
 			->method( 'getSemanticData' )
 			->will( $this->returnValue( $semanticData ) );
 
-		$instance = new PropertyValueContentFinder( $fallbackSemanticDataFetcher );
+		$instance = new PropertyValuesContentFinder( $fallbackSemanticDataFetcher );
 		$instance->useFallbackChainForMultipleProperties( $fallbackChainUsageState );
 
 		$this->assertSame(

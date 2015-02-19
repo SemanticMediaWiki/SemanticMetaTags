@@ -13,7 +13,7 @@ use SMWDIUri as DIUri;
  *
  * @author mwjames
  */
-class PropertyValueContentFinder {
+class PropertyValuesContentFinder {
 
 	/**
 	 * @var FallbackSemanticDataFetcher
@@ -60,8 +60,8 @@ class PropertyValueContentFinder {
 
 		foreach ( $propertyNames as $property ) {
 
-			// If content is already present and the fallback is ought to be
-			// used stop requesting additional content
+			// If content is already present and the fallback mode is enabled
+			// stop requesting additional content
 			if ( $this->useFallbackChainForMultipleProperties && $values !== array() ) {
 				break;
 			}

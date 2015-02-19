@@ -11,9 +11,9 @@ namespace SMT;
 class MetaTagsModifier {
 
 	/**
-	 * @var PropertyValueContentFinder
+	 * @var PropertyValuesContentFinder
 	 */
-	private $propertyValueContentFinder;
+	private $propertyValuesContentFinder;
 
 	/**
 	 * @var OutputPageTagFormatter
@@ -33,11 +33,11 @@ class MetaTagsModifier {
 	/**
 	 * @since 1.0
 	 *
-	 * @param PropertyValueContentFinder $propertyValueContentFinder
+	 * @param PropertyValuesContentFinder $propertyValuesContentFinder
 	 * @param OutputPageTagFormatter $outputPageTagFormatter
 	 */
-	public function __construct( PropertyValueContentFinder $propertyValueContentFinder, OutputPageTagFormatter $outputPageTagFormatter ) {
-		$this->propertyValueContentFinder = $propertyValueContentFinder;
+	public function __construct( PropertyValuesContentFinder $propertyValuesContentFinder, OutputPageTagFormatter $outputPageTagFormatter ) {
+		$this->propertyValuesContentFinder = $propertyValuesContentFinder;
 		$this->outputPageTagFormatter = $outputPageTagFormatter;
 	}
 
@@ -99,7 +99,7 @@ class MetaTagsModifier {
 			return;
 		}
 
-		$content = $this->propertyValueContentFinder->findContentForProperties(
+		$content = $this->propertyValuesContentFinder->findContentForProperties(
 			explode( ',', $propertySelector )
 		);
 
