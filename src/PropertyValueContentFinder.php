@@ -2,7 +2,6 @@
 
 namespace SMT;
 
-use SMW\SemanticData;
 use SMW\DIProperty;
 use SMW\DIWikiPage;
 use SMWDIBlob as DIBlob;
@@ -17,17 +16,17 @@ use SMWDIUri as DIUri;
 class PropertyValueContentFinder {
 
 	/**
-	 * @var SemanticData
+	 * @var LazySemanticDataFetcher
 	 */
-	private $semanticData;
+	private $lazySemanticDataFetcher;
 
 	/**
 	 * @since 1.0
 	 *
-	 * @param SemanticData $semanticData
+	 * @param LazySemanticDataFetcher $lazySemanticDataFetcher
 	 */
-	public function __construct( SemanticData $semanticData ) {
-		$this->semanticData = $semanticData;
+	public function __construct( LazySemanticDataFetcher $lazySemanticDataFetcher ) {
+		$this->lazySemanticDataFetcher = $lazySemanticDataFetcher;
 	}
 
 	/**
@@ -51,13 +50,14 @@ class PropertyValueContentFinder {
 	private function findContentForProperty( $property, &$values ) {
 
 		$property = DIProperty::newFromUserLabel( $property );
+		$semanticData = $this->lazySemanticDataFetcher->getSemanticData();
 
 		$this->iterateOverPropertyValues(
-			$this->semanticData->getPropertyValues( $property ),
+			$semanticData->getPropertyValues( $property ),
 			$values
 		);
 
-		foreach ( $this->semanticData->getSubSemanticData() as $subSemanticData ) {
+		foreach ( $semanticData->getSubSemanticData() as $subSemanticData ) {
 			$this->iterateOverPropertyValues(
 				$subSemanticData->getPropertyValues( $property ),
 				$values

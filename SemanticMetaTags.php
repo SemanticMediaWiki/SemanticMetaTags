@@ -41,6 +41,7 @@ call_user_func( function () {
 	// Register message files
 	$GLOBALS['wgMessagesDirs']['semantic-meta-tags'] = __DIR__ . '/i18n';
 
+	// Default settings
 	$GLOBALS['egSMTMetaTagsContentPropertySelector'] = array();
 	$GLOBALS['egSMTMetaTagsStaticContentDescriptor'] = array();
 
