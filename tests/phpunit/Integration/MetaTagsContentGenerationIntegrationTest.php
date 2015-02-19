@@ -20,12 +20,14 @@ use Title;
 class MetaTagsContentGenerationIntegrationTest extends MwDBaseUnitTestCase {
 
 	private $pageCreator;
+	private $pageDeleter;
 	private $subjects = array();
 
 	protected function setUp() {
 		parent::setUp();
 
 		$this->pageCreator = UtilityFactory::getInstance()->newpageCreator();
+		$this->pageDeleter = UtilityFactory::getInstance()->newPageDeleter();
 
 		$metaTagsContentPropertySelector = array(
 			'KEYwoRDS' => 'SMT keywords',
@@ -53,10 +55,7 @@ class MetaTagsContentGenerationIntegrationTest extends MwDBaseUnitTestCase {
 	}
 
 	protected function tearDown() {
-
-		UtilityFactory::getInstance()
-			->newPageDeleter()
-			->doDeletePoolOfPages( $this->subjects );
+		$this->pageDeleter->doDeletePoolOfPages( $this->subjects );
 
 		parent::tearDown();
 	}
@@ -118,9 +117,8 @@ class MetaTagsContentGenerationIntegrationTest extends MwDBaseUnitTestCase {
 			->createPage( $subject->getTitle() )
 			->doEdit( '[[SMT title::OGTitleMetaTags]]' );
 
-		$parserOutput = $this->pageCreator->getEditInfo()->output;
-
-		$outputPage->addParserOutputMetadata( $parserOutput );
+		// Force the LazySemanticDataFetcher to indirectly use the Store
+		$outputPage->addParserOutputMetadata( new \ParserOutput() );
 
 		$this->assertTrue(
 			$outputPage->hasHeadItem( 'meta:property:og:title' )

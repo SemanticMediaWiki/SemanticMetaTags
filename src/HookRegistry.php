@@ -49,8 +49,13 @@ class HookRegistry {
 				$parserOutput
 			);
 
+			$lazySemanticDataFetcher = new LazySemanticDataFetcher(
+				$parserData,
+				ApplicationFactory::getInstance()->getStore()
+			);
+
 			$metaTagsModifier = new MetaTagsModifier(
-				new PropertyValueContentFinder( $parserData->getSemanticData() ),
+				new PropertyValueContentFinder( $lazySemanticDataFetcher ),
 				new OutputPageTagFormatter( $outputPage )
 			);
 

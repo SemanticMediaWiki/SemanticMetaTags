@@ -22,13 +22,13 @@ class PropertyValueContentFinderTest extends \PHPUnit_Framework_TestCase {
 
 	public function testCanConstruct() {
 
-		$semanticData = $this->getMockBuilder( '\SMW\SemanticData' )
+		$lazySemanticDataFetcher = $this->getMockBuilder( '\SMT\LazySemanticDataFetcher' )
 			->disableOriginalConstructor()
 			->getMock();
 
 		$this->assertInstanceOf(
 			'\SMT\PropertyValueContentFinder',
-			new PropertyValueContentFinder( $semanticData )
+			new PropertyValueContentFinder( $lazySemanticDataFetcher )
 		);
 	}
 
@@ -49,7 +49,15 @@ class PropertyValueContentFinderTest extends \PHPUnit_Framework_TestCase {
 			->with( $this->equalTo( DIProperty::newFromUserLabel( 'foobar' ) ) )
 			->will( $this->returnValue( array( new DIWikiPage( 'Foo', NS_MAIN ) ) ) );
 
-		$instance = new PropertyValueContentFinder( $semanticData );
+		$lazySemanticDataFetcher = $this->getMockBuilder( '\SMT\LazySemanticDataFetcher' )
+			->disableOriginalConstructor()
+			->getMock();
+
+		$lazySemanticDataFetcher->expects( $this->once() )
+			->method( 'getSemanticData' )
+			->will( $this->returnValue( $semanticData ) );
+
+		$instance = new PropertyValueContentFinder( $lazySemanticDataFetcher );
 
 		$this->assertSame(
 			'Foo',
@@ -82,7 +90,15 @@ class PropertyValueContentFinderTest extends \PHPUnit_Framework_TestCase {
 			->method( 'getSubSemanticData' )
 			->will( $this->returnValue( array( $subSemanticData ) ) );
 
-		$instance = new PropertyValueContentFinder( $semanticData );
+		$lazySemanticDataFetcher = $this->getMockBuilder( '\SMT\LazySemanticDataFetcher' )
+			->disableOriginalConstructor()
+			->getMock();
+
+		$lazySemanticDataFetcher->expects( $this->once() )
+			->method( 'getSemanticData' )
+			->will( $this->returnValue( $semanticData ) );
+
+		$instance = new PropertyValueContentFinder( $lazySemanticDataFetcher );
 
 		$this->assertSame(
 			'Foo-with-html-"<>"-escaping-to-happen-somewhere-else',
@@ -116,7 +132,15 @@ class PropertyValueContentFinderTest extends \PHPUnit_Framework_TestCase {
 			->method( 'getSubSemanticData' )
 			->will( $this->returnValue( array() ) );
 
-		$instance = new PropertyValueContentFinder( $semanticData );
+		$lazySemanticDataFetcher = $this->getMockBuilder( '\SMT\LazySemanticDataFetcher' )
+			->disableOriginalConstructor()
+			->getMock();
+
+		$lazySemanticDataFetcher->expects( $this->atLeastOnce() )
+			->method( 'getSemanticData' )
+			->will( $this->returnValue( $semanticData ) );
+
+		$instance = new PropertyValueContentFinder( $lazySemanticDataFetcher );
 
 		$this->assertSame(
 			'http://username@example.org/foo,"Foo",Mo,fo',
