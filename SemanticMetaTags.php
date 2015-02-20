@@ -28,7 +28,7 @@ define( 'SMT_VERSION', '1.0-alpha' );
 call_user_func( function () {
 
 	// Register extension info
-	$GLOBALS[ 'wgExtensionCredits' ][ 'semantic' ][ ] = array(
+	$GLOBALS['wgExtensionCredits']['semantic'][] = array(
 		'path'           => __FILE__,
 		'name'           => 'Semantic Meta Tags',
 		'author'         => array( 'James Hong Kong' ),
