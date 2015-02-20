@@ -70,7 +70,7 @@ class OutputPageTagFormatter {
 		$tag = strtolower( htmlspecialchars( trim( $tag ) ) );
 		$content = htmlspecialchars( $content );
 
-		if ( isset( $this->metaTagsBlacklist[ $tag ] ) ) {
+		if ( isset( $this->metaTagsBlacklist[$tag] ) ) {
 			return;
 		}
 
