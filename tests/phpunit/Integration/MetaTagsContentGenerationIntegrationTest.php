@@ -29,8 +29,13 @@ class MetaTagsContentGenerationIntegrationTest extends MwDBaseUnitTestCase {
 		$this->pageCreator = UtilityFactory::getInstance()->newpageCreator();
 		$this->pageDeleter = UtilityFactory::getInstance()->newPageDeleter();
 
+		$metaTagsBlacklist = array(
+			'robots'
+		);
+
 		$metaTagsContentPropertySelector = array(
-			'KEYwoRDS' => 'SMT keywords',
+			'KEYwoRDS' => array( 'SMT keywords', 'SMT other keywords' ),
+			'robots' => 'SMT keywords, SMT other keywords',
 			'description' => '',
 			'twitter:description' => 'SMT description',
 			'og:title' => 'SMT title'
@@ -43,7 +48,7 @@ class MetaTagsContentGenerationIntegrationTest extends MwDBaseUnitTestCase {
 		$configuration = array(
 			'metaTagsContentPropertySelector' => $metaTagsContentPropertySelector,
 			'metaTagsStaticContentDescriptor' => $metaTagsStaticContentDescriptor,
-			'metaTagsBlacklist' => array(),
+			'metaTagsBlacklist' => $metaTagsBlacklist,
 			'metaTagsFallbackUseForMultipleProperties' => false
 		);
 
@@ -78,7 +83,7 @@ class MetaTagsContentGenerationIntegrationTest extends MwDBaseUnitTestCase {
 			->createPage( $subject->getTitle() )
 			->doEdit(
 				'[[SMT keywords::KeywordMetaTag]]' .
-				'[[SMT keywords::AnotherKeywordMetaTag]]' .
+				'[[SMT other keywords::AnotherKeywordMetaTag]]' .
 				'[[SMT description::Example description]]' );
 
 		$parserOutput = $this->pageCreator->getEditInfo()->output;
@@ -119,7 +124,7 @@ class MetaTagsContentGenerationIntegrationTest extends MwDBaseUnitTestCase {
 			->createPage( $subject->getTitle() )
 			->doEdit( '[[SMT title::OGTitleMetaTags]]' );
 
-		// Force the LazySemanticDataFetcher to indirectly use the Store
+		// Force the FallbackSemanticDataFetcher to indirectly use the Store
 		$outputPage->addParserOutputMetadata( new \ParserOutput() );
 
 		$this->assertTrue(

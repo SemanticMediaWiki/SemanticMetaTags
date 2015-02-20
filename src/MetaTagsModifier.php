@@ -95,12 +95,16 @@ class MetaTagsModifier {
 
 	private function addMetaTagsForPropertySelector( $tag, $propertySelector ) {
 
-		if ( $propertySelector === '' ) {
+		if ( $propertySelector === '' || $propertySelector === array() ) {
 			return;
 		}
 
+		if ( is_string( $propertySelector ) ) {
+			$propertySelector = explode( ',', $propertySelector );
+		}
+
 		$content = $this->propertyValuesContentFinder->findContentForProperties(
-			explode( ',', $propertySelector )
+			$propertySelector
 		);
 
 		if ( $content === '' ) {

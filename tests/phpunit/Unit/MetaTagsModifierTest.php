@@ -218,6 +218,10 @@ class MetaTagsModifierTest extends \PHPUnit_Framework_TestCase {
 		);
 
 		$provider[] = array(
+			array( 'foo' => array() )
+		);
+
+		$provider[] = array(
 			array( 'foo:bar' => '' )
 		);
 
@@ -235,7 +239,7 @@ class MetaTagsModifierTest extends \PHPUnit_Framework_TestCase {
 		);
 
 		$provider[] = array(
-			array( 'foo' => 'foobar,quin' ),
+			array( 'foo' => array( 'foobar', 'quin' ) ),
 			array( 'foobar', 'quin' ),
 			array( 'tag' => 'foo', 'content' => 'Mo,fo' )
 		);

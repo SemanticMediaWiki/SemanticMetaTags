@@ -45,24 +45,24 @@ The setting is an array that has the meta tags as keys (the left part). The valu
 
 If `smtgFallbackUseForMultipleProperties` is set `true` then the first property that returns a valid content for an assigned tag will be used exclusively. If a given property has multiple values (including subobjects) on your wiki page, the values are concatenated into a single string separated by commas.
 
-The setting `smtgTagsStaticContentDescriptor` can be used to describe static content to a selected `<meta>` tag while tags specified in `smtgTagsBlacklist` are generally disabled for free assignments.
+The setting `smtgTagsStaticContentDescriptor` can be used to describe static content for an assigned `<meta>` tag while tags specified in `smtgTagsBlacklist` are generally disabled for free assignments.
 
 If a tag contains a `og:` it is identified as an [Open Graph][opg] metadata tag and annotated using `meta property=""` description.
 
-Example:
+### Configuration example
 
 ```php
 $GLOBALS['smtgTagsContentPropertySelector'] = array(
 
 	// Standard meta tags
-	'keywords' => 'Has keywords, Has another keyword',
+	'keywords' => array( 'Has keywords', 'Has another keyword' ),
 	'description' => 'Has some description',
 	'author' => 'Has last editor',
 
-	// Summary card tags
+	// Summary card tag
 	'twitter:description' => 'Has some description',
 
-	// Open Graph protocol supported tags
+	// Open Graph protocol supported tag
 	'og:title' => 'Has title'
 );
 
@@ -70,13 +70,6 @@ $GLOBALS['smtgTagsStaticContentDescriptor'] = array(
 
 	// Static content tag
 	'some:tag' => 'Content that is static'
-);
-
-$GLOBALS['smtgTagsBlacklist'] = array(
-
-	// Disabled for free assignments
-	'generator',
-	'robots'
 );
 ```
 
