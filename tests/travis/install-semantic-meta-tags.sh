@@ -19,7 +19,7 @@ function installToMediaWikiRoot {
 
 	if [ "$SMT" != "" ]
 	then
-		composer require 'mediawiki/semantic-meta-tags='$SIL --prefer-source --update-with-dependencies
+		composer require 'mediawiki/semantic-meta-tags='$SMT --prefer-source --update-with-dependencies
 	else
 		composer init --stability dev
 		composer require mediawiki/semantic-meta-tags "dev-master" --prefer-source --dev --update-with-dependencies
