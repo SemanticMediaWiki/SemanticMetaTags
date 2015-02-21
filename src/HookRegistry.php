@@ -86,8 +86,8 @@ class HookRegistry {
 
 			Hooks::clear( $name );
 
-			if ( isset( $GLOBALS['wgHooks'][ $name ] ) ) {
-				unset( $GLOBALS['wgHooks'][ $name ] );
+			if ( isset( $GLOBALS['wgHooks'][$name] ) ) {
+				unset( $GLOBALS['wgHooks'][$name] );
 			}
 		}
 	}

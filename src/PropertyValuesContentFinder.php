@@ -41,7 +41,7 @@ class PropertyValuesContentFinder {
 	/**
 	 * @since  1.0
 	 *
-	 * @param boolean useFallbackChainForMultipleProperties
+	 * @param boolean $useFallbackChainForMultipleProperties
 	 */
 	public function useFallbackChainForMultipleProperties( $useFallbackChainForMultipleProperties ) {
 		$this->useFallbackChainForMultipleProperties = $useFallbackChainForMultipleProperties;
@@ -96,9 +96,9 @@ class PropertyValuesContentFinder {
 
 			// Content escaping (htmlspecialchars) is being carried out
 			// by the instance that adds the content
-			if ( $value instanceOf DIBlob ) {
+			if ( $value instanceof DIBlob ) {
 				$values[] = $value->getString();
-			} elseif( $value instanceOf DIWikiPage || $value instanceOf DIUri ) {
+			} elseif( $value instanceof DIWikiPage || $value instanceof DIUri ) {
 				$values[] = $value->getSortKey();
 			}
 		}
