@@ -1,8 +1,9 @@
 {
 	"@metadata": {
 		"authors": [
-			"mwjames"
+			"Mwjames",
+			"Kghbln"
 		]
 	},
-	"smt-desc": "{{desc|name=Semantic Interlanguage Links|url=https://www.mediawiki.org/wiki/Extension:Semantic_Interlanguage_Links}}\nA \" to deploy language links effortless using Semantic MedaWiki."
+	"smt-desc": "{{desc|name=Semantic Meta Tags|url=https://www.mediawiki.org/wiki/Extension:Semantic_Meta_Tags}}\nAn extension providing HTML <meta> tags generated from semantic annotations."
 }
