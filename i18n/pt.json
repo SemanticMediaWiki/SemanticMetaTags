@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"Vitorvicentevalente"
+		]
+	},
+	"smt-desc": "Permite fornecer etiquetas meta geradas a partir de  [https://semantic-mediawiki.org anotações semânticas]"
+}

@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"Macofe"
+		]
+	},
+	"smt-desc": "Permite proporcionar meta etiquetas generadas desde [https://semantic-mediawiki.org anotaciones semánticas]"
+}
