@@ -75,6 +75,10 @@ $GLOBALS['smtgTagsStaticContentDescriptor'] = array(
 
 This setting should as usual be placed near the end of your `LocalSettings.php` file.
 
+### Special Note regarding Semantic Extra Special Properties
+
+Currently SemanticMetaTags **cannot** access properties that are set by [Semantic Extra Special Properties](https://github.com/SemanticMediaWiki/SemanticExtraSpecialProperties) (see [issue #9](https://github.com/SemanticMediaWiki/SemanticMetaTags/issues/9)). If you attempt to set a meta tag to one of these properties (e.g., Page author) the property will not be found and the meta tag will not be shown on the page. The other tags will work fine however.
+
 ## Contribution and support
 
 If you want to contribute work to the project please subscribe to the developers mailing list and
