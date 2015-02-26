@@ -11,9 +11,9 @@ namespace SMT;
 class MetaTagsModifier {
 
 	/**
-	 * @var PropertyValuesContentFinder
+	 * @var PropertyValuesContentFetcher
 	 */
-	private $propertyValuesContentFinder;
+	private $propertyValuesContentFetcher;
 
 	/**
 	 * @var OutputPageTagFormatter
@@ -33,11 +33,11 @@ class MetaTagsModifier {
 	/**
 	 * @since 1.0
 	 *
-	 * @param PropertyValuesContentFinder $propertyValuesContentFinder
+	 * @param PropertyValuesContentFetcher $propertyValuesContentFetcher
 	 * @param OutputPageTagFormatter $outputPageTagFormatter
 	 */
-	public function __construct( PropertyValuesContentFinder $propertyValuesContentFinder, OutputPageTagFormatter $outputPageTagFormatter ) {
-		$this->propertyValuesContentFinder = $propertyValuesContentFinder;
+	public function __construct( PropertyValuesContentFetcher $propertyValuesContentFetcher, OutputPageTagFormatter $outputPageTagFormatter ) {
+		$this->propertyValuesContentFetcher = $propertyValuesContentFetcher;
 		$this->outputPageTagFormatter = $outputPageTagFormatter;
 	}
 
@@ -68,13 +68,19 @@ class MetaTagsModifier {
 			return;
 		}
 
-		$this->addMetaTagsForProperties( $this->metaTagsContentPropertySelector );
+		$this->addMetaTagsForPropertySelector( $this->metaTagsContentPropertySelector );
 		$this->addMetaTagsForStaticContent( $this->metaTagsStaticContentDescriptor );
 	}
 
-	private function addMetaTagsForProperties( $metaTagsContentPropertySelector ) {
-		foreach ( $metaTagsContentPropertySelector as $tag => $propertySelector ) {
-			$this->addMetaTagsForPropertySelector( $tag, $propertySelector );
+	private function addMetaTagsForPropertySelector( $metaTagsContentPropertySelector ) {
+
+		foreach ( $metaTagsContentPropertySelector as $tag => $properties ) {
+
+			if ( $properties === '' || $properties === array() ) {
+				continue;
+			}
+
+			$this->addMetaTagsForProperties( $tag, $properties );
 		}
 	}
 
@@ -83,7 +89,7 @@ class MetaTagsModifier {
 		foreach ( $metaTagsStaticContentDescriptor as $tag => $content ) {
 
 			if ( $content === '' ) {
-				return;
+				continue;
 			}
 
 			$this->outputPageTagFormatter->addTagContentToOutputPage(
@@ -93,18 +99,14 @@ class MetaTagsModifier {
 		}
 	}
 
-	private function addMetaTagsForPropertySelector( $tag, $propertySelector ) {
+	private function addMetaTagsForProperties( $tag, $properties ) {
 
-		if ( $propertySelector === '' || $propertySelector === array() ) {
-			return;
+		if ( is_string( $properties ) ) {
+			$properties = explode( ',', $properties );
 		}
 
-		if ( is_string( $propertySelector ) ) {
-			$propertySelector = explode( ',', $propertySelector );
-		}
-
-		$content = $this->propertyValuesContentFinder->findContentForProperties(
-			$propertySelector
+		$content = $this->propertyValuesContentFetcher->fetchContentForProperties(
+			$properties
 		);
 
 		if ( $content === '' ) {

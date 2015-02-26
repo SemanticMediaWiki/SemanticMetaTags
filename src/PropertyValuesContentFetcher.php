@@ -13,7 +13,7 @@ use SMWDIUri as DIUri;
  *
  * @author mwjames
  */
-class PropertyValuesContentFinder {
+class PropertyValuesContentFetcher {
 
 	/**
 	 * @var FallbackSemanticDataFetcher
@@ -54,7 +54,7 @@ class PropertyValuesContentFinder {
 	 *
 	 * @return string
 	 */
-	public function findContentForProperties( array $propertyNames ) {
+	public function fetchContentForProperties( array $propertyNames ) {
 
 		$values = array();
 
@@ -66,31 +66,31 @@ class PropertyValuesContentFinder {
 				break;
 			}
 
-			$this->findContentForProperty( trim( $property ), $values );
+			$this->fetchContentForProperty( trim( $property ), $values );
 		}
 
 		return implode( ',', $values );
 	}
 
-	private function findContentForProperty( $property, &$values ) {
+	private function fetchContentForProperty( $property, &$values ) {
 
 		$property = DIProperty::newFromUserLabel( $property );
 		$semanticData = $this->fallbackSemanticDataFetcher->getSemanticData();
 
-		$this->iterateOverPropertyValues(
+		$this->iterateToCollectPropertyValues(
 			$semanticData->getPropertyValues( $property ),
 			$values
 		);
 
 		foreach ( $semanticData->getSubSemanticData() as $subSemanticData ) {
-			$this->iterateOverPropertyValues(
+			$this->iterateToCollectPropertyValues(
 				$subSemanticData->getPropertyValues( $property ),
 				$values
 			);
 		}
 	}
 
-	private function iterateOverPropertyValues( array $propertyValues, &$values ) {
+	private function iterateToCollectPropertyValues( array $propertyValues, &$values ) {
 
 		foreach ( $propertyValues as $value ) {
 

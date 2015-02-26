@@ -19,7 +19,7 @@ class MetaTagsModifierTest extends \PHPUnit_Framework_TestCase {
 
 	public function testCanConstruct() {
 
-		$propertyValuesContentFinder = $this->getMockBuilder( '\SMT\PropertyValuesContentFinder' )
+		$propertyValuesContentFetcher = $this->getMockBuilder( '\SMT\PropertyValuesContentFetcher' )
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -29,18 +29,18 @@ class MetaTagsModifierTest extends \PHPUnit_Framework_TestCase {
 
 		$this->assertInstanceOf(
 			'\SMT\MetaTagsModifier',
-			new MetaTagsModifier( $propertyValuesContentFinder, $outputPageTagFormatter )
+			new MetaTagsModifier( $propertyValuesContentFetcher, $outputPageTagFormatter )
 		);
 	}
 
 	public function testTryToAddTags() {
 
-		$propertyValuesContentFinder = $this->getMockBuilder( '\SMT\PropertyValuesContentFinder' )
+		$propertyValuesContentFetcher = $this->getMockBuilder( '\SMT\PropertyValuesContentFetcher' )
 			->disableOriginalConstructor()
 			->getMock();
 
-		$propertyValuesContentFinder->expects( $this->never() )
-			->method( 'findContentForProperties' );
+		$propertyValuesContentFetcher->expects( $this->never() )
+			->method( 'fetchContentForProperties' );
 
 		$outputPageTagFormatter = $this->getMockBuilder( '\SMT\OutputPageTagFormatter' )
 			->disableOriginalConstructor()
@@ -51,7 +51,7 @@ class MetaTagsModifierTest extends \PHPUnit_Framework_TestCase {
 			->will( $this->returnValue( false ) );
 
 		$instance = new MetaTagsModifier(
-			$propertyValuesContentFinder,
+			$propertyValuesContentFetcher,
 			$outputPageTagFormatter
 		);
 
@@ -64,12 +64,12 @@ class MetaTagsModifierTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testTryToModifyOutputPageForInvalidPropertySelector( $propertySelector ) {
 
-		$propertyValuesContentFinder = $this->getMockBuilder( '\SMT\PropertyValuesContentFinder' )
+		$propertyValuesContentFetcher = $this->getMockBuilder( '\SMT\PropertyValuesContentFetcher' )
 			->disableOriginalConstructor()
 			->getMock();
 
-		$propertyValuesContentFinder->expects( $this->never() )
-			->method( 'findContentForProperties' );
+		$propertyValuesContentFetcher->expects( $this->never() )
+			->method( 'fetchContentForProperties' );
 
 		$outputPage = $this->getMockBuilder( '\OutputPage' )
 			->disableOriginalConstructor()
@@ -91,7 +91,7 @@ class MetaTagsModifierTest extends \PHPUnit_Framework_TestCase {
 			->will( $this->returnValue( true ) );
 
 		$instance = new MetaTagsModifier(
-			$propertyValuesContentFinder,
+			$propertyValuesContentFetcher,
 			$outputPageTagFormatter
 		);
 
@@ -104,12 +104,12 @@ class MetaTagsModifierTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testModifyOutputPageForValidPropertySelector( $propertySelector, $properties, $expected ) {
 
-		$propertyValuesContentFinder = $this->getMockBuilder( '\SMT\PropertyValuesContentFinder' )
+		$propertyValuesContentFetcher = $this->getMockBuilder( '\SMT\PropertyValuesContentFetcher' )
 			->disableOriginalConstructor()
 			->getMock();
 
-		$propertyValuesContentFinder->expects( $this->once() )
-			->method( 'findContentForProperties' )
+		$propertyValuesContentFetcher->expects( $this->once() )
+			->method( 'fetchContentForProperties' )
 			->with( $this->equalTo( $properties ) )
 			->will( $this->returnValue( $expected['content'] ) );
 
@@ -133,7 +133,7 @@ class MetaTagsModifierTest extends \PHPUnit_Framework_TestCase {
 			->will( $this->returnValue( true ) );
 
 		$instance = new MetaTagsModifier(
-			$propertyValuesContentFinder,
+			$propertyValuesContentFetcher,
 			$outputPageTagFormatter
 		);
 
@@ -143,7 +143,7 @@ class MetaTagsModifierTest extends \PHPUnit_Framework_TestCase {
 
 	public function testTryToModifyOutputPageForEmptyStaticContent() {
 
-		$propertyValuesContentFinder = $this->getMockBuilder( '\SMT\PropertyValuesContentFinder' )
+		$propertyValuesContentFetcher = $this->getMockBuilder( '\SMT\PropertyValuesContentFetcher' )
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -160,7 +160,7 @@ class MetaTagsModifierTest extends \PHPUnit_Framework_TestCase {
 			->method( 'addTagContentToOutputPage' );
 
 		$instance = new MetaTagsModifier(
-			$propertyValuesContentFinder,
+			$propertyValuesContentFetcher,
 			$outputPageTagFormatter
 		);
 
@@ -173,7 +173,7 @@ class MetaTagsModifierTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testModifyOutputPageForStaticContentDescriptor( $contentDescriptor, $expected ) {
 
-		$propertyValuesContentFinder = $this->getMockBuilder( '\SMT\PropertyValuesContentFinder' )
+		$propertyValuesContentFetcher = $this->getMockBuilder( '\SMT\PropertyValuesContentFetcher' )
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -197,7 +197,7 @@ class MetaTagsModifierTest extends \PHPUnit_Framework_TestCase {
 			->will( $this->returnValue( true ) );
 
 		$instance = new MetaTagsModifier(
-			$propertyValuesContentFinder,
+			$propertyValuesContentFetcher,
 			$outputPageTagFormatter
 		);
 
@@ -277,6 +277,13 @@ class MetaTagsModifierTest extends \PHPUnit_Framework_TestCase {
 		$provider[] = array(
 			array( 'FOO' => 'static"Description"OfContent' ),
 			array( 'tag' => 'foo', 'content' => 'static&quot;Description&quot;OfContent' )
+		);
+
+		$provider[] = array(
+			array( 'bar' => '', 'FOO' => 'bar' ),
+			array(
+				'tag' => 'foo', 'content' => 'bar'
+			)
 		);
 
 		return $provider;
