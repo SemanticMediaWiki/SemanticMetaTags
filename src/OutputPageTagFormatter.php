@@ -28,6 +28,11 @@ class OutputPageTagFormatter {
 	private $usedOpenGraphProtocolMarkup = false;
 
 	/**
+	 * @var boolean
+	 */
+	private $isViewAction = false;
+
+	/**
 	 * @since 1.0
 	 *
 	 * @param OutputPage $outputPage
@@ -46,13 +51,22 @@ class OutputPageTagFormatter {
 	}
 
 	/**
+	 * @since 1.0
+	 *
+	 * @param string $actionName
+	 */
+	public function setViewActionState( $actionName ) {
+		$this->isViewAction = $actionName === 'view';
+	}
+
+	/**
 	 * @since  1.0
 	 *
 	 * @return boolean
 	 */
 	public function canUseOutputPage() {
 
-		if ( $this->outputPage->getTitle() === null || $this->outputPage->getTitle()->isSpecialPage() ) {
+		if ( $this->outputPage->getTitle() === null || $this->outputPage->getTitle()->isSpecialPage() || !$this->isViewAction ) {
 			return false;
 		}
 

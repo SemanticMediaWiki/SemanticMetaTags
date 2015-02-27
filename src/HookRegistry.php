@@ -56,6 +56,7 @@ class HookRegistry {
 
 			$outputPageTagFormatter = new OutputPageTagFormatter( $outputPage );
 			$outputPageTagFormatter->setMetaTagsBlacklist( $configuration['metaTagsBlacklist'] );
+			$outputPageTagFormatter->setViewActionState( \Action::getActionName( $outputPage->getContext() ) );
 
 			$propertyValuesContentFetcher = new PropertyValuesContentFetcher( $fallbackSemanticDataFetcher );
 			$propertyValuesContentFetcher->useFallbackChainForMultipleProperties( $configuration['metaTagsFallbackUseForMultipleProperties'] );

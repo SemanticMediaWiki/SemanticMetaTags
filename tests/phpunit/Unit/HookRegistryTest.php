@@ -53,6 +53,18 @@ class HookRegistryTest extends \PHPUnit_Framework_TestCase {
 
 		$title = Title::newFromText( __METHOD__ );
 
+		$webRequest = $this->getMockBuilder( '\WebRequest' )
+			->disableOriginalConstructor()
+			->getMock();
+
+		$context = $this->getMockBuilder( '\IContextSource' )
+			->disableOriginalConstructor()
+			->getMock();
+
+		$context->expects( $this->atLeastOnce() )
+			->method( 'getRequest' )
+			->will( $this->returnValue( $webRequest ) );
+
 		$outputPage = $this->getMockBuilder( '\OutputPage' )
 			->disableOriginalConstructor()
 			->getMock();
@@ -60,6 +72,10 @@ class HookRegistryTest extends \PHPUnit_Framework_TestCase {
 		$outputPage->expects( $this->atLeastOnce() )
 			->method( 'getTitle' )
 			->will( $this->returnValue( $title ) );
+
+		$outputPage->expects( $this->atLeastOnce() )
+			->method( 'getContext' )
+			->will( $this->returnValue( $context ) );
 
 		$parserOutput = $this->getMockBuilder( '\ParserOutput' )
 			->disableOriginalConstructor()

@@ -28,7 +28,7 @@ class OutputPageTagFormatterTest extends \PHPUnit_Framework_TestCase {
 		);
 	}
 
-	public function testTryToUseOutputPage() {
+	public function testTryToUseOutputPageForSpecialPage() {
 
 		$title = $this->getMockBuilder( '\Title' )
 			->disableOriginalConstructor()
@@ -50,6 +50,35 @@ class OutputPageTagFormatterTest extends \PHPUnit_Framework_TestCase {
 			->will( $this->returnValue( $title ) );
 
 		$instance = new OutputPageTagFormatter( $outputPage );
+
+		$this->assertFalse(
+			$instance->canUseOutputPage()
+		);
+	}
+
+	public function testTryToUseOutputPageForNonViewAction() {
+
+		$title = $this->getMockBuilder( '\Title' )
+			->disableOriginalConstructor()
+			->getMock();
+
+		$title->expects( $this->any() )
+			->method( 'isSpecialPage' )
+			->will( $this->returnValue( false ) );
+
+		$outputPage = $this->getMockBuilder( '\OutputPage' )
+			->disableOriginalConstructor()
+			->getMock();
+
+		$outputPage->expects( $this->never() )
+			->method( 'addMeta' );
+
+		$outputPage->expects( $this->atLeastOnce() )
+			->method( 'getTitle' )
+			->will( $this->returnValue( $title ) );
+
+		$instance = new OutputPageTagFormatter( $outputPage );
+		$instance->setViewActionState( 'foo' );
 
 		$this->assertFalse(
 			$instance->canUseOutputPage()
