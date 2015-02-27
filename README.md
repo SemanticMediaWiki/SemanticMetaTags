@@ -39,20 +39,20 @@ The recommended way to install Semantic Meta Tags is by using [Composer][compose
 
 ## Usage
 
-You can specify which meta tags you want to enable, and where their values should come from with the `smtgTagsContentPropertySelector` setting.
+You can specify which meta tags you want to enable, and where their values should come from with the `smtgTagsProperties` setting.
 
 The setting is an array that has the meta tags as keys (the left part). The values (right part) contain the name of the semantic property on your wiki that you want to use the value of. In case you want to put multiple property values in your meta tag, you can enter multiple property names, separated by commas.
 
-If `smtgFallbackUseForMultipleProperties` is set `true` then the first property that returns a valid content for an assigned tag will be used exclusively. If a given property has multiple values (including subobjects) on your wiki page, the values are concatenated into a single string separated by commas.
+If `smtgTagsPropertyFallbackUsage` is set `true` then the first property that returns a valid content for an assigned tag will be used exclusively. If a given property has multiple values (including subobjects) on your wiki page, the values are concatenated into a single string separated by commas.
 
-The setting `smtgTagsStaticContentDescriptor` can be used to describe static content for an assigned `<meta>` tag while tags specified in `smtgTagsBlacklist` are generally disabled for free assignments.
+The setting `smtgTagsStrings` can be used to describe static content for an assigned `<meta>` tag while tags specified in `smtgTagsBlacklist` are generally disabled for free assignments.
 
 If a tag contains a `og:` it is identified as an [Open Graph][opg] metadata tag and annotated using `meta property=""` description.
 
 ### Configuration example
 
 ```php
-$GLOBALS['smtgTagsContentPropertySelector'] = array(
+$GLOBALS['smtgTagsProperties'] = array(
 
 	// Standard meta tags
 	'keywords' => array( 'Has keywords', 'Has another keyword' ),
@@ -66,7 +66,7 @@ $GLOBALS['smtgTagsContentPropertySelector'] = array(
 	'og:title' => 'Has title'
 );
 
-$GLOBALS['smtgTagsStaticContentDescriptor'] = array(
+$GLOBALS['smtgTagsStrings'] = array(
 
 	// Static content tag
 	'some:tag' => 'Content that is static'
