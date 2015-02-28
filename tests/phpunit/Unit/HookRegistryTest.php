@@ -37,15 +37,13 @@ class HookRegistryTest extends \PHPUnit_Framework_TestCase {
 		);
 
 		$instance = new HookRegistry( $configuration );
-		$instance->register();
-
-		$this->doTestOutputPageParserOutput( $instance );
-	}
-
-	public function doTestOutputPageParserOutput( $instance ) {
-
 		$instance->deregister();
 		$instance->register();
+
+		$this->doTestRegisteredOutputPageParserOutputHandler( $instance );
+	}
+
+	public function doTestRegisteredOutputPageParserOutputHandler( $instance ) {
 
 		$this->assertTrue(
 			$instance->isRegistered( 'OutputPageParserOutput' )

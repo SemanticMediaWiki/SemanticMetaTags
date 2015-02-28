@@ -52,11 +52,9 @@ class MetaTagsContentGenerationIntegrationTest extends MwDBaseUnitTestCase {
 			'metaTagsFallbackUseForMultipleProperties' => false
 		);
 
-		$hookRegistry = new HookRegistry( $configuration );
-		$hookRegistry->register();
-
 		// Deregister all hooks to ensure that only the one that is ought to be
 		// tested is tested
+		$hookRegistry = new HookRegistry( $configuration );
 		$hookRegistry->deregister();
 		$hookRegistry->register();
 	}

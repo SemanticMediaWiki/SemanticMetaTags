@@ -19,25 +19,62 @@ class HookRegistry {
 	private $handlers = array();
 
 	/**
-	 * @var array
-	 */
-	private $configuration;
-
-	/**
 	 * @since 1.0
 	 *
 	 * @param array $configuration
 	 */
 	public function __construct( $configuration ) {
-		$this->configuration = $configuration;
+		$this->registerCallbackHandlers( $configuration );
 	}
 
 	/**
 	 * @since  1.0
 	 */
 	public function register() {
+		foreach ( $this->handlers as $name => $callback ) {
+			Hooks::register( $name, $callback );
+		}
+	}
 
-		$configuration = $this->configuration;
+	/**
+	 * @since  1.0
+	 */
+	public function deregister() {
+		foreach ( array_keys( $this->handlers ) as $name ) {
+
+			Hooks::clear( $name );
+
+			// Remove registered `wgHooks` hooks that are not cleared by the
+			// previous call
+			if ( isset( $GLOBALS['wgHooks'][$name] ) ) {
+				unset( $GLOBALS['wgHooks'][$name] );
+			}
+		}
+	}
+
+	/**
+	 * @since  1.0
+	 *
+	 * @param string $name
+	 *
+	 * @return boolean
+	 */
+	public function isRegistered( $name ) {
+		return Hooks::isRegistered( $name );
+	}
+
+	/**
+	 * @since  1.0
+	 *
+	 * @param string $name
+	 *
+	 * @return array
+	 */
+	public function getHandlers( $name ) {
+		return Hooks::getHandlers( $name );
+	}
+
+	private function registerCallbackHandlers( $configuration ) {
 
 		/**
 		 * @see https://www.mediawiki.org/wiki/Manual:Hooks/OutputPageParserOutput
@@ -73,46 +110,6 @@ class HookRegistry {
 
 			return true;
 		};
-
-		foreach ( $this->handlers as $name => $callback ) {
-			Hooks::register( $name, $callback );
-		}
-	}
-
-	/**
-	 * @since  1.0
-	 */
-	public function deregister() {
-		foreach ( array_keys( $this->handlers ) as $name ) {
-
-			Hooks::clear( $name );
-
-			if ( isset( $GLOBALS['wgHooks'][$name] ) ) {
-				unset( $GLOBALS['wgHooks'][$name] );
-			}
-		}
-	}
-
-	/**
-	 * @since  1.0
-	 *
-	 * @param string $name
-	 *
-	 * @return boolean
-	 */
-	public function isRegistered( $name ) {
-		return Hooks::isRegistered( $name );
-	}
-
-	/**
-	 * @since  1.0
-	 *
-	 * @param string $name
-	 *
-	 * @return array
-	 */
-	public function getHandlers( $name ) {
-		return Hooks::getHandlers( $name );
 	}
 
 }
