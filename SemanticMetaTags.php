@@ -20,7 +20,7 @@ if ( defined( 'SMT_VERSION' ) ) {
 	return 1;
 }
 
-define( 'SMT_VERSION', '1.0-alpha' );
+define( 'SMT_VERSION', '1.0' );
 
 /**
  * @codeCoverageIgnore
