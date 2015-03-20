@@ -12,7 +12,7 @@ the meta tags of an article with content generated from semantic annotations.
 
 This extension enables to automatically extend the HTML `<meta>` tags of an article
 with content generated from selected properties with:
-- Standard tags are supported (e.g `meta name="keywords"`) as well as
+- Standard tags being supported (e.g `meta name="keywords"`) as well as
 - [Summary card][tw] and [Open Graph][opg] protocol tags (e.g `meta property="og:title"`)
 
 ## Requirements
