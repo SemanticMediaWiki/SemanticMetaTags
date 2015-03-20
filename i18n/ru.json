@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"Okras"
+		]
+	},
+	"smt-desc": "Позволяет добавить мета-теги, сгенерированные из [https://semantic-mediawiki.org семантических аннотаций]"
+}
