@@ -49,6 +49,10 @@ The setting `smtgTagsStrings` can be used to describe static content for an assi
 
 If a tag contains a `og:` it is identified as an [Open Graph][opg] metadata tag and annotated using `meta property=""` description.
 
+### Output example
+
+![image](https://cloud.githubusercontent.com/assets/1245473/7828511/b9cf5a2a-0434-11e5-8aa6-33ee8189f44b.png)
+
 ### Configuration example
 
 ```php
