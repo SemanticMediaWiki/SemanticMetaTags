@@ -67,9 +67,7 @@ class FallbackSemanticDataFetcher {
 			return $semanticData;
 		}
 
-		// let's try the SemanticDataCache before using the
-		// DB access
-		// SMW 2.2
+		// 2.3 SMW-core will handle caching using #1035
 
 		// Final method is the Store
 		return $this->store->getSemanticData(

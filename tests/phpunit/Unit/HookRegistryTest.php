@@ -19,15 +19,23 @@ class HookRegistryTest extends \PHPUnit_Framework_TestCase {
 
 	public function testCanConstruct() {
 
+		$store = $this->getMockBuilder( '\SMW\Store' )
+			->disableOriginalConstructor()
+			->getMockForAbstractClass();
+
 		$configuration =  array();
 
 		$this->assertInstanceOf(
 			'\SMT\HookRegistry',
-			new HookRegistry( $configuration )
+			new HookRegistry( $store, $configuration )
 		);
 	}
 
 	public function testRegister() {
+
+		$store = $this->getMockBuilder( '\SMW\Store' )
+			->disableOriginalConstructor()
+			->getMockForAbstractClass();
 
 		$configuration = array(
 			'metaTagsContentPropertySelector' => array(),
@@ -36,8 +44,7 @@ class HookRegistryTest extends \PHPUnit_Framework_TestCase {
 			'metaTagsFallbackUseForMultipleProperties' => false
 		);
 
-		$instance = new HookRegistry( $configuration );
-		$instance->deregister();
+		$instance = new HookRegistry( $store, $configuration );
 		$instance->register();
 
 		$this->doTestRegisteredOutputPageParserOutputHandler( $instance );
@@ -80,19 +87,16 @@ class HookRegistryTest extends \PHPUnit_Framework_TestCase {
 			->getMock();
 
 		$this->assertThatHookIsExcutable(
-			$instance->getHandlers( 'OutputPageParserOutput' ),
+			$instance->getHandlersFor( 'OutputPageParserOutput' ),
 			array( &$outputPage, $parserOutput )
 		);
 	}
 
-	private function assertThatHookIsExcutable( array $hooks, $arguments ) {
-		foreach ( $hooks as $hook ) {
-
-			$this->assertInternalType(
-				'boolean',
-				call_user_func_array( $hook, $arguments )
-			);
-		}
+	private function assertThatHookIsExcutable( \Closure $handler, $arguments ) {
+		$this->assertInternalType(
+			'boolean',
+			call_user_func_array( $handler, $arguments )
+		);
 	}
 
 }

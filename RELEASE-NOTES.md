@@ -1,8 +1,11 @@
 This file contains the RELEASE-NOTES of the Semantic Meta Tags (a.k.a. SMT) extension.
 
-### 1.0.0
+### 1.1.0 (2015-06-02)
 
-Released on 2015-02-28
+* Minor clean-up
+* Localisation updates from https://translatewiki.net
+
+### 1.0.0 (2015-02-28)
 
 * Initial release
 * `$smtgTagsProperties` to set which meta tags should be enabled

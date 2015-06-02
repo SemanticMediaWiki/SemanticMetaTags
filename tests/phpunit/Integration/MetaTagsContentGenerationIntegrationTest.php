@@ -6,7 +6,6 @@ use SMW\Tests\MwDBaseUnitTestCase;
 use SMW\Tests\Utils\UtilityFactory;
 use SMT\HookRegistry;
 use SMW\DIWikiPage;
-use Title;
 
 /**
  * @group semantic-meta-tags
@@ -52,15 +51,14 @@ class MetaTagsContentGenerationIntegrationTest extends MwDBaseUnitTestCase {
 			'metaTagsFallbackUseForMultipleProperties' => false
 		);
 
-		// Deregister all hooks to ensure that only the one that is ought to be
-		// tested is tested
-		$hookRegistry = new HookRegistry( $configuration );
-		$hookRegistry->deregister();
+		$hookRegistry = new HookRegistry( $this->getStore(), $configuration );
 		$hookRegistry->register();
 	}
 
 	protected function tearDown() {
-		$this->pageDeleter->doDeletePoolOfPages( $this->subjects );
+		$this->pageDeleter->doDeletePoolOfPages(
+			$this->subjects
+		);
 
 		parent::tearDown();
 	}
@@ -74,7 +72,7 @@ class MetaTagsContentGenerationIntegrationTest extends MwDBaseUnitTestCase {
 			$this->markTestSkipped( 'OutputPage::getMetaTags does not exist for this MW version' );
 		}
 
-		$subject = DIWikiPage::newFromTitle( Title::newFromText( __METHOD__ ) );
+		$subject = new DIWikiPage( __METHOD__, NS_MAIN );
 		$requestContext->setTitle( $subject->getTitle() );
 
 		$this->pageCreator
@@ -103,7 +101,7 @@ class MetaTagsContentGenerationIntegrationTest extends MwDBaseUnitTestCase {
 			$outputPage->hasHeadItem( 'meta:property:og:title' )
 		);
 
-		$this->subjects = array( $subject );
+		$this->subjects[] = $subject;
 	}
 
 	public function testAddOpenGraphMetaTag() {
@@ -115,7 +113,7 @@ class MetaTagsContentGenerationIntegrationTest extends MwDBaseUnitTestCase {
 			$this->markTestSkipped( 'OutputPage::addParserOutputMetadata does not exist for this MW version' );
 		}
 
-		$subject = DIWikiPage::newFromTitle( Title::newFromText( __METHOD__ ) );
+		$subject = new DIWikiPage( __METHOD__, NS_MAIN );
 		$requestContext->setTitle( $subject->getTitle() );
 
 		$this->pageCreator
@@ -129,7 +127,7 @@ class MetaTagsContentGenerationIntegrationTest extends MwDBaseUnitTestCase {
 			$outputPage->hasHeadItem( 'meta:property:og:title' )
 		);
 
-		$this->subjects = array( $subject );
+		$this->subjects[] = $subject;
 	}
 
 }

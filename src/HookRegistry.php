@@ -3,6 +3,7 @@
 namespace SMT;
 
 use SMW\ApplicationFactory;
+use SMW\Store;
 use Hooks;
 
 /**
@@ -21,10 +22,11 @@ class HookRegistry {
 	/**
 	 * @since 1.0
 	 *
+	 * @param Store $store
 	 * @param array $configuration
 	 */
-	public function __construct( $configuration ) {
-		$this->registerCallbackHandlers( $configuration );
+	public function __construct( Store $store, $configuration ) {
+		$this->addCallbackHandlers( $store, $configuration );
 	}
 
 	/**
@@ -33,22 +35,6 @@ class HookRegistry {
 	public function register() {
 		foreach ( $this->handlers as $name => $callback ) {
 			Hooks::register( $name, $callback );
-		}
-	}
-
-	/**
-	 * @since  1.0
-	 */
-	public function deregister() {
-		foreach ( array_keys( $this->handlers ) as $name ) {
-
-			Hooks::clear( $name );
-
-			// Remove registered `wgHooks` hooks that are not cleared by the
-			// previous call
-			if ( isset( $GLOBALS['wgHooks'][$name] ) ) {
-				unset( $GLOBALS['wgHooks'][$name] );
-			}
 		}
 	}
 
@@ -64,22 +50,22 @@ class HookRegistry {
 	}
 
 	/**
-	 * @since  1.0
+	 * @since  1.1
 	 *
 	 * @param string $name
 	 *
-	 * @return array
+	 * @return Callable|false
 	 */
-	public function getHandlers( $name ) {
-		return Hooks::getHandlers( $name );
+	public function getHandlersFor( $name ) {
+		return isset( $this->handlers[$name] ) ? $this->handlers[$name] : false;
 	}
 
-	private function registerCallbackHandlers( $configuration ) {
+	private function addCallbackHandlers( $store, $configuration ) {
 
 		/**
 		 * @see https://www.mediawiki.org/wiki/Manual:Hooks/OutputPageParserOutput
 		 */
-		$this->handlers['OutputPageParserOutput'] = function ( &$outputPage, $parserOutput ) use( $configuration ) {
+		$this->handlers['OutputPageParserOutput'] = function ( &$outputPage, $parserOutput ) use( $store, $configuration ) {
 
 			$parserData = ApplicationFactory::getInstance()->newParserData(
 				$outputPage->getTitle(),
@@ -88,7 +74,7 @@ class HookRegistry {
 
 			$fallbackSemanticDataFetcher = new FallbackSemanticDataFetcher(
 				$parserData,
-				ApplicationFactory::getInstance()->getStore()
+				$store
 			);
 
 			$outputPageTagFormatter = new OutputPageTagFormatter( $outputPage );
@@ -96,15 +82,23 @@ class HookRegistry {
 			$outputPageTagFormatter->setViewActionState( \Action::getActionName( $outputPage->getContext() ) );
 
 			$propertyValuesContentFetcher = new PropertyValuesContentFetcher( $fallbackSemanticDataFetcher );
-			$propertyValuesContentFetcher->useFallbackChainForMultipleProperties( $configuration['metaTagsFallbackUseForMultipleProperties'] );
+
+			$propertyValuesContentFetcher->useFallbackChainForMultipleProperties(
+				$configuration['metaTagsFallbackUseForMultipleProperties']
+			);
 
 			$metaTagsModifier = new MetaTagsModifier(
 				$propertyValuesContentFetcher,
 				$outputPageTagFormatter
 			);
 
-			$metaTagsModifier->setMetaTagsContentPropertySelector( $configuration['metaTagsContentPropertySelector'] );
-			$metaTagsModifier->setMetaTagsStaticContentDescriptor( $configuration['metaTagsStaticContentDescriptor'] );
+			$metaTagsModifier->setMetaTagsContentPropertySelector(
+				$configuration['metaTagsContentPropertySelector']
+			);
+
+			$metaTagsModifier->setMetaTagsStaticContentDescriptor(
+				$configuration['metaTagsStaticContentDescriptor']
+			);
 
 			$metaTagsModifier->addMetaTags();
 

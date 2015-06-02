@@ -1,6 +1,7 @@
 <?php
 
 use SMT\HookRegistry;
+use SMW\ApplicationFactory;
 
 /**
  * @see https://github.com/SemanticMediaWiki/SemanticMetaTags/
@@ -20,7 +21,7 @@ if ( defined( 'SMT_VERSION' ) ) {
 	return 1;
 }
 
-define( 'SMT_VERSION', '1.0' );
+define( 'SMT_VERSION', '1.1.0' );
 
 /**
  * @codeCoverageIgnore
@@ -63,7 +64,11 @@ call_user_func( function () {
 			'metaTagsFallbackUseForMultipleProperties' => $GLOBALS['smtgTagsPropertyFallbackUsage']
 		);
 
-		$hookRegistry = new HookRegistry( $configuration );
+		$hookRegistry = new HookRegistry(
+			ApplicationFactory::getInstance()->getStore(),
+			$configuration
+		);
+
 		$hookRegistry->register();
 	};
 
