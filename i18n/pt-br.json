@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"Jaideraf"
+		]
+	},
+	"smt-desc": "Permite fornecer meta tags geradas a partir de  [https://semantic-mediawiki.org marcações semânticas]"
+}
