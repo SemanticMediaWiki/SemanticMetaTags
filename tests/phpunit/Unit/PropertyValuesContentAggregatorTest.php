@@ -2,15 +2,14 @@
 
 namespace SMT\Tests;
 
-use SMT\PropertyValuesContentFetcher;
+use SMT\PropertyValuesContentAggregator;
 use SMW\DIProperty;
 use SMW\DIWikiPage;
 use SMWDIBlob as DIBlob;
 use SMWDIUri as DIUri;
 
 /**
- * @covers \SMT\PropertyValuesContentFetcher
- *
+ * @covers \SMT\PropertyValuesContentAggregator
  * @group semantic-meta-tags
  *
  * @license GNU GPL v2+
@@ -18,17 +17,17 @@ use SMWDIUri as DIUri;
  *
  * @author mwjames
  */
-class PropertyValuesContentFetcherTest extends \PHPUnit_Framework_TestCase {
+class PropertyValuesContentAggregatorTest extends \PHPUnit_Framework_TestCase {
 
 	public function testCanConstruct() {
 
-		$fallbackSemanticDataFetcher = $this->getMockBuilder( '\SMT\FallbackSemanticDataFetcher' )
+		$semanticDataFallbackFetcher = $this->getMockBuilder( '\SMT\SemanticDataFallbackFetcher' )
 			->disableOriginalConstructor()
 			->getMock();
 
 		$this->assertInstanceOf(
-			'\SMT\PropertyValuesContentFetcher',
-			new PropertyValuesContentFetcher( $fallbackSemanticDataFetcher )
+			'\SMT\PropertyValuesContentAggregator',
+			new PropertyValuesContentAggregator( $semanticDataFallbackFetcher )
 		);
 	}
 
@@ -49,19 +48,19 @@ class PropertyValuesContentFetcherTest extends \PHPUnit_Framework_TestCase {
 			->with( $this->equalTo( DIProperty::newFromUserLabel( 'foobar' ) ) )
 			->will( $this->returnValue( array( new DIWikiPage( 'Foo', NS_MAIN ) ) ) );
 
-		$fallbackSemanticDataFetcher = $this->getMockBuilder( '\SMT\FallbackSemanticDataFetcher' )
+		$semanticDataFallbackFetcher = $this->getMockBuilder( '\SMT\SemanticDataFallbackFetcher' )
 			->disableOriginalConstructor()
 			->getMock();
 
-		$fallbackSemanticDataFetcher->expects( $this->once() )
+		$semanticDataFallbackFetcher->expects( $this->once() )
 			->method( 'getSemanticData' )
 			->will( $this->returnValue( $semanticData ) );
 
-		$instance = new PropertyValuesContentFetcher( $fallbackSemanticDataFetcher );
+		$instance = new PropertyValuesContentAggregator( $semanticDataFallbackFetcher );
 
 		$this->assertSame(
 			'Foo',
-			$instance->fetchContentForProperties( $properties )
+			$instance->doAggregateFor( $properties )
 		);
 	}
 
@@ -90,19 +89,19 @@ class PropertyValuesContentFetcherTest extends \PHPUnit_Framework_TestCase {
 			->method( 'getSubSemanticData' )
 			->will( $this->returnValue( array( $subSemanticData ) ) );
 
-		$fallbackSemanticDataFetcher = $this->getMockBuilder( '\SMT\FallbackSemanticDataFetcher' )
+		$semanticDataFallbackFetcher = $this->getMockBuilder( '\SMT\SemanticDataFallbackFetcher' )
 			->disableOriginalConstructor()
 			->getMock();
 
-		$fallbackSemanticDataFetcher->expects( $this->once() )
+		$semanticDataFallbackFetcher->expects( $this->once() )
 			->method( 'getSemanticData' )
 			->will( $this->returnValue( $semanticData ) );
 
-		$instance = new PropertyValuesContentFetcher( $fallbackSemanticDataFetcher );
+		$instance = new PropertyValuesContentAggregator( $semanticDataFallbackFetcher );
 
 		$this->assertSame(
 			'Foo-with-html-"<>"-escaping-to-happen-somewhere-else',
-			$instance->fetchContentForProperties( $properties )
+			$instance->doAggregateFor( $properties )
 		);
 	}
 
@@ -185,20 +184,20 @@ class PropertyValuesContentFetcherTest extends \PHPUnit_Framework_TestCase {
 
 	private function doAssertContentForMultipleProperties( $fallbackChainUsageState, $semanticData, $properties, $expected ) {
 
-		$fallbackSemanticDataFetcher = $this->getMockBuilder( '\SMT\FallbackSemanticDataFetcher' )
+		$semanticDataFallbackFetcher = $this->getMockBuilder( '\SMT\SemanticDataFallbackFetcher' )
 			->disableOriginalConstructor()
 			->getMock();
 
-		$fallbackSemanticDataFetcher->expects( $this->atLeastOnce() )
+		$semanticDataFallbackFetcher->expects( $this->atLeastOnce() )
 			->method( 'getSemanticData' )
 			->will( $this->returnValue( $semanticData ) );
 
-		$instance = new PropertyValuesContentFetcher( $fallbackSemanticDataFetcher );
+		$instance = new PropertyValuesContentAggregator( $semanticDataFallbackFetcher );
 		$instance->useFallbackChainForMultipleProperties( $fallbackChainUsageState );
 
 		$this->assertSame(
 			$expected,
-			$instance->fetchContentForProperties( $properties )
+			$instance->doAggregateFor( $properties )
 		);
 	}
 

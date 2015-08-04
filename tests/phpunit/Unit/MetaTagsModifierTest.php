@@ -7,7 +7,6 @@ use SMT\OutputPageTagFormatter;
 
 /**
  * @covers \SMT\MetaTagsModifier
- *
  * @group semantic-meta-tags
  *
  * @license GNU GPL v2+
@@ -19,7 +18,7 @@ class MetaTagsModifierTest extends \PHPUnit_Framework_TestCase {
 
 	public function testCanConstruct() {
 
-		$propertyValuesContentFetcher = $this->getMockBuilder( '\SMT\PropertyValuesContentFetcher' )
+		$propertyValuesContentAggregator = $this->getMockBuilder( '\SMT\PropertyValuesContentAggregator' )
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -29,29 +28,29 @@ class MetaTagsModifierTest extends \PHPUnit_Framework_TestCase {
 
 		$this->assertInstanceOf(
 			'\SMT\MetaTagsModifier',
-			new MetaTagsModifier( $propertyValuesContentFetcher, $outputPageTagFormatter )
+			new MetaTagsModifier( $propertyValuesContentAggregator, $outputPageTagFormatter )
 		);
 	}
 
 	public function testTryToAddTags() {
 
-		$propertyValuesContentFetcher = $this->getMockBuilder( '\SMT\PropertyValuesContentFetcher' )
+		$propertyValuesContentAggregator = $this->getMockBuilder( '\SMT\PropertyValuesContentAggregator' )
 			->disableOriginalConstructor()
 			->getMock();
 
-		$propertyValuesContentFetcher->expects( $this->never() )
-			->method( 'fetchContentForProperties' );
+		$propertyValuesContentAggregator->expects( $this->never() )
+			->method( 'doAggregateFor' );
 
 		$outputPageTagFormatter = $this->getMockBuilder( '\SMT\OutputPageTagFormatter' )
 			->disableOriginalConstructor()
 			->getMock();
 
 		$outputPageTagFormatter->expects( $this->once() )
-			->method( 'canUseOutputPage' )
+			->method( 'canUseTagFormatter' )
 			->will( $this->returnValue( false ) );
 
 		$instance = new MetaTagsModifier(
-			$propertyValuesContentFetcher,
+			$propertyValuesContentAggregator,
 			$outputPageTagFormatter
 		);
 
@@ -64,12 +63,12 @@ class MetaTagsModifierTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testTryToModifyOutputPageForInvalidPropertySelector( $propertySelector ) {
 
-		$propertyValuesContentFetcher = $this->getMockBuilder( '\SMT\PropertyValuesContentFetcher' )
+		$propertyValuesContentAggregator = $this->getMockBuilder( '\SMT\PropertyValuesContentAggregator' )
 			->disableOriginalConstructor()
 			->getMock();
 
-		$propertyValuesContentFetcher->expects( $this->never() )
-			->method( 'fetchContentForProperties' );
+		$propertyValuesContentAggregator->expects( $this->never() )
+			->method( 'doAggregateFor' );
 
 		$outputPage = $this->getMockBuilder( '\OutputPage' )
 			->disableOriginalConstructor()
@@ -83,15 +82,15 @@ class MetaTagsModifierTest extends \PHPUnit_Framework_TestCase {
 
 		$outputPageTagFormatter = $this->getMockBuilder( '\SMT\OutputPageTagFormatter' )
 			->setConstructorArgs( array( $outputPage ) )
-			->setMethods( array( 'canUseOutputPage' ) )
+			->setMethods( array( 'canUseTagFormatter' ) )
 			->getMock();
 
 		$outputPageTagFormatter->expects( $this->once() )
-			->method( 'canUseOutputPage' )
+			->method( 'canUseTagFormatter' )
 			->will( $this->returnValue( true ) );
 
 		$instance = new MetaTagsModifier(
-			$propertyValuesContentFetcher,
+			$propertyValuesContentAggregator,
 			$outputPageTagFormatter
 		);
 
@@ -104,12 +103,12 @@ class MetaTagsModifierTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testModifyOutputPageForValidPropertySelector( $propertySelector, $properties, $expected ) {
 
-		$propertyValuesContentFetcher = $this->getMockBuilder( '\SMT\PropertyValuesContentFetcher' )
+		$propertyValuesContentAggregator = $this->getMockBuilder( '\SMT\PropertyValuesContentAggregator' )
 			->disableOriginalConstructor()
 			->getMock();
 
-		$propertyValuesContentFetcher->expects( $this->once() )
-			->method( 'fetchContentForProperties' )
+		$propertyValuesContentAggregator->expects( $this->once() )
+			->method( 'doAggregateFor' )
 			->with( $this->equalTo( $properties ) )
 			->will( $this->returnValue( $expected['content'] ) );
 
@@ -125,15 +124,15 @@ class MetaTagsModifierTest extends \PHPUnit_Framework_TestCase {
 
 		$outputPageTagFormatter = $this->getMockBuilder( '\SMT\OutputPageTagFormatter' )
 			->setConstructorArgs( array( $outputPage ) )
-			->setMethods( array( 'canUseOutputPage' ) )
+			->setMethods( array( 'canUseTagFormatter' ) )
 			->getMock();
 
 		$outputPageTagFormatter->expects( $this->once() )
-			->method( 'canUseOutputPage' )
+			->method( 'canUseTagFormatter' )
 			->will( $this->returnValue( true ) );
 
 		$instance = new MetaTagsModifier(
-			$propertyValuesContentFetcher,
+			$propertyValuesContentAggregator,
 			$outputPageTagFormatter
 		);
 
@@ -143,24 +142,24 @@ class MetaTagsModifierTest extends \PHPUnit_Framework_TestCase {
 
 	public function testTryToModifyOutputPageForEmptyStaticContent() {
 
-		$propertyValuesContentFetcher = $this->getMockBuilder( '\SMT\PropertyValuesContentFetcher' )
+		$propertyValuesContentAggregator = $this->getMockBuilder( '\SMT\PropertyValuesContentAggregator' )
 			->disableOriginalConstructor()
 			->getMock();
 
 		$outputPageTagFormatter = $this->getMockBuilder( '\SMT\OutputPageTagFormatter' )
 			->disableOriginalConstructor()
-			->setMethods( array( 'canUseOutputPage' ) )
+			->setMethods( array( 'canUseTagFormatter' ) )
 			->getMock();
 
 		$outputPageTagFormatter->expects( $this->once() )
-			->method( 'canUseOutputPage' )
+			->method( 'canUseTagFormatter' )
 			->will( $this->returnValue( true ) );
 
 		$outputPageTagFormatter->expects( $this->never() )
 			->method( 'addTagContentToOutputPage' );
 
 		$instance = new MetaTagsModifier(
-			$propertyValuesContentFetcher,
+			$propertyValuesContentAggregator,
 			$outputPageTagFormatter
 		);
 
@@ -173,7 +172,7 @@ class MetaTagsModifierTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testModifyOutputPageForStaticContentDescriptor( $contentDescriptor, $expected ) {
 
-		$propertyValuesContentFetcher = $this->getMockBuilder( '\SMT\PropertyValuesContentFetcher' )
+		$propertyValuesContentAggregator = $this->getMockBuilder( '\SMT\PropertyValuesContentAggregator' )
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -189,15 +188,15 @@ class MetaTagsModifierTest extends \PHPUnit_Framework_TestCase {
 
 		$outputPageTagFormatter = $this->getMockBuilder( '\SMT\OutputPageTagFormatter' )
 			->setConstructorArgs( array( $outputPage ) )
-			->setMethods( array( 'canUseOutputPage' ) )
+			->setMethods( array( 'canUseTagFormatter' ) )
 			->getMock();
 
 		$outputPageTagFormatter->expects( $this->once() )
-			->method( 'canUseOutputPage' )
+			->method( 'canUseTagFormatter' )
 			->will( $this->returnValue( true ) );
 
 		$instance = new MetaTagsModifier(
-			$propertyValuesContentFetcher,
+			$propertyValuesContentAggregator,
 			$outputPageTagFormatter
 		);
 

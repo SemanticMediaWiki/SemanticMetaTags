@@ -16,7 +16,7 @@ use SMW\ParserData;
  *
  * @author mwjames
  */
-class FallbackSemanticDataFetcher {
+class SemanticDataFallbackFetcher {
 
 	/**
 	 * @var ParserData

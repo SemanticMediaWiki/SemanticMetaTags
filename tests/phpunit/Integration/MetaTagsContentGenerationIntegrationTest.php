@@ -5,6 +5,7 @@ namespace SMT\Tests\Integration;
 use SMW\Tests\MwDBaseUnitTestCase;
 use SMW\Tests\Utils\UtilityFactory;
 use SMT\HookRegistry;
+use SMT\Options;
 use SMW\DIWikiPage;
 
 /**
@@ -51,7 +52,11 @@ class MetaTagsContentGenerationIntegrationTest extends MwDBaseUnitTestCase {
 			'metaTagsFallbackUseForMultipleProperties' => false
 		);
 
-		$hookRegistry = new HookRegistry( $this->getStore(), $configuration );
+		$hookRegistry = new HookRegistry(
+			$this->getStore(),
+			new Options( $configuration )
+		);
+
 		$hookRegistry->register();
 	}
 

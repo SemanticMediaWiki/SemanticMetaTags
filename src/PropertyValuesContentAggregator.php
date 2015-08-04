@@ -13,12 +13,12 @@ use SMWDIUri as DIUri;
  *
  * @author mwjames
  */
-class PropertyValuesContentFetcher {
+class PropertyValuesContentAggregator {
 
 	/**
-	 * @var FallbackSemanticDataFetcher
+	 * @var SemanticDataFallbackFetcher
 	 */
-	private $fallbackSemanticDataFetcher;
+	private $semanticDataFallbackFetcher;
 
 	/**
 	 * Whether multiple properties should be used through a fallback chain where
@@ -32,10 +32,10 @@ class PropertyValuesContentFetcher {
 	/**
 	 * @since 1.0
 	 *
-	 * @param FallbackSemanticDataFetcher $fallbackSemanticDataFetcher
+	 * @param SemanticDataFallbackFetcher $semanticDataFallbackFetcher
 	 */
-	public function __construct( FallbackSemanticDataFetcher $fallbackSemanticDataFetcher ) {
-		$this->fallbackSemanticDataFetcher = $fallbackSemanticDataFetcher;
+	public function __construct( SemanticDataFallbackFetcher $semanticDataFallbackFetcher ) {
+		$this->semanticDataFallbackFetcher = $semanticDataFallbackFetcher;
 	}
 
 	/**
@@ -54,7 +54,7 @@ class PropertyValuesContentFetcher {
 	 *
 	 * @return string
 	 */
-	public function fetchContentForProperties( array $propertyNames ) {
+	public function doAggregateFor( array $propertyNames ) {
 
 		$values = array();
 
@@ -75,7 +75,7 @@ class PropertyValuesContentFetcher {
 	private function fetchContentForProperty( $property, &$values ) {
 
 		$property = DIProperty::newFromUserLabel( $property );
-		$semanticData = $this->fallbackSemanticDataFetcher->getSemanticData();
+		$semanticData = $this->semanticDataFallbackFetcher->getSemanticData();
 
 		$this->iterateToCollectPropertyValues(
 			$semanticData->getPropertyValues( $property ),

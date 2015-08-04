@@ -23,10 +23,10 @@ class HookRegistry {
 	 * @since 1.0
 	 *
 	 * @param Store $store
-	 * @param array $configuration
+	 * @param Options $options
 	 */
-	public function __construct( Store $store, $configuration ) {
-		$this->addCallbackHandlers( $store, $configuration );
+	public function __construct( Store $store, Options $options ) {
+		$this->addCallbackHandlers( $store, $options );
 	}
 
 	/**
@@ -56,48 +56,56 @@ class HookRegistry {
 	 *
 	 * @return Callable|false
 	 */
-	public function getHandlersFor( $name ) {
+	public function getHandlerFor( $name ) {
 		return isset( $this->handlers[$name] ) ? $this->handlers[$name] : false;
 	}
 
-	private function addCallbackHandlers( $store, $configuration ) {
+	private function addCallbackHandlers( $store, $options ) {
 
 		/**
 		 * @see https://www.mediawiki.org/wiki/Manual:Hooks/OutputPageParserOutput
 		 */
-		$this->handlers['OutputPageParserOutput'] = function ( &$outputPage, $parserOutput ) use( $store, $configuration ) {
+		$this->handlers['OutputPageParserOutput'] = function ( &$outputPage, $parserOutput ) use( $store, $options ) {
 
 			$parserData = ApplicationFactory::getInstance()->newParserData(
 				$outputPage->getTitle(),
 				$parserOutput
 			);
 
-			$fallbackSemanticDataFetcher = new FallbackSemanticDataFetcher(
+			$semanticDataFallbackFetcher = new SemanticDataFallbackFetcher(
 				$parserData,
 				$store
 			);
 
 			$outputPageTagFormatter = new OutputPageTagFormatter( $outputPage );
-			$outputPageTagFormatter->setMetaTagsBlacklist( $configuration['metaTagsBlacklist'] );
-			$outputPageTagFormatter->setViewActionState( \Action::getActionName( $outputPage->getContext() ) );
 
-			$propertyValuesContentFetcher = new PropertyValuesContentFetcher( $fallbackSemanticDataFetcher );
+			$outputPageTagFormatter->setMetaTagsBlacklist(
+				$options->get( 'metaTagsBlacklist' )
+			);
 
-			$propertyValuesContentFetcher->useFallbackChainForMultipleProperties(
-				$configuration['metaTagsFallbackUseForMultipleProperties']
+			$outputPageTagFormatter->setActionName(
+				\Action::getActionName( $outputPage->getContext() )
+			);
+
+			$propertyValuesContentAggregator = new PropertyValuesContentAggregator(
+				$semanticDataFallbackFetcher
+			);
+
+			$propertyValuesContentAggregator->useFallbackChainForMultipleProperties(
+				$options->get( 'metaTagsFallbackUseForMultipleProperties' )
 			);
 
 			$metaTagsModifier = new MetaTagsModifier(
-				$propertyValuesContentFetcher,
+				$propertyValuesContentAggregator,
 				$outputPageTagFormatter
 			);
 
 			$metaTagsModifier->setMetaTagsContentPropertySelector(
-				$configuration['metaTagsContentPropertySelector']
+				$options->get( 'metaTagsContentPropertySelector' )
 			);
 
 			$metaTagsModifier->setMetaTagsStaticContentDescriptor(
-				$configuration['metaTagsStaticContentDescriptor']
+				$options->get( 'metaTagsStaticContentDescriptor' )
 			);
 
 			$metaTagsModifier->addMetaTags();

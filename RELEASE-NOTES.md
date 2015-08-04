@@ -1,5 +1,10 @@
 This file contains the RELEASE-NOTES of the Semantic Meta Tags (a.k.a. SMT) extension.
 
+### 1.2.0 (not yet)
+
+* Minor clean-up
+* Localisation updates from https://translatewiki.net
+
 ### 1.1.0 (2015-06-02)
 
 * Minor clean-up

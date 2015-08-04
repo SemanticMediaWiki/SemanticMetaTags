@@ -2,12 +2,11 @@
 
 namespace SMT\Tests;
 
-use SMT\FallbackSemanticDataFetcher;
+use SMT\SemanticDataFallbackFetcher;
 use SMW\DIWikiPage;
 
 /**
- * @covers \SMT\FallbackSemanticDataFetcher
- *
+ * @covers \SMT\SemanticDataFallbackFetcher
  * @group semantic-meta-tags
  *
  * @license GNU GPL v2+
@@ -15,7 +14,7 @@ use SMW\DIWikiPage;
  *
  * @author mwjames
  */
-class FallbackSemanticDataFetcherTest extends \PHPUnit_Framework_TestCase {
+class SemanticDataFallbackFetcherTest extends \PHPUnit_Framework_TestCase {
 
 	public function testCanConstruct() {
 
@@ -28,8 +27,8 @@ class FallbackSemanticDataFetcherTest extends \PHPUnit_Framework_TestCase {
 			->getMockForAbstractClass();
 
 		$this->assertInstanceOf(
-			'\SMT\FallbackSemanticDataFetcher',
-			new FallbackSemanticDataFetcher( $parserData, $store )
+			'\SMT\SemanticDataFallbackFetcher',
+			new SemanticDataFallbackFetcher( $parserData, $store )
 		);
 	}
 
@@ -58,7 +57,7 @@ class FallbackSemanticDataFetcherTest extends \PHPUnit_Framework_TestCase {
 		$store->expects( $this->never() )
 			->method( 'getSemanticData' );
 
-		$instance = new FallbackSemanticDataFetcher( $parserData, $store );
+		$instance = new SemanticDataFallbackFetcher( $parserData, $store );
 		$instance->getSemanticData();
 
 		// Internally cached
@@ -98,7 +97,7 @@ class FallbackSemanticDataFetcherTest extends \PHPUnit_Framework_TestCase {
 		$store->expects( $this->once() )
 			->method( 'getSemanticData' );
 
-		$instance = new FallbackSemanticDataFetcher( $parserData, $store );
+		$instance = new SemanticDataFallbackFetcher( $parserData, $store );
 		$instance->getSemanticData();
 
 		// Internally cached

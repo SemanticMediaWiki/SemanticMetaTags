@@ -6,7 +6,6 @@ use SMT\OutputPageTagFormatter;
 
 /**
  * @covers \SMT\OutputPageTagFormatter
- *
  * @group semantic-meta-tags
  *
  * @license GNU GPL v2+
@@ -52,7 +51,7 @@ class OutputPageTagFormatterTest extends \PHPUnit_Framework_TestCase {
 		$instance = new OutputPageTagFormatter( $outputPage );
 
 		$this->assertFalse(
-			$instance->canUseOutputPage()
+			$instance->canUseTagFormatter()
 		);
 	}
 
@@ -78,10 +77,10 @@ class OutputPageTagFormatterTest extends \PHPUnit_Framework_TestCase {
 			->will( $this->returnValue( $title ) );
 
 		$instance = new OutputPageTagFormatter( $outputPage );
-		$instance->setViewActionState( 'foo' );
+		$instance->setActionName( 'foo' );
 
 		$this->assertFalse(
-			$instance->canUseOutputPage()
+			$instance->canUseTagFormatter()
 		);
 	}
 

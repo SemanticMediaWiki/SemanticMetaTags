@@ -3,11 +3,11 @@
 namespace SMT\Tests;
 
 use SMT\HookRegistry;
+use SMT\Options;
 use Title;
 
 /**
  * @covers \SMT\HookRegistry
- *
  * @group semantic-meta-tags
  *
  * @license GNU GPL v2+
@@ -23,11 +23,13 @@ class HookRegistryTest extends \PHPUnit_Framework_TestCase {
 			->disableOriginalConstructor()
 			->getMockForAbstractClass();
 
-		$configuration =  array();
+		$options = $this->getMockBuilder( '\SMT\Options' )
+			->disableOriginalConstructor()
+			->getMock();
 
 		$this->assertInstanceOf(
 			'\SMT\HookRegistry',
-			new HookRegistry( $store, $configuration )
+			new HookRegistry( $store, $options )
 		);
 	}
 
@@ -44,17 +46,17 @@ class HookRegistryTest extends \PHPUnit_Framework_TestCase {
 			'metaTagsFallbackUseForMultipleProperties' => false
 		);
 
-		$instance = new HookRegistry( $store, $configuration );
-		$instance->register();
+		$instance = new HookRegistry(
+			$store,
+			new Options( $configuration )
+		);
 
 		$this->doTestRegisteredOutputPageParserOutputHandler( $instance );
 	}
 
 	public function doTestRegisteredOutputPageParserOutputHandler( $instance ) {
 
-		$this->assertTrue(
-			$instance->isRegistered( 'OutputPageParserOutput' )
-		);
+		$handler = 'OutputPageParserOutput';
 
 		$title = Title::newFromText( __METHOD__ );
 
@@ -86,8 +88,12 @@ class HookRegistryTest extends \PHPUnit_Framework_TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
+		$this->assertTrue(
+			$instance->isRegistered( $handler )
+		);
+
 		$this->assertThatHookIsExcutable(
-			$instance->getHandlersFor( 'OutputPageParserOutput' ),
+			$instance->getHandlerFor( $handler ),
 			array( &$outputPage, $parserOutput )
 		);
 	}

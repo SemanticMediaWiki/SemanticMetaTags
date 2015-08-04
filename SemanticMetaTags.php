@@ -1,6 +1,7 @@
 <?php
 
 use SMT\HookRegistry;
+use SMT\Options;
 use SMW\ApplicationFactory;
 
 /**
@@ -66,7 +67,7 @@ call_user_func( function () {
 
 		$hookRegistry = new HookRegistry(
 			ApplicationFactory::getInstance()->getStore(),
-			$configuration
+			new Options( $configuration )
 		);
 
 		$hookRegistry->register();

@@ -11,9 +11,9 @@ namespace SMT;
 class MetaTagsModifier {
 
 	/**
-	 * @var PropertyValuesContentFetcher
+	 * @var PropertyValuesContentAggregator
 	 */
-	private $propertyValuesContentFetcher;
+	private $propertyValuesContentAggregator;
 
 	/**
 	 * @var OutputPageTagFormatter
@@ -33,11 +33,11 @@ class MetaTagsModifier {
 	/**
 	 * @since 1.0
 	 *
-	 * @param PropertyValuesContentFetcher $propertyValuesContentFetcher
+	 * @param PropertyValuesContentAggregator $propertyValuesContentAggregator
 	 * @param OutputPageTagFormatter $outputPageTagFormatter
 	 */
-	public function __construct( PropertyValuesContentFetcher $propertyValuesContentFetcher, OutputPageTagFormatter $outputPageTagFormatter ) {
-		$this->propertyValuesContentFetcher = $propertyValuesContentFetcher;
+	public function __construct( PropertyValuesContentAggregator $propertyValuesContentAggregator, OutputPageTagFormatter $outputPageTagFormatter ) {
+		$this->propertyValuesContentAggregator = $propertyValuesContentAggregator;
 		$this->outputPageTagFormatter = $outputPageTagFormatter;
 	}
 
@@ -64,7 +64,7 @@ class MetaTagsModifier {
 	 */
 	public function addMetaTags() {
 
-		if ( !$this->outputPageTagFormatter->canUseOutputPage() ) {
+		if ( !$this->outputPageTagFormatter->canUseTagFormatter() ) {
 			return;
 		}
 
@@ -105,7 +105,7 @@ class MetaTagsModifier {
 			$properties = explode( ',', $properties );
 		}
 
-		$content = $this->propertyValuesContentFetcher->fetchContentForProperties(
+		$content = $this->propertyValuesContentAggregator->doAggregateFor(
 			$properties
 		);
 
