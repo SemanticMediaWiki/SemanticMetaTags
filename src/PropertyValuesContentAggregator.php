@@ -97,9 +97,9 @@ class PropertyValuesContentAggregator {
 			// Content escaping (htmlspecialchars) is being carried out
 			// by the instance that adds the content
 			if ( $value instanceof DIBlob ) {
-				$values[] = $value->getString();
+				$values[$value->getHash()] = $value->getString();
 			} elseif( $value instanceof DIWikiPage || $value instanceof DIUri ) {
-				$values[] = $value->getSortKey();
+				$values[$value->getHash()] = $value->getSortKey();
 			}
 		}
 	}

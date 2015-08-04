@@ -64,6 +64,43 @@ class PropertyValuesContentAggregatorTest extends \PHPUnit_Framework_TestCase {
 		);
 	}
 
+	public function testAggregatePropertyValueContentWithSameHash() {
+
+		$properties = array( 'foobar' );
+
+		$semanticData = $this->getMockBuilder( '\SMW\SemanticData' )
+			->disableOriginalConstructor()
+			->getMock();
+
+		$semanticData->expects( $this->once() )
+			->method( 'getSubSemanticData' )
+			->will( $this->returnValue( array() ) );
+
+		$semanticData->expects( $this->once() )
+			->method( 'getPropertyValues' )
+			->with( $this->equalTo( DIProperty::newFromUserLabel( 'foobar' ) ) )
+			->will( $this->returnValue( array(
+				DIUri::doUnserialize( 'http://username@example.org/foo' ),
+				DIUri::doUnserialize( 'http://username@example.org/foo' ),
+				new DIWikiPage( 'Foo', NS_MAIN ),
+				new DIWikiPage( 'Foo', NS_MAIN ) ) ) );
+
+		$semanticDataFallbackFetcher = $this->getMockBuilder( '\SMT\SemanticDataFallbackFetcher' )
+			->disableOriginalConstructor()
+			->getMock();
+
+		$semanticDataFallbackFetcher->expects( $this->once() )
+			->method( 'getSemanticData' )
+			->will( $this->returnValue( $semanticData ) );
+
+		$instance = new PropertyValuesContentAggregator( $semanticDataFallbackFetcher );
+
+		$this->assertSame(
+			'http://username@example.org/foo,Foo',
+			$instance->doAggregateFor( $properties )
+		);
+	}
+
 	public function testFindContentForSubobjectProperty() {
 
 		$properties = array( 'bar' );
@@ -105,16 +142,17 @@ class PropertyValuesContentAggregatorTest extends \PHPUnit_Framework_TestCase {
 		);
 	}
 
-	public function testFindContentForMultiplePropertiesToUseFullContentConcatenation() {
+	public function testFindContentForMultiplePropertiesToUseFullContentAggregation() {
 
 		$properties = array( ' foo ', 'bar' );
 
 		$propertyValues = array(
 			0 => array(
-				new DIUri( 'http', 'username@example.org/foo', '', '' ),
+				DIUri::doUnserialize( 'http://username@example.org/foo' ),
 				new DIWikiPage( '"Foo"', NS_MAIN )
 			),
 			2 => array(
+				new DIBlob( 'Mo' ),
 				new DIBlob( 'Mo' ),
 				new DIBlob( 'fo' )
 			)
@@ -152,7 +190,7 @@ class PropertyValuesContentAggregatorTest extends \PHPUnit_Framework_TestCase {
 
 		$propertyValues = array(
 			array(
-				new DIUri( 'http', 'username@example.org/foo', '', '' ),
+				DIUri::doUnserialize( 'http://username@example.org/foo' ),
 				new DIWikiPage( '"Foo"', NS_MAIN )
 			),
 			array(
