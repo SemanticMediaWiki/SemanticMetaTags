@@ -11,7 +11,7 @@ Semantic Meta Tags (a.k.a. SMT) is a [Semantic Mediawiki][smw] extension to enha
 the meta tags of an article with content generated from semantic annotations.
 
 This extension enables to automatically extend the HTML `<meta>` tags of an article
-with content generated from selected properties for:
+with content generated from selected properties to create:
 
 - Standard tags (e.g `meta name="keywords"`) as well as
 - [Summary card][tw] and [Open Graph][opg] protocol tags (e.g `meta property="og:title"`)
@@ -20,7 +20,7 @@ with content generated from selected properties for:
 
 - PHP 5.3.2 or later
 - MediaWiki 1.23 or later
-- [Semantic MediaWiki][smw] 2.1 or later
+- [Semantic MediaWiki][smw] 2.2 or later
 
 ## Installation
 
@@ -29,12 +29,12 @@ The recommended way to install Semantic Meta Tags is by using [Composer][compose
 ```json
 {
 	"require": {
-		"mediawiki/semantic-meta-tags": "~1.1"
+		"mediawiki/semantic-meta-tags": "~1.2"
 	}
 }
 ```
 1. From your MediaWiki installation directory, execute
-   `composer require mediawiki/semantic-meta-tags:~1.1`
+   `composer require mediawiki/semantic-meta-tags:~1.2`
 2. Navigate to _Special:Version_ on your wiki and verify that the package
    have been successfully installed.
 
