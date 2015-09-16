@@ -22,11 +22,11 @@ mv mediawiki-* mw
 
 cd mw
 
-## MW 1.25 requires Psr\Logger
-if [ "$MW" != "1.23.9" ]
+## MW 1.25+ requires Psr\Logger
+if [ -f composer.json ]
 then
   composer self-update
-  composer install
+  composer install --prefer-source
 fi
 
 if [ "$DB" == "postgres" ]
