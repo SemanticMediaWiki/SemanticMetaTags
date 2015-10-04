@@ -8,8 +8,9 @@ if ( !is_readable( $autoloaderClassPath = __DIR__ . '/../../SemanticMediaWiki/te
 	die( 'The SemanticMediaWiki test autoloader is not available' );
 }
 
+print sprintf( "\n%-20s%s\n", "Semantic Meta Tags: ", SMT_VERSION );
+
 $autoloader = require $autoloaderClassPath;
 $autoloader->addPsr4( 'SMT\\Tests\\', __DIR__ . '/phpunit/Unit' );
 $autoloader->addPsr4( 'SMT\\Tests\\Integration\\', __DIR__ . '/phpunit/Integration' );
 
-print( "Semantic MediaWiki: " . SMW_VERSION . " ({$GLOBALS['smwgDefaultStore']}, {$GLOBALS['wgDBtype']})\n\n" );
