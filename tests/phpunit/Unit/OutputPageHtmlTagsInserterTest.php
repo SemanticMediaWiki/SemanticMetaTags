@@ -2,10 +2,10 @@
 
 namespace SMT\Tests;
 
-use SMT\OutputPageTagFormatter;
+use SMT\OutputPageHtmlTagsInserter;
 
 /**
- * @covers \SMT\OutputPageTagFormatter
+ * @covers \SMT\OutputPageHtmlTagsInserter
  * @group semantic-meta-tags
  *
  * @license GNU GPL v2+
@@ -13,7 +13,7 @@ use SMT\OutputPageTagFormatter;
  *
  * @author mwjames
  */
-class OutputPageTagFormatterTest extends \PHPUnit_Framework_TestCase {
+class OutputPageHtmlTagsInserterTest extends \PHPUnit_Framework_TestCase {
 
 	public function testCanConstruct() {
 
@@ -22,8 +22,8 @@ class OutputPageTagFormatterTest extends \PHPUnit_Framework_TestCase {
 			->getMock();
 
 		$this->assertInstanceOf(
-			'\SMT\OutputPageTagFormatter',
-			new OutputPageTagFormatter( $outputPage )
+			'\SMT\OutputPageHtmlTagsInserter',
+			new OutputPageHtmlTagsInserter( $outputPage )
 		);
 	}
 
@@ -48,10 +48,10 @@ class OutputPageTagFormatterTest extends \PHPUnit_Framework_TestCase {
 			->method( 'getTitle' )
 			->will( $this->returnValue( $title ) );
 
-		$instance = new OutputPageTagFormatter( $outputPage );
+		$instance = new OutputPageHtmlTagsInserter( $outputPage );
 
 		$this->assertFalse(
-			$instance->canUseTagFormatter()
+			$instance->canUseOutputPage()
 		);
 	}
 
@@ -76,11 +76,11 @@ class OutputPageTagFormatterTest extends \PHPUnit_Framework_TestCase {
 			->method( 'getTitle' )
 			->will( $this->returnValue( $title ) );
 
-		$instance = new OutputPageTagFormatter( $outputPage );
+		$instance = new OutputPageHtmlTagsInserter( $outputPage );
 		$instance->setActionName( 'foo' );
 
 		$this->assertFalse(
-			$instance->canUseTagFormatter()
+			$instance->canUseOutputPage()
 		);
 	}
 
@@ -93,7 +93,7 @@ class OutputPageTagFormatterTest extends \PHPUnit_Framework_TestCase {
 		$outputPage->expects( $this->never() )
 			->method( 'addMeta' );
 
-		$instance = new OutputPageTagFormatter( $outputPage );
+		$instance = new OutputPageHtmlTagsInserter( $outputPage );
 		$instance->setMetaTagsBlacklist( array( 'foo' ) );
 
 		$instance->addTagContentToOutputPage( 'FOO', 'bar' );
@@ -114,7 +114,7 @@ class OutputPageTagFormatterTest extends \PHPUnit_Framework_TestCase {
 				$this->equalTo( $expected['tag'] ),
 				$this->equalTo( $expected['content'] ) );
 
-		$instance = new OutputPageTagFormatter( $outputPage );
+		$instance = new OutputPageHtmlTagsInserter( $outputPage );
 		$instance->addTagContentToOutputPage( $tag, $content );
 	}
 
@@ -133,7 +133,7 @@ class OutputPageTagFormatterTest extends \PHPUnit_Framework_TestCase {
 				$this->equalTo( $expected['tag'] ),
 				$this->equalTo( $expected['item'] ) );
 
-		$instance = new OutputPageTagFormatter( $outputPage );
+		$instance = new OutputPageHtmlTagsInserter( $outputPage );
 		$instance->addTagContentToOutputPage( $tag, $content );
 	}
 

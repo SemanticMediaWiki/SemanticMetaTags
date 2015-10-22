@@ -16,7 +16,7 @@ use SMW\ParserData;
  *
  * @author mwjames
  */
-class SemanticDataFallbackFetcher {
+class LazySemanticDataLookup {
 
 	/**
 	 * @var ParserData
@@ -67,7 +67,9 @@ class SemanticDataFallbackFetcher {
 			return $semanticData;
 		}
 
-		// 2.3 SMW-core will handle caching using #1035
+		// In 2.3 SMW-core we expect that `$GLOBALS['smwgValueLookupCacheType']`
+		// is enabled by whichCachedValueLookupStore::getSemanticData returns results
+		// from Cache otherwise a DB connection is used
 
 		// Final method is the Store
 		return $this->store->getSemanticData(

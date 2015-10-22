@@ -16,9 +16,9 @@ use SMWDIUri as DIUri;
 class PropertyValuesContentAggregator {
 
 	/**
-	 * @var SemanticDataFallbackFetcher
+	 * @var LazySemanticDataLookup
 	 */
-	private $semanticDataFallbackFetcher;
+	private $lazySemanticDataLookup;
 
 	/**
 	 * Whether multiple properties should be used through a fallback chain where
@@ -32,10 +32,10 @@ class PropertyValuesContentAggregator {
 	/**
 	 * @since 1.0
 	 *
-	 * @param SemanticDataFallbackFetcher $semanticDataFallbackFetcher
+	 * @param LazySemanticDataLookup $lazySemanticDataLookup
 	 */
-	public function __construct( SemanticDataFallbackFetcher $semanticDataFallbackFetcher ) {
-		$this->semanticDataFallbackFetcher = $semanticDataFallbackFetcher;
+	public function __construct( LazySemanticDataLookup $lazySemanticDataLookup ) {
+		$this->lazySemanticDataLookup = $lazySemanticDataLookup;
 	}
 
 	/**
@@ -75,7 +75,7 @@ class PropertyValuesContentAggregator {
 	private function fetchContentForProperty( $property, &$values ) {
 
 		$property = DIProperty::newFromUserLabel( $property );
-		$semanticData = $this->semanticDataFallbackFetcher->getSemanticData();
+		$semanticData = $this->lazySemanticDataLookup->getSemanticData();
 
 		$this->iterateToCollectPropertyValues(
 			$semanticData->getPropertyValues( $property ),

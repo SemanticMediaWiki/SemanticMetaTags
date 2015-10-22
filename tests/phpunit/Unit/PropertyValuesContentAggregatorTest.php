@@ -21,13 +21,13 @@ class PropertyValuesContentAggregatorTest extends \PHPUnit_Framework_TestCase {
 
 	public function testCanConstruct() {
 
-		$semanticDataFallbackFetcher = $this->getMockBuilder( '\SMT\SemanticDataFallbackFetcher' )
+		$lazySemanticDataLookup = $this->getMockBuilder( '\SMT\LazySemanticDataLookup' )
 			->disableOriginalConstructor()
 			->getMock();
 
 		$this->assertInstanceOf(
 			'\SMT\PropertyValuesContentAggregator',
-			new PropertyValuesContentAggregator( $semanticDataFallbackFetcher )
+			new PropertyValuesContentAggregator( $lazySemanticDataLookup )
 		);
 	}
 
@@ -48,15 +48,15 @@ class PropertyValuesContentAggregatorTest extends \PHPUnit_Framework_TestCase {
 			->with( $this->equalTo( DIProperty::newFromUserLabel( 'foobar' ) ) )
 			->will( $this->returnValue( array( new DIWikiPage( 'Foo', NS_MAIN ) ) ) );
 
-		$semanticDataFallbackFetcher = $this->getMockBuilder( '\SMT\SemanticDataFallbackFetcher' )
+		$lazySemanticDataLookup = $this->getMockBuilder( '\SMT\LazySemanticDataLookup' )
 			->disableOriginalConstructor()
 			->getMock();
 
-		$semanticDataFallbackFetcher->expects( $this->once() )
+		$lazySemanticDataLookup->expects( $this->once() )
 			->method( 'getSemanticData' )
 			->will( $this->returnValue( $semanticData ) );
 
-		$instance = new PropertyValuesContentAggregator( $semanticDataFallbackFetcher );
+		$instance = new PropertyValuesContentAggregator( $lazySemanticDataLookup );
 
 		$this->assertSame(
 			'Foo',
@@ -85,15 +85,15 @@ class PropertyValuesContentAggregatorTest extends \PHPUnit_Framework_TestCase {
 				new DIWikiPage( 'Foo', NS_MAIN ),
 				new DIWikiPage( 'Foo', NS_MAIN ) ) ) );
 
-		$semanticDataFallbackFetcher = $this->getMockBuilder( '\SMT\SemanticDataFallbackFetcher' )
+		$lazySemanticDataLookup = $this->getMockBuilder( '\SMT\LazySemanticDataLookup' )
 			->disableOriginalConstructor()
 			->getMock();
 
-		$semanticDataFallbackFetcher->expects( $this->once() )
+		$lazySemanticDataLookup->expects( $this->once() )
 			->method( 'getSemanticData' )
 			->will( $this->returnValue( $semanticData ) );
 
-		$instance = new PropertyValuesContentAggregator( $semanticDataFallbackFetcher );
+		$instance = new PropertyValuesContentAggregator( $lazySemanticDataLookup );
 
 		$this->assertSame(
 			'http://username@example.org/foo,Foo',
@@ -126,15 +126,15 @@ class PropertyValuesContentAggregatorTest extends \PHPUnit_Framework_TestCase {
 			->method( 'getSubSemanticData' )
 			->will( $this->returnValue( array( $subSemanticData ) ) );
 
-		$semanticDataFallbackFetcher = $this->getMockBuilder( '\SMT\SemanticDataFallbackFetcher' )
+		$lazySemanticDataLookup = $this->getMockBuilder( '\SMT\LazySemanticDataLookup' )
 			->disableOriginalConstructor()
 			->getMock();
 
-		$semanticDataFallbackFetcher->expects( $this->once() )
+		$lazySemanticDataLookup->expects( $this->once() )
 			->method( 'getSemanticData' )
 			->will( $this->returnValue( $semanticData ) );
 
-		$instance = new PropertyValuesContentAggregator( $semanticDataFallbackFetcher );
+		$instance = new PropertyValuesContentAggregator( $lazySemanticDataLookup );
 
 		$this->assertSame(
 			'Foo-with-html-"<>"-escaping-to-happen-somewhere-else',
@@ -222,15 +222,15 @@ class PropertyValuesContentAggregatorTest extends \PHPUnit_Framework_TestCase {
 
 	private function doAssertContentForMultipleProperties( $fallbackChainUsageState, $semanticData, $properties, $expected ) {
 
-		$semanticDataFallbackFetcher = $this->getMockBuilder( '\SMT\SemanticDataFallbackFetcher' )
+		$lazySemanticDataLookup = $this->getMockBuilder( '\SMT\LazySemanticDataLookup' )
 			->disableOriginalConstructor()
 			->getMock();
 
-		$semanticDataFallbackFetcher->expects( $this->atLeastOnce() )
+		$lazySemanticDataLookup->expects( $this->atLeastOnce() )
 			->method( 'getSemanticData' )
 			->will( $this->returnValue( $semanticData ) );
 
-		$instance = new PropertyValuesContentAggregator( $semanticDataFallbackFetcher );
+		$instance = new PropertyValuesContentAggregator( $lazySemanticDataLookup );
 		$instance->useFallbackChainForMultipleProperties( $fallbackChainUsageState );
 
 		$this->assertSame(
