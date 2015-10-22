@@ -72,43 +72,44 @@ class HookRegistry {
 				$parserOutput
 			);
 
-			$semanticDataFallbackFetcher = new SemanticDataFallbackFetcher(
+			$lazySemanticDataLookup = new LazySemanticDataLookup(
 				$parserData,
 				$store
 			);
 
-			$outputPageTagFormatter = new OutputPageTagFormatter( $outputPage );
+			$outputPageHtmlTagsInserter = new OutputPageHtmlTagsInserter(
+				$outputPage
+			);
 
-			$outputPageTagFormatter->setMetaTagsBlacklist(
+			$outputPageHtmlTagsInserter->setMetaTagsBlacklist(
 				$options->get( 'metaTagsBlacklist' )
 			);
 
-			$outputPageTagFormatter->setActionName(
+			$outputPageHtmlTagsInserter->setActionName(
 				\Action::getActionName( $outputPage->getContext() )
 			);
 
 			$propertyValuesContentAggregator = new PropertyValuesContentAggregator(
-				$semanticDataFallbackFetcher
+				$lazySemanticDataLookup
 			);
 
 			$propertyValuesContentAggregator->useFallbackChainForMultipleProperties(
 				$options->get( 'metaTagsFallbackUseForMultipleProperties' )
 			);
 
-			$metaTagsModifier = new MetaTagsModifier(
-				$propertyValuesContentAggregator,
-				$outputPageTagFormatter
+			$metaTagsProcessor = new MetaTagsProcessor(
+				$propertyValuesContentAggregator
 			);
 
-			$metaTagsModifier->setMetaTagsContentPropertySelector(
+			$metaTagsProcessor->setMetaTagsContentPropertySelector(
 				$options->get( 'metaTagsContentPropertySelector' )
 			);
 
-			$metaTagsModifier->setMetaTagsStaticContentDescriptor(
+			$metaTagsProcessor->setMetaTagsStaticContentDescriptor(
 				$options->get( 'metaTagsStaticContentDescriptor' )
 			);
 
-			$metaTagsModifier->addMetaTags();
+			$metaTagsProcessor->addMetaTags( $outputPageHtmlTagsInserter );
 
 			return true;
 		};

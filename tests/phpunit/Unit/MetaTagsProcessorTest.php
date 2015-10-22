@@ -2,11 +2,11 @@
 
 namespace SMT\Tests;
 
-use SMT\MetaTagsModifier;
-use SMT\OutputPageTagFormatter;
+use SMT\MetaTagsProcessor;
+use SMT\OutputPageHtmlTagsInserter;
 
 /**
- * @covers \SMT\MetaTagsModifier
+ * @covers \SMT\MetaTagsProcessor
  * @group semantic-meta-tags
  *
  * @license GNU GPL v2+
@@ -14,7 +14,7 @@ use SMT\OutputPageTagFormatter;
  *
  * @author mwjames
  */
-class MetaTagsModifierTest extends \PHPUnit_Framework_TestCase {
+class MetaTagsProcessorTest extends \PHPUnit_Framework_TestCase {
 
 	public function testCanConstruct() {
 
@@ -22,13 +22,9 @@ class MetaTagsModifierTest extends \PHPUnit_Framework_TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$outputPageTagFormatter = $this->getMockBuilder( '\SMT\OutputPageTagFormatter' )
-			->disableOriginalConstructor()
-			->getMock();
-
 		$this->assertInstanceOf(
-			'\SMT\MetaTagsModifier',
-			new MetaTagsModifier( $propertyValuesContentAggregator, $outputPageTagFormatter )
+			'\SMT\MetaTagsProcessor',
+			new MetaTagsProcessor( $propertyValuesContentAggregator )
 		);
 	}
 
@@ -41,21 +37,20 @@ class MetaTagsModifierTest extends \PHPUnit_Framework_TestCase {
 		$propertyValuesContentAggregator->expects( $this->never() )
 			->method( 'doAggregateFor' );
 
-		$outputPageTagFormatter = $this->getMockBuilder( '\SMT\OutputPageTagFormatter' )
+		$OutputPageHtmlTagsInserter = $this->getMockBuilder( '\SMT\OutputPageHtmlTagsInserter' )
 			->disableOriginalConstructor()
 			->getMock();
 
-		$outputPageTagFormatter->expects( $this->once() )
-			->method( 'canUseTagFormatter' )
+		$OutputPageHtmlTagsInserter->expects( $this->once() )
+			->method( 'canUseOutputPage' )
 			->will( $this->returnValue( false ) );
 
-		$instance = new MetaTagsModifier(
-			$propertyValuesContentAggregator,
-			$outputPageTagFormatter
+		$instance = new MetaTagsProcessor(
+			$propertyValuesContentAggregator
 		);
 
 		$instance->setMetaTagsContentPropertySelector( array( 'foo' ) );
-		$instance->addMetaTags();
+		$instance->addMetaTags( $OutputPageHtmlTagsInserter );
 	}
 
 	/**
@@ -80,22 +75,21 @@ class MetaTagsModifierTest extends \PHPUnit_Framework_TestCase {
 		$outputPage->expects( $this->never() )
 			->method( 'addHeadItem' );
 
-		$outputPageTagFormatter = $this->getMockBuilder( '\SMT\OutputPageTagFormatter' )
+		$OutputPageHtmlTagsInserter = $this->getMockBuilder( '\SMT\OutputPageHtmlTagsInserter' )
 			->setConstructorArgs( array( $outputPage ) )
-			->setMethods( array( 'canUseTagFormatter' ) )
+			->setMethods( array( 'canUseOutputPage' ) )
 			->getMock();
 
-		$outputPageTagFormatter->expects( $this->once() )
-			->method( 'canUseTagFormatter' )
+		$OutputPageHtmlTagsInserter->expects( $this->once() )
+			->method( 'canUseOutputPage' )
 			->will( $this->returnValue( true ) );
 
-		$instance = new MetaTagsModifier(
-			$propertyValuesContentAggregator,
-			$outputPageTagFormatter
+		$instance = new MetaTagsProcessor(
+			$propertyValuesContentAggregator
 		);
 
 		$instance->setMetaTagsContentPropertySelector( $propertySelector );
-		$instance->addMetaTags();
+		$instance->addMetaTags( $OutputPageHtmlTagsInserter );
 	}
 
 	/**
@@ -122,22 +116,21 @@ class MetaTagsModifierTest extends \PHPUnit_Framework_TestCase {
 				$this->equalTo( $expected['tag'] ),
 				$this->equalTo( $expected['content'] ) );
 
-		$outputPageTagFormatter = $this->getMockBuilder( '\SMT\OutputPageTagFormatter' )
+		$OutputPageHtmlTagsInserter = $this->getMockBuilder( '\SMT\OutputPageHtmlTagsInserter' )
 			->setConstructorArgs( array( $outputPage ) )
-			->setMethods( array( 'canUseTagFormatter' ) )
+			->setMethods( array( 'canUseOutputPage' ) )
 			->getMock();
 
-		$outputPageTagFormatter->expects( $this->once() )
-			->method( 'canUseTagFormatter' )
+		$OutputPageHtmlTagsInserter->expects( $this->once() )
+			->method( 'canUseOutputPage' )
 			->will( $this->returnValue( true ) );
 
-		$instance = new MetaTagsModifier(
-			$propertyValuesContentAggregator,
-			$outputPageTagFormatter
+		$instance = new MetaTagsProcessor(
+			$propertyValuesContentAggregator
 		);
 
 		$instance->setMetaTagsContentPropertySelector( $propertySelector );
-		$instance->addMetaTags();
+		$instance->addMetaTags( $OutputPageHtmlTagsInserter );
 	}
 
 	public function testTryToModifyOutputPageForEmptyStaticContent() {
@@ -146,25 +139,24 @@ class MetaTagsModifierTest extends \PHPUnit_Framework_TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$outputPageTagFormatter = $this->getMockBuilder( '\SMT\OutputPageTagFormatter' )
+		$OutputPageHtmlTagsInserter = $this->getMockBuilder( '\SMT\OutputPageHtmlTagsInserter' )
 			->disableOriginalConstructor()
-			->setMethods( array( 'canUseTagFormatter' ) )
+			->setMethods( array( 'canUseOutputPage' ) )
 			->getMock();
 
-		$outputPageTagFormatter->expects( $this->once() )
-			->method( 'canUseTagFormatter' )
+		$OutputPageHtmlTagsInserter->expects( $this->once() )
+			->method( 'canUseOutputPage' )
 			->will( $this->returnValue( true ) );
 
-		$outputPageTagFormatter->expects( $this->never() )
+		$OutputPageHtmlTagsInserter->expects( $this->never() )
 			->method( 'addTagContentToOutputPage' );
 
-		$instance = new MetaTagsModifier(
-			$propertyValuesContentAggregator,
-			$outputPageTagFormatter
+		$instance = new MetaTagsProcessor(
+			$propertyValuesContentAggregator
 		);
 
 		$instance->setMetaTagsStaticContentDescriptor( array( 'foo' => '' ) );
-		$instance->addMetaTags();
+		$instance->addMetaTags( $OutputPageHtmlTagsInserter );
 	}
 
 	/**
@@ -186,22 +178,21 @@ class MetaTagsModifierTest extends \PHPUnit_Framework_TestCase {
 				$this->equalTo( $expected['tag'] ),
 				$this->equalTo( $expected['content'] ) );
 
-		$outputPageTagFormatter = $this->getMockBuilder( '\SMT\OutputPageTagFormatter' )
+		$OutputPageHtmlTagsInserter = $this->getMockBuilder( '\SMT\OutputPageHtmlTagsInserter' )
 			->setConstructorArgs( array( $outputPage ) )
-			->setMethods( array( 'canUseTagFormatter' ) )
+			->setMethods( array( 'canUseOutputPage' ) )
 			->getMock();
 
-		$outputPageTagFormatter->expects( $this->once() )
-			->method( 'canUseTagFormatter' )
+		$OutputPageHtmlTagsInserter->expects( $this->once() )
+			->method( 'canUseOutputPage' )
 			->will( $this->returnValue( true ) );
 
-		$instance = new MetaTagsModifier(
-			$propertyValuesContentAggregator,
-			$outputPageTagFormatter
+		$instance = new MetaTagsProcessor(
+			$propertyValuesContentAggregator
 		);
 
 		$instance->setMetaTagsStaticContentDescriptor( $contentDescriptor );
-		$instance->addMetaTags();
+		$instance->addMetaTags( $OutputPageHtmlTagsInserter );
 	}
 
 	public function invalidPropertySelectorProvider() {

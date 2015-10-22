@@ -3,7 +3,7 @@ This file contains the RELEASE-NOTES of the Semantic Meta Tags (a.k.a. SMT) exte
 ### 1.2.0 (2015-08-??)
 
 * Minor clean-up
-* Changed value aggregation in order for DI values to appear only once
+* Changed value aggregation so that DI values for the same property only appear once
 * Localization updates from https://translatewiki.net
 * Requires Semantic MediaWiki ~2.2
 

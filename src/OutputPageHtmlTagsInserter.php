@@ -10,7 +10,7 @@ use OutputPage;
  *
  * @author mwjames
  */
-class OutputPageTagFormatter {
+class OutputPageHtmlTagsInserter {
 
 	/**
 	 * @var OutputPage
@@ -64,7 +64,7 @@ class OutputPageTagFormatter {
 	 *
 	 * @return boolean
 	 */
-	public function canUseTagFormatter() {
+	public function canUseOutputPage() {
 
 		if ( $this->outputPage->getTitle() === null || $this->outputPage->getTitle()->isSpecialPage() || $this->actionName !== 'view' ) {
 			return false;
