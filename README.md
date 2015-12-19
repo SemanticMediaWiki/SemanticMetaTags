@@ -20,7 +20,7 @@ with content generated from selected properties to create:
 
 - PHP 5.3.2 or later
 - MediaWiki 1.23 or later
-- [Semantic MediaWiki][smw] 2.2 or later
+- [Semantic MediaWiki][smw] 2.1 or later
 
 ## Installation
 

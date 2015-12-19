@@ -1,11 +1,10 @@
 This file contains the RELEASE-NOTES of the Semantic Meta Tags (a.k.a. SMT) extension.
 
-### 1.2.0 (2015-08-??)
+### 1.2.0 (2015-12-19)
 
 * Minor clean-up
 * Changed value aggregation so that DI values for the same property only appear once
 * Localization updates from https://translatewiki.net
-* Requires Semantic MediaWiki ~2.2
 
 ### 1.1.0 (2015-06-02)
 
