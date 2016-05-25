@@ -17,7 +17,7 @@ matrix:
   exclude:
     - env: THENEEDFORTHIS=FAIL
   allow_failures:
-     - env: DB=sqlite; MW=master; PHPUNIT=4.7.*
+     - env: DB=sqlite; MW=master; PHPUNIT=4.8.*
 
 install:
   - bash ./tests/travis/install-mediawiki.sh
