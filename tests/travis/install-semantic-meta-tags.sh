@@ -12,17 +12,17 @@ function installToMediaWikiRoot {
 
 	if [ "$PHPUNIT" != "" ]
 	then
-		composer require 'phpunit/phpunit='$PHPUNIT --prefer-source --update-with-dependencies
+		composer require 'phpunit/phpunit='$PHPUNIT  --update-with-dependencies
 	else
-		composer require 'phpunit/phpunit=3.7.*' --prefer-source --update-with-dependencies
+		composer require 'phpunit/phpunit=3.7.*' --update-with-dependencies
 	fi
 
 	if [ "$SMT" != "" ]
 	then
-		composer require 'mediawiki/semantic-meta-tags='$SMT --prefer-source --update-with-dependencies
+		composer require 'mediawiki/semantic-meta-tags='$SMT --update-with-dependencies
 	else
 		composer init --stability dev
-		composer require mediawiki/semantic-meta-tags "dev-master" --prefer-source --dev --update-with-dependencies
+		composer require mediawiki/semantic-meta-tags "dev-master" --dev --update-with-dependencies
 
 		cd extensions
 		cd SemanticMetaTags
