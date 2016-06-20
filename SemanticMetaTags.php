@@ -22,41 +22,43 @@ if ( defined( 'SMT_VERSION' ) ) {
 	return 1;
 }
 
-define( 'SMT_VERSION', '1.2.0' );
+SemanticMetaTags::initExtension();
+
+$GLOBALS['wgExtensionFunctions'][] = function() {
+	SemanticMetaTags::onExtensionFunction();
+};
 
 /**
  * @codeCoverageIgnore
  */
-call_user_func( function () {
+class SemanticMetaTags {
 
-	// Register extension info
-	$GLOBALS['wgExtensionCredits']['semantic'][] = array(
-		'path'           => __FILE__,
-		'name'           => 'Semantic Meta Tags',
-		'author'         => array( 'James Hong Kong' ),
-		'url'            => 'https://github.com/SemanticMediaWiki/SemanticMetaTags/',
-		'descriptionmsg' => 'smt-desc',
-		'version'        => SMT_VERSION,
-		'license-name'   => 'GPL-2.0+',
-	);
+	/**
+	 * @since 1.0
+	 */
+	public static function initExtension() {
 
-	// Register message files
-	$GLOBALS['wgMessagesDirs']['semantic-meta-tags'] = __DIR__ . '/i18n';
+		define( 'SMT_VERSION', '1.2.0' );
 
-	// Default settings
-	$GLOBALS['smtgTagsProperties'] = array();
-	$GLOBALS['smtgTagsStrings'] = array();
+		// Register extension info
+		$GLOBALS['wgExtensionCredits']['semantic'][] = array(
+			'path'           => __FILE__,
+			'name'           => 'Semantic Meta Tags',
+			'author'         => array( 'James Hong Kong' ),
+			'url'            => 'https://github.com/SemanticMediaWiki/SemanticMetaTags/',
+			'descriptionmsg' => 'smt-desc',
+			'version'        => SMT_VERSION,
+			'license-name'   => 'GPL-2.0+',
+		);
 
-	// Tags generally assumed to be reserved or excluded for free use
-	$GLOBALS['smtgTagsBlacklist'] = array(
-		'generator',
-		'robots'
-	);
+		// Register message files
+		$GLOBALS['wgMessagesDirs']['SemanticMetaTags'] = __DIR__ . '/i18n';
+	}
 
-	$GLOBALS['smtgTagsPropertyFallbackUsage'] = false;
-
-	// Finalize extension setup
-	$GLOBALS['wgExtensionFunctions'][] = function() {
+	/**
+	 * @since 1.0
+	 */
+	public static function onExtensionFunction() {
 
 		$configuration = array(
 			'metaTagsContentPropertySelector' => $GLOBALS['smtgTagsProperties'],
@@ -71,6 +73,15 @@ call_user_func( function () {
 		);
 
 		$hookRegistry->register();
-	};
+	}
 
-} );
+	/**
+	 * @since 1.0
+	 *
+	 * @return string|null
+	 */
+	public static function getVersion() {
+		return SMT_VERSION;
+	}
+
+}
