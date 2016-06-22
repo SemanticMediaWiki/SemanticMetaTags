@@ -13,7 +13,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 }
 
 /**
- * An array of tags to assign related properties such as
+ * An array of tags that assigns related properties such as:
  *
  * 'keywords' => array( 'Has keywords', ... )
  */

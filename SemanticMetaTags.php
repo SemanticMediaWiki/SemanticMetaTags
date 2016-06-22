@@ -38,7 +38,10 @@ class SemanticMetaTags {
 	 */
 	public static function initExtension() {
 
-		define( 'SMT_VERSION', '1.2.0' );
+		// Load DefaultSettings
+		require_once __DIR__ . '/DefaultSettings.php';
+
+		define( 'SMT_VERSION', '1.3.0-alpha' );
 
 		// Register extension info
 		$GLOBALS['wgExtensionCredits']['semantic'][] = array(
