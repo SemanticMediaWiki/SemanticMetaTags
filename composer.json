@@ -41,6 +41,7 @@
 	},
 	"autoload": {
 		"files" : [
+			"DefaultSettings.php",
 			"SemanticMetaTags.php"
 		],
 		"psr-4": {
