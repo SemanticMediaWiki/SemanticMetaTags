@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"Protnet"
+		]
+	},
+	"smt-desc": "Επιτρέπει την χρήση μετα-ετικετών παραγόμενων από [https://semantic-mediawiki.org σημασιολογικές σημειογραφίες]"
+}
