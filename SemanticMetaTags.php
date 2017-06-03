@@ -41,7 +41,7 @@ class SemanticMetaTags {
 		// Load DefaultSettings
 		require_once __DIR__ . '/DefaultSettings.php';
 
-		define( 'SMT_VERSION', '1.3.0' );
+		define( 'SMT_VERSION', '1.4.0-alpha' );
 
 		// Register extension info
 		$GLOBALS['wgExtensionCredits']['semantic'][] = array(
@@ -67,7 +67,8 @@ class SemanticMetaTags {
 			'metaTagsContentPropertySelector' => $GLOBALS['smtgTagsProperties'],
 			'metaTagsStaticContentDescriptor' => $GLOBALS['smtgTagsStrings'],
 			'metaTagsBlacklist' => $GLOBALS['smtgTagsBlacklist'],
-			'metaTagsFallbackUseForMultipleProperties' => $GLOBALS['smtgTagsPropertyFallbackUsage']
+			'metaTagsFallbackUseForMultipleProperties' => $GLOBALS['smtgTagsPropertyFallbackUsage'],
+			'metaTagsMetaPropertyPrefixes' => $GLOBALS['smtgMetaPropertyPrefixes']
 		);
 
 		$hookRegistry = new HookRegistry(

@@ -43,7 +43,8 @@ class HookRegistryTest extends \PHPUnit_Framework_TestCase {
 			'metaTagsContentPropertySelector' => array(),
 			'metaTagsStaticContentDescriptor' => array(),
 			'metaTagsBlacklist' => array(),
-			'metaTagsFallbackUseForMultipleProperties' => false
+			'metaTagsFallbackUseForMultipleProperties' => false,
+			'metaTagsMetaPropertyPrefixes' => array()
 		);
 
 		$instance = new HookRegistry(
