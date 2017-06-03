@@ -85,6 +85,10 @@ class HookRegistry {
 				$options->get( 'metaTagsBlacklist' )
 			);
 
+			$outputPageHtmlTagsInserter->setMetaPropertyPrefixes(
+				$options->get( 'metaTagsMetaPropertyPrefixes' )
+			);
+
 			$outputPageHtmlTagsInserter->setActionName(
 				\Action::getActionName( $outputPage->getContext() )
 			);

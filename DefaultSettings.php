@@ -39,3 +39,8 @@ $GLOBALS['smtgTagsBlacklist'] = array(
  * for an assigned tag will be used  exclusively.
  */
 $GLOBALS['smtgTagsPropertyFallbackUsage'] = false;
+
+/**
+ * Identifies prefixes that require `meta:property:...`
+ */
+$GLOBALS['smtgMetaPropertyPrefixes'] = array( 'og:' );

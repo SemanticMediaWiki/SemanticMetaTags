@@ -23,9 +23,14 @@ class OutputPageHtmlTagsInserter {
 	private $metaTagsBlacklist = array();
 
 	/**
+	 * @var array
+	 */
+	private $metaPropertyPrefixes = array();
+
+	/**
 	 * @var boolean
 	 */
-	private $usedOpenGraphProtocolMarkup = false;
+	private $metaPropertyMarkup = false;
 
 	/**
 	 * @var string
@@ -48,6 +53,15 @@ class OutputPageHtmlTagsInserter {
 	 */
 	public function setMetaTagsBlacklist( array $metaTagsBlacklist ) {
 		$this->metaTagsBlacklist = array_flip( $metaTagsBlacklist );
+	}
+
+	/**
+	 * @since 1.4
+	 *
+	 * @param array $metaPropertyPrefixes
+	 */
+	public function setMetaPropertyPrefixes( array $metaPropertyPrefixes ) {
+		$this->metaPropertyPrefixes = $metaPropertyPrefixes;
 	}
 
 	/**
@@ -88,36 +102,42 @@ class OutputPageHtmlTagsInserter {
 			return;
 		}
 
-		// If a tag contains a `og:` such as `og:title` it is expected to be a
-		// OpenGraph protocol tag
-		if ( strpos( $tag, 'og:' ) !== false ) {
-
-			$content = $this->formatContentToIncludeOpenGraphProtocolMarkup(
-				$tag,
-				$content
-			);
-
-			$this->outputPage->addHeadItem( "meta:property:$tag", $content );
-
-			return;
+		if ( $this->reqMetaPropertyMarkup( $tag ) ) {
+			return $this->addMetaPropertyMarkup( $tag, $content );
 		}
 
 		$this->outputPage->addMeta( $tag, $content );
 	}
 
-	private function formatContentToIncludeOpenGraphProtocolMarkup( $tag, $content ) {
+	private function addMetaPropertyMarkup( $tag, $content ) {
 
 		$comment = '';
 
-		if ( !$this->usedOpenGraphProtocolMarkup ) {
-			$comment .= '<!-- Open Graph protocol markup -->' . "\n";
-			$this->usedOpenGraphProtocolMarkup = true;
+		if ( !$this->metaPropertyMarkup ) {
+			$comment .= '<!-- Semantic MetaTags -->' . "\n";
+			$this->metaPropertyMarkup = true;
 		}
 
-		return $comment . \Html::element( 'meta', array(
+		$content = $comment . \Html::element( 'meta', array(
 			'property' => $tag,
 			'content'  => $content
 		) );
+
+		$this->outputPage->addHeadItem( "meta:property:$tag", $content );
+	}
+
+	private function reqMetaPropertyMarkup( $tag ) {
+
+		// If a tag contains a `og:` such as `og:title` it is expected to be a
+		// OpenGraph protocol tag along with other prefixes maintained in
+		// $GLOBALS['smtgMetaPropertyPrefixes']
+		foreach ( $this->metaPropertyPrefixes as $prefix ) {
+			if ( strpos( $tag, $prefix ) !== false ) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 }

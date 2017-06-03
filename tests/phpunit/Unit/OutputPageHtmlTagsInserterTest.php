@@ -119,9 +119,9 @@ class OutputPageHtmlTagsInserterTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @dataProvider ogTagProvider
+	 * @dataProvider propertyTagProvider
 	 */
-	public function testAddTagForOgContent( $tag, $content, $expected ) {
+	public function testAddTagOnMetaPropertyPrefixContent( $prefixes, $tag, $content, $expected ) {
 
 		$outputPage = $this->getMockBuilder( '\OutputPage' )
 			->disableOriginalConstructor()
@@ -131,9 +131,14 @@ class OutputPageHtmlTagsInserterTest extends \PHPUnit_Framework_TestCase {
 			->method( 'addHeadItem' )
 			->with(
 				$this->equalTo( $expected['tag'] ),
-				$this->equalTo( $expected['item'] ) );
+				$this->stringContains( $expected['item'] ) );
 
 		$instance = new OutputPageHtmlTagsInserter( $outputPage );
+
+		$instance->setMetaPropertyPrefixes(
+			$prefixes
+		);
+
 		$instance->addTagContentToOutputPage( $tag, $content );
 	}
 
@@ -174,16 +179,19 @@ class OutputPageHtmlTagsInserterTest extends \PHPUnit_Framework_TestCase {
 		return $provider;
 	}
 
-	public function ogTagProvider() {
+	public function propertyTagProvider() {
 
 		$provider = array();
 
 		$provider[] = array(
+			array(
+				'og:'
+			),
 			'og:bar',
 			'foobar',
 			array(
 				'tag' => 'meta:property:og:bar',
-				'item' => '<!-- Open Graph protocol markup -->' . "\n" . '<meta property="og:bar" content="foobar" />'
+				'item' => '<!-- Semantic MetaTags -->' . "\n" . '<meta property="og:bar" content="foobar"'
 			)
 		);
 
