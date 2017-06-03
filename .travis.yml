@@ -1,8 +1,5 @@
 language: php
 
-env:
-  - THENEEDFORTHIS=FAIL
-
 matrix:
   fast_finish: true
   include:
@@ -12,8 +9,6 @@ matrix:
       php: 5.5
     - env: DB=sqlite; MW=master; PHPUNIT=4.8.*
       php: 7.1
-  exclude:
-    - env: THENEEDFORTHIS=FAIL
   allow_failures:
      - env: DB=sqlite; MW=master; PHPUNIT=4.8.*
 
