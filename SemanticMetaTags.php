@@ -55,7 +55,7 @@ class SemanticMetaTags {
 	 */
 	public static function initExtension() {
 
-		define( 'SMT_VERSION', '1.4.0-alpha' );
+		define( 'SMT_VERSION', '1.4.0' );
 
 		// Register extension info
 		$GLOBALS['wgExtensionCredits']['semantic'][] = array(
