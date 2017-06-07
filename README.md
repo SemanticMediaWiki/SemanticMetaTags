@@ -29,12 +29,12 @@ The recommended way to install Semantic Meta Tags is by using [Composer][compose
 ```json
 {
 	"require": {
-		"mediawiki/semantic-meta-tags": "~1.3"
+		"mediawiki/semantic-meta-tags": "~1.4"
 	}
 }
 ```
 1. From your MediaWiki installation directory, execute
-   `composer require mediawiki/semantic-meta-tags:~1.3`
+   `composer require mediawiki/semantic-meta-tags:~1.4`
 2. Navigate to _Special:Version_ on your wiki and verify that the package
    have been successfully installed.
 
@@ -49,7 +49,7 @@ have a look at the contribution guideline.
 
 * [File an issue](https://github.com/SemanticMediaWiki/SemanticMetaTags/issues)
 * [Submit a pull request](https://github.com/SemanticMediaWiki/SemanticMetaTags/pulls)
-* Ask a question on [the mailing list](https://semantic-mediawiki.org/wiki/Mailing_list)
+* Ask a question on [the mailing list](https://www.semantic-mediawiki.org/wiki/Mailing_list)
 * Ask a question on the #semantic-mediawiki IRC channel on Freenode.
 
 ## Tests
