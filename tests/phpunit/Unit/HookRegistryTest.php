@@ -39,13 +39,13 @@ class HookRegistryTest extends \PHPUnit_Framework_TestCase {
 			->disableOriginalConstructor()
 			->getMockForAbstractClass();
 
-		$configuration = array(
-			'metaTagsContentPropertySelector' => array(),
-			'metaTagsStaticContentDescriptor' => array(),
-			'metaTagsBlacklist' => array(),
+		$configuration = [
+			'metaTagsContentPropertySelector' => [],
+			'metaTagsStaticContentDescriptor' => [],
+			'metaTagsBlacklist' => [],
 			'metaTagsFallbackUseForMultipleProperties' => false,
-			'metaTagsMetaPropertyPrefixes' => array()
-		);
+			'metaTagsMetaPropertyPrefixes' => []
+		];
 
 		$instance = new HookRegistry(
 			$store,
@@ -95,7 +95,7 @@ class HookRegistryTest extends \PHPUnit_Framework_TestCase {
 
 		$this->assertThatHookIsExcutable(
 			$instance->getHandlerFor( $handler ),
-			array( &$outputPage, $parserOutput )
+			[ &$outputPage, $parserOutput ]
 		);
 	}
 

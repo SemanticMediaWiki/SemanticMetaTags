@@ -49,7 +49,7 @@ class MetaTagsProcessorTest extends \PHPUnit_Framework_TestCase {
 			$propertyValuesContentAggregator
 		);
 
-		$instance->setMetaTagsContentPropertySelector( array( 'foo' ) );
+		$instance->setMetaTagsContentPropertySelector( [ 'foo' ] );
 		$instance->addMetaTags( $OutputPageHtmlTagsInserter );
 	}
 
@@ -76,8 +76,8 @@ class MetaTagsProcessorTest extends \PHPUnit_Framework_TestCase {
 			->method( 'addHeadItem' );
 
 		$OutputPageHtmlTagsInserter = $this->getMockBuilder( '\SMT\OutputPageHtmlTagsInserter' )
-			->setConstructorArgs( array( $outputPage ) )
-			->setMethods( array( 'canUseOutputPage' ) )
+			->setConstructorArgs( [ $outputPage ] )
+			->setMethods( [ 'canUseOutputPage' ] )
 			->getMock();
 
 		$OutputPageHtmlTagsInserter->expects( $this->once() )
@@ -117,8 +117,8 @@ class MetaTagsProcessorTest extends \PHPUnit_Framework_TestCase {
 				$this->equalTo( $expected['content'] ) );
 
 		$OutputPageHtmlTagsInserter = $this->getMockBuilder( '\SMT\OutputPageHtmlTagsInserter' )
-			->setConstructorArgs( array( $outputPage ) )
-			->setMethods( array( 'canUseOutputPage' ) )
+			->setConstructorArgs( [ $outputPage ] )
+			->setMethods( [ 'canUseOutputPage' ] )
 			->getMock();
 
 		$OutputPageHtmlTagsInserter->expects( $this->once() )
@@ -141,7 +141,7 @@ class MetaTagsProcessorTest extends \PHPUnit_Framework_TestCase {
 
 		$OutputPageHtmlTagsInserter = $this->getMockBuilder( '\SMT\OutputPageHtmlTagsInserter' )
 			->disableOriginalConstructor()
-			->setMethods( array( 'canUseOutputPage' ) )
+			->setMethods( [ 'canUseOutputPage' ] )
 			->getMock();
 
 		$OutputPageHtmlTagsInserter->expects( $this->once() )
@@ -155,7 +155,7 @@ class MetaTagsProcessorTest extends \PHPUnit_Framework_TestCase {
 			$propertyValuesContentAggregator
 		);
 
-		$instance->setMetaTagsStaticContentDescriptor( array( 'foo' => '' ) );
+		$instance->setMetaTagsStaticContentDescriptor( [ 'foo' => '' ] );
 		$instance->addMetaTags( $OutputPageHtmlTagsInserter );
 	}
 
@@ -179,8 +179,8 @@ class MetaTagsProcessorTest extends \PHPUnit_Framework_TestCase {
 				$this->equalTo( $expected['content'] ) );
 
 		$OutputPageHtmlTagsInserter = $this->getMockBuilder( '\SMT\OutputPageHtmlTagsInserter' )
-			->setConstructorArgs( array( $outputPage ) )
-			->setMethods( array( 'canUseOutputPage' ) )
+			->setConstructorArgs( [ $outputPage ] )
+			->setMethods( [ 'canUseOutputPage' ] )
 			->getMock();
 
 		$OutputPageHtmlTagsInserter->expects( $this->once() )
@@ -197,84 +197,84 @@ class MetaTagsProcessorTest extends \PHPUnit_Framework_TestCase {
 
 	public function invalidPropertySelectorProvider() {
 
-		$provider = array();
+		$provider = [];
 
-		$provider[] = array(
-			array()
-		);
+		$provider[] = [
+			[]
+		];
 
-		$provider[] = array(
-			array( 'foo' => '' )
-		);
+		$provider[] = [
+			[ 'foo' => '' ]
+		];
 
-		$provider[] = array(
-			array( 'foo' => array() )
-		);
+		$provider[] = [
+			[ 'foo' => [] ]
+		];
 
-		$provider[] = array(
-			array( 'foo:bar' => '' )
-		);
+		$provider[] = [
+			[ 'foo:bar' => '' ]
+		];
 
 		return $provider;
 	}
 
 	public function validPropertySelectorProvider() {
 
-		$provider = array();
+		$provider = [];
 
-		$provider[] = array(
-			array( 'foo' => 'foobar' ),
-			array( 'foobar' ),
-			array( 'tag' => 'foo', 'content' => 'Mo,fo' )
-		);
+		$provider[] = [
+			[ 'foo' => 'foobar' ],
+			[ 'foobar' ],
+			[ 'tag' => 'foo', 'content' => 'Mo,fo' ]
+		];
 
-		$provider[] = array(
-			array( 'foo' => array( 'foobar', 'quin' ) ),
-			array( 'foobar', 'quin' ),
-			array( 'tag' => 'foo', 'content' => 'Mo,fo' )
-		);
+		$provider[] = [
+			[ 'foo' => [ 'foobar', 'quin' ] ],
+			[ 'foobar', 'quin' ],
+			[ 'tag' => 'foo', 'content' => 'Mo,fo' ]
+		];
 
-		$provider[] = array(
-			array( 'foo' => ' foobar, quin ' ),
-			array( ' foobar', ' quin ' ),
-			array( 'tag' => 'foo', 'content' => 'Mo,fo' )
-		);
+		$provider[] = [
+			[ 'foo' => ' foobar, quin ' ],
+			[ ' foobar', ' quin ' ],
+			[ 'tag' => 'foo', 'content' => 'Mo,fo' ]
+		];
 
-		$provider[] = array(
-			array( 'FOO' => 'foobar,quin' ),
-			array( 'foobar', 'quin' ),
-			array( 'tag' => 'foo', 'content' => 'Mo,fo' )
-		);
+		$provider[] = [
+			[ 'FOO' => 'foobar,quin' ],
+			[ 'foobar', 'quin' ],
+			[ 'tag' => 'foo', 'content' => 'Mo,fo' ]
+		];
 
-		$provider[] = array(
-			array( 'FO"O' => 'foobar,quin' ),
-			array( 'foobar', 'quin' ),
-			array( 'tag' => 'fo&quot;o', 'content' => 'Mo,fo' )
-		);
+		$provider[] = [
+			[ 'FO"O' => 'foobar,quin' ],
+			[ 'foobar', 'quin' ],
+			[ 'tag' => 'fo&quot;o', 'content' => 'Mo,fo' ]
+		];
 
 		return $provider;
 	}
 
 	public function staticContentProvider() {
 
-		$provider = array();
+		$provider = [];
 
-		$provider[] = array(
-			array( 'foo' => 'staticDescriptionOfContent' ),
-			array( 'tag' => 'foo', 'content' => 'staticDescriptionOfContent' )
-		);
+		$provider[] = [
+			[ 'foo' => 'staticDescriptionOfContent' ],
+			[ 'tag' => 'foo', 'content' => 'staticDescriptionOfContent' ]
+		];
 
-		$provider[] = array(
-			array( 'FOO' => 'static"Description"OfContent' ),
-			array( 'tag' => 'foo', 'content' => 'static&quot;Description&quot;OfContent' )
-		);
+		$provider[] = [
+			[ 'FOO' => 'static"Description"OfContent' ],
+			[ 'tag' => 'foo', 'content' => 'static&quot;Description&quot;OfContent' ]
+		];
 
-		$provider[] = array(
-			array( 'bar' => '', 'FOO' => 'bar' ),
-			array(
+		$provider[] = [
+			[ 'bar' => '', 'FOO' => 'bar' ],
+			[
 				'tag' => 'foo', 'content' => 'bar'
-			)
-		);
+			]
+		];
 
 		return $provider;
 	}

@@ -17,22 +17,22 @@ if ( !defined( 'MEDIAWIKI' ) ) {
  *
  * 'keywords' => array( 'Has keywords', ... )
  */
-$GLOBALS['smtgTagsProperties'] = array();
+$GLOBALS['smtgTagsProperties'] = [];
 
 /**
  * Describes static content for an assigned `<meta>` tag
  *
  * 'some:tag' => 'Content that is static'
  */
-$GLOBALS['smtgTagsStrings'] = array();
+$GLOBALS['smtgTagsStrings'] = [];
 
 /**
  * Listed tags are generally assumed to be reserved or excluded for free use
  */
-$GLOBALS['smtgTagsBlacklist'] = array(
+$GLOBALS['smtgTagsBlacklist'] = [
 	'generator',
 	'robots'
-);
+];
 
 /**
  * In case it is set `true` then the first property that returns a valid content
@@ -43,4 +43,4 @@ $GLOBALS['smtgTagsPropertyFallbackUsage'] = false;
 /**
  * Identifies prefixes that require `meta:property:...`
  */
-$GLOBALS['smtgMetaPropertyPrefixes'] = array( 'og:' );
+$GLOBALS['smtgMetaPropertyPrefixes'] = [ 'og:' ];

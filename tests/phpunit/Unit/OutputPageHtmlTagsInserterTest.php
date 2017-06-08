@@ -94,7 +94,7 @@ class OutputPageHtmlTagsInserterTest extends \PHPUnit_Framework_TestCase {
 			->method( 'addMeta' );
 
 		$instance = new OutputPageHtmlTagsInserter( $outputPage );
-		$instance->setMetaTagsBlacklist( array( 'foo' ) );
+		$instance->setMetaTagsBlacklist( [ 'foo' ] );
 
 		$instance->addTagContentToOutputPage( 'FOO', 'bar' );
 	}
@@ -144,56 +144,56 @@ class OutputPageHtmlTagsInserterTest extends \PHPUnit_Framework_TestCase {
 
 	public function nonOgTagProvider() {
 
-		$provider = array();
+		$provider = [];
 
-		$provider[] = array(
+		$provider[] = [
 			'foo',
 			'foobar',
-			array( 'tag' => 'foo', 'content' => 'foobar' )
-		);
+			[ 'tag' => 'foo', 'content' => 'foobar' ]
+		];
 
-		$provider[] = array(
+		$provider[] = [
 			'FOO',
 			'"foobar"',
-			array( 'tag' => 'foo', 'content' => '&quot;foobar&quot;' )
-		);
+			[ 'tag' => 'foo', 'content' => '&quot;foobar&quot;' ]
+		];
 
-		$provider[] = array(
+		$provider[] = [
 			' foo ',
 			' foobar ',
-			array( 'tag' => 'foo', 'content' => ' foobar ' )
-		);
+			[ 'tag' => 'foo', 'content' => ' foobar ' ]
+		];
 
-		$provider[] = array(
+		$provider[] = [
 			'FO"O',
 			'foobar',
-			array( 'tag' => 'fo&quot;o', 'content' => 'foobar' )
-		);
+			[ 'tag' => 'fo&quot;o', 'content' => 'foobar' ]
+		];
 
-		$provider[] = array(
+		$provider[] = [
 			'twitter:card',
 			'FOO',
-			array( 'tag' => 'twitter:card', 'content' => 'FOO' )
-		);
+			[ 'tag' => 'twitter:card', 'content' => 'FOO' ]
+		];
 
 		return $provider;
 	}
 
 	public function propertyTagProvider() {
 
-		$provider = array();
+		$provider = [];
 
-		$provider[] = array(
-			array(
+		$provider[] = [
+			[
 				'og:'
-			),
+			],
 			'og:bar',
 			'foobar',
-			array(
+			[
 				'tag' => 'meta:property:og:bar',
 				'item' => '<!-- Semantic MetaTags -->' . "\n" . '<meta property="og:bar" content="foobar"'
-			)
-		);
+			]
+		];
 
 		return $provider;
 	}

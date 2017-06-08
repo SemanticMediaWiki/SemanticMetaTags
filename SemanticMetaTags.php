@@ -58,15 +58,15 @@ class SemanticMetaTags {
 		define( 'SMT_VERSION', '1.5.0-alpha' );
 
 		// Register extension info
-		$GLOBALS['wgExtensionCredits']['semantic'][] = array(
+		$GLOBALS['wgExtensionCredits']['semantic'][] = [
 			'path'           => __FILE__,
 			'name'           => 'Semantic Meta Tags',
-			'author'         => array( 'James Hong Kong' ),
+			'author'         => [ 'James Hong Kong' ],
 			'url'            => 'https://github.com/SemanticMediaWiki/SemanticMetaTags/',
 			'descriptionmsg' => 'smt-desc',
 			'version'        => SMT_VERSION,
 			'license-name'   => 'GPL-2.0+',
-		);
+		];
 
 		// Register message files
 		$GLOBALS['wgMessagesDirs']['SemanticMetaTags'] = __DIR__ . '/i18n';
@@ -90,13 +90,13 @@ class SemanticMetaTags {
 		// Check requirements after LocalSetting.php has been processed
 		self::doCheckRequirements();
 
-		$configuration = array(
+		$configuration = [
 			'metaTagsContentPropertySelector' => $GLOBALS['smtgTagsProperties'],
 			'metaTagsStaticContentDescriptor' => $GLOBALS['smtgTagsStrings'],
 			'metaTagsBlacklist' => $GLOBALS['smtgTagsBlacklist'],
 			'metaTagsFallbackUseForMultipleProperties' => $GLOBALS['smtgTagsPropertyFallbackUsage'],
 			'metaTagsMetaPropertyPrefixes' => $GLOBALS['smtgMetaPropertyPrefixes']
-		);
+		];
 
 		$hookRegistry = new HookRegistry(
 			ApplicationFactory::getInstance()->getStore(),

@@ -21,7 +21,7 @@ class MetaTagsContentGenerationIntegrationTest extends MwDBaseUnitTestCase {
 
 	private $pageCreator;
 	private $pageDeleter;
-	private $subjects = array();
+	private $subjects = [];
 
 	protected function setUp() {
 		parent::setUp();
@@ -29,29 +29,29 @@ class MetaTagsContentGenerationIntegrationTest extends MwDBaseUnitTestCase {
 		$this->pageCreator = UtilityFactory::getInstance()->newpageCreator();
 		$this->pageDeleter = UtilityFactory::getInstance()->newPageDeleter();
 
-		$metaTagsBlacklist = array(
+		$metaTagsBlacklist = [
 			'robots'
-		);
+		];
 
-		$metaTagsContentPropertySelector = array(
-			'KEYwoRDS' => array( 'SMT keywords', 'SMT other keywords' ),
+		$metaTagsContentPropertySelector = [
+			'KEYwoRDS' => [ 'SMT keywords', 'SMT other keywords' ],
 			'robots' => 'SMT keywords, SMT other keywords',
 			'description' => '',
 			'twitter:description' => 'SMT description',
 			'og:title' => 'SMT title'
-		);
+		];
 
-		$metaTagsStaticContentDescriptor = array(
+		$metaTagsStaticContentDescriptor = [
 			'static:TAG' => 'withStatic<Content>'
-		);
+		];
 
-		$configuration = array(
+		$configuration = [
 			'metaTagsContentPropertySelector' => $metaTagsContentPropertySelector,
 			'metaTagsStaticContentDescriptor' => $metaTagsStaticContentDescriptor,
 			'metaTagsBlacklist' => $metaTagsBlacklist,
 			'metaTagsFallbackUseForMultipleProperties' => false,
-			'metaTagsMetaPropertyPrefixes' => array( 'og:' )
-		);
+			'metaTagsMetaPropertyPrefixes' => [ 'og:' ]
+		];
 
 		$hookRegistry = new HookRegistry(
 			$this->getStore(),
@@ -92,11 +92,11 @@ class MetaTagsContentGenerationIntegrationTest extends MwDBaseUnitTestCase {
 
 		$outputPage->addParserOutputMetadata( $parserOutput );
 
-		$expected = array(
-			array( 'keywords', 'KeywordMetaTag,AnotherKeywordMetaTag' ),
-			array( 'twitter:description', 'Example description' ),
-			array( 'static:tag', 'withStatic&lt;Content&gt;' )
-		);
+		$expected = [
+			[ 'keywords', 'KeywordMetaTag,AnotherKeywordMetaTag' ],
+			[ 'twitter:description', 'Example description' ],
+			[ 'static:tag', 'withStatic&lt;Content&gt;' ]
+		];
 
 		$this->assertEquals(
 			$expected,

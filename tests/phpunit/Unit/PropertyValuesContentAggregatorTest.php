@@ -33,7 +33,7 @@ class PropertyValuesContentAggregatorTest extends \PHPUnit_Framework_TestCase {
 
 	public function testFindContentForProperty() {
 
-		$properties = array( 'foobar' );
+		$properties = [ 'foobar' ];
 
 		$semanticData = $this->getMockBuilder( '\SMW\SemanticData' )
 			->disableOriginalConstructor()
@@ -41,12 +41,12 @@ class PropertyValuesContentAggregatorTest extends \PHPUnit_Framework_TestCase {
 
 		$semanticData->expects( $this->once() )
 			->method( 'getSubSemanticData' )
-			->will( $this->returnValue( array() ) );
+			->will( $this->returnValue( [] ) );
 
 		$semanticData->expects( $this->once() )
 			->method( 'getPropertyValues' )
 			->with( $this->equalTo( DIProperty::newFromUserLabel( 'foobar' ) ) )
-			->will( $this->returnValue( array( new DIWikiPage( 'Foo', NS_MAIN ) ) ) );
+			->will( $this->returnValue( [ new DIWikiPage( 'Foo', NS_MAIN ) ] ) );
 
 		$lazySemanticDataLookup = $this->getMockBuilder( '\SMT\LazySemanticDataLookup' )
 			->disableOriginalConstructor()
@@ -66,7 +66,7 @@ class PropertyValuesContentAggregatorTest extends \PHPUnit_Framework_TestCase {
 
 	public function testAggregatePropertyValueContentWithSameHash() {
 
-		$properties = array( 'foobar' );
+		$properties = [ 'foobar' ];
 
 		$semanticData = $this->getMockBuilder( '\SMW\SemanticData' )
 			->disableOriginalConstructor()
@@ -74,16 +74,16 @@ class PropertyValuesContentAggregatorTest extends \PHPUnit_Framework_TestCase {
 
 		$semanticData->expects( $this->once() )
 			->method( 'getSubSemanticData' )
-			->will( $this->returnValue( array() ) );
+			->will( $this->returnValue( [] ) );
 
 		$semanticData->expects( $this->once() )
 			->method( 'getPropertyValues' )
 			->with( $this->equalTo( DIProperty::newFromUserLabel( 'foobar' ) ) )
-			->will( $this->returnValue( array(
+			->will( $this->returnValue( [
 				DIUri::doUnserialize( 'http://username@example.org/foo' ),
 				DIUri::doUnserialize( 'http://username@example.org/foo' ),
 				new DIWikiPage( 'Foo', NS_MAIN ),
-				new DIWikiPage( 'Foo', NS_MAIN ) ) ) );
+				new DIWikiPage( 'Foo', NS_MAIN ) ] ) );
 
 		$lazySemanticDataLookup = $this->getMockBuilder( '\SMT\LazySemanticDataLookup' )
 			->disableOriginalConstructor()
@@ -103,7 +103,7 @@ class PropertyValuesContentAggregatorTest extends \PHPUnit_Framework_TestCase {
 
 	public function testFindContentForSubobjectProperty() {
 
-		$properties = array( 'bar' );
+		$properties = [ 'bar' ];
 
 		$subSemanticData = $this->getMockBuilder( '\SMW\SemanticData' )
 			->disableOriginalConstructor()
@@ -112,7 +112,7 @@ class PropertyValuesContentAggregatorTest extends \PHPUnit_Framework_TestCase {
 		$subSemanticData->expects( $this->once() )
 			->method( 'getPropertyValues' )
 			->with( $this->equalTo( DIProperty::newFromUserLabel( 'bar' ) ) )
-			->will( $this->returnValue( array( new DIBlob( 'Foo-with-html-"<>"-escaping-to-happen-somewhere-else' ) ) ) );
+			->will( $this->returnValue( [ new DIBlob( 'Foo-with-html-"<>"-escaping-to-happen-somewhere-else' ) ] ) );
 
 		$semanticData = $this->getMockBuilder( '\SMW\SemanticData' )
 			->disableOriginalConstructor()
@@ -120,11 +120,11 @@ class PropertyValuesContentAggregatorTest extends \PHPUnit_Framework_TestCase {
 
 		$semanticData->expects( $this->once() )
 			->method( 'getPropertyValues' )
-			->will( $this->returnValue( array() ) );
+			->will( $this->returnValue( [] ) );
 
 		$semanticData->expects( $this->once() )
 			->method( 'getSubSemanticData' )
-			->will( $this->returnValue( array( $subSemanticData ) ) );
+			->will( $this->returnValue( [ $subSemanticData ] ) );
 
 		$lazySemanticDataLookup = $this->getMockBuilder( '\SMT\LazySemanticDataLookup' )
 			->disableOriginalConstructor()
@@ -144,19 +144,19 @@ class PropertyValuesContentAggregatorTest extends \PHPUnit_Framework_TestCase {
 
 	public function testFindContentForMultiplePropertiesToUseFullContentAggregation() {
 
-		$properties = array( ' foo ', 'bar' );
+		$properties = [ ' foo ', 'bar' ];
 
-		$propertyValues = array(
-			0 => array(
+		$propertyValues = [
+			0 => [
 				DIUri::doUnserialize( 'http://username@example.org/foo' ),
 				new DIWikiPage( '"Foo"', NS_MAIN )
-			),
-			2 => array(
+			],
+			2 => [
 				new DIBlob( 'Mo' ),
 				new DIBlob( 'Mo' ),
 				new DIBlob( 'fo' )
-			)
-		);
+			]
+		];
 
 		$semanticData = $this->getMockBuilder( '\SMW\SemanticData' )
 			->disableOriginalConstructor()
@@ -174,7 +174,7 @@ class PropertyValuesContentAggregatorTest extends \PHPUnit_Framework_TestCase {
 
 		$semanticData->expects( $this->any() )
 			->method( 'getSubSemanticData' )
-			->will( $this->returnValue( array() ) );
+			->will( $this->returnValue( [] ) );
 
 		$this->doAssertContentForMultipleProperties(
 			false,
@@ -186,18 +186,18 @@ class PropertyValuesContentAggregatorTest extends \PHPUnit_Framework_TestCase {
 
 	public function testFindContentForMultiplePropertiesToUseFallbackChain() {
 
-		$properties = array( ' foo ', 'bar' );
+		$properties = [ ' foo ', 'bar' ];
 
-		$propertyValues = array(
-			array(
+		$propertyValues = [
+			[
 				DIUri::doUnserialize( 'http://username@example.org/foo' ),
 				new DIWikiPage( '"Foo"', NS_MAIN )
-			),
-			array(
+			],
+			[
 				new DIBlob( 'Mo' ),
 				new DIBlob( 'fo' )
-			)
-		);
+			]
+		];
 
 		$semanticData = $this->getMockBuilder( '\SMW\SemanticData' )
 			->disableOriginalConstructor()
@@ -210,7 +210,7 @@ class PropertyValuesContentAggregatorTest extends \PHPUnit_Framework_TestCase {
 
 		$semanticData->expects( $this->any() )
 			->method( 'getSubSemanticData' )
-			->will( $this->returnValue( array() ) );
+			->will( $this->returnValue( [] ) );
 
 		$this->doAssertContentForMultipleProperties(
 			true,
