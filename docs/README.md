@@ -32,7 +32,7 @@ and annotated using the `meta property=""` description.
 ### Example settings
 
 ```php
-$GLOBALS['smtgTagsProperties'] = array(
+$GLOBALS['smtgTagsProperties'] = [
 
 	// Standard meta tags
 	'keywords' => array( 'Has keywords', 'Has another keyword' ),
@@ -44,18 +44,18 @@ $GLOBALS['smtgTagsProperties'] = array(
 
 	// Open Graph protocol supported tag
 	'og:title' => 'Has title'
-);
+];
 
-$GLOBALS['smtgTagsStrings'] = array(
+$GLOBALS['smtgTagsStrings'] = [
 
 	// Static content tag
 	'some:tag' => 'Content that is static'
-);
+];
 
-$GLOBALS['smtgMetaPropertyPrefixes'] = array( 
+$GLOBALS['smtgMetaPropertyPrefixes'] = [ 
 
 	// Open Graph prefixes
 	'og:',
 	'fb:'
-);
+];
 ```
