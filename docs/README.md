@@ -21,8 +21,13 @@ and annotated using the `meta property=""` description.
 - `$GLOBALS['smtgTagsPropertyFallbackUsage']` in case it is set `true` then the
   first property that returns a valid content for an assigned tag will be used
   exclusively.
-- `$GLOBALS['smtgTagsStrings']` can be used to describe static content for an assigned `<meta>` tag
-- Tags specified in `$GLOBALS['smtgTagsBlacklist']` are generally disabled for free assignments
+- `$GLOBALS['smtgTagsStrings']` can be used to describe static content for an 
+  assigned `<meta>` tag.
+- Tags specified in `$GLOBALS['smtgTagsBlacklist']` are generally disabled for
+  free assignments.
+- `$GLOBALS['smtgMetaPropertyPrefixes']` to set which prefixes to meta elements
+  should result in rendering as properties rather than names. For example, all
+  Open Graph (Facebook) meta tags should render as properties.
 
 ### Example settings
 
@@ -45,5 +50,12 @@ $GLOBALS['smtgTagsStrings'] = array(
 
 	// Static content tag
 	'some:tag' => 'Content that is static'
+);
+
+$GLOBALS['smtgMetaPropertyPrefixes'] = array( 
+
+	// Open Graph prefixes
+	'og:',
+	'fb:'
 );
 ```
