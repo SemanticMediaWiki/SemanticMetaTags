@@ -20,12 +20,12 @@ class OutputPageHtmlTagsInserter {
 	/**
 	 * @var array
 	 */
-	private $metaTagsBlacklist = array();
+	private $metaTagsBlacklist = [];
 
 	/**
 	 * @var array
 	 */
-	private $metaPropertyPrefixes = array();
+	private $metaPropertyPrefixes = [];
 
 	/**
 	 * @var boolean
@@ -118,10 +118,10 @@ class OutputPageHtmlTagsInserter {
 			$this->metaPropertyMarkup = true;
 		}
 
-		$content = $comment . \Html::element( 'meta', array(
+		$content = $comment . \Html::element( 'meta', [
 			'property' => $tag,
 			'content'  => $content
-		) );
+		] );
 
 		$this->outputPage->addHeadItem( "meta:property:$tag", $content );
 	}

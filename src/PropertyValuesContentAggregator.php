@@ -56,13 +56,13 @@ class PropertyValuesContentAggregator {
 	 */
 	public function doAggregateFor( array $propertyNames ) {
 
-		$values = array();
+		$values = [];
 
 		foreach ( $propertyNames as $property ) {
 
 			// If content is already present and the fallback mode is enabled
 			// stop requesting additional content
-			if ( $this->useFallbackChainForMultipleProperties && $values !== array() ) {
+			if ( $this->useFallbackChainForMultipleProperties && $values !== [] ) {
 				break;
 			}
 

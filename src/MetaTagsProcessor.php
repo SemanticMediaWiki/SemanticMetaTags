@@ -23,12 +23,12 @@ class MetaTagsProcessor {
 	/**
 	 * @var array
 	 */
-	private $metaTagsContentPropertySelector = array();
+	private $metaTagsContentPropertySelector = [];
 
 	/**
 	 * @var array
 	 */
-	private $metaTagsStaticContentDescriptor = array();
+	private $metaTagsStaticContentDescriptor = [];
 
 	/**
 	 * @since 1.0
@@ -78,7 +78,7 @@ class MetaTagsProcessor {
 
 		foreach ( $this->metaTagsContentPropertySelector as $tag => $properties ) {
 
-			if ( $properties === '' || $properties === array() ) {
+			if ( $properties === '' || $properties === [] ) {
 				continue;
 			}
 
