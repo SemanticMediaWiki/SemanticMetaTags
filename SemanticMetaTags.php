@@ -65,7 +65,7 @@ class SemanticMetaTags {
 			'url'            => 'https://github.com/SemanticMediaWiki/SemanticMetaTags/',
 			'descriptionmsg' => 'smt-desc',
 			'version'        => SMT_VERSION,
-			'license-name'   => 'GPL-2.0+',
+			'license-name'   => 'GPL-2.0-or-later',
 		];
 
 		// Register message files
