@@ -10,7 +10,7 @@ use SMW\ApplicationFactory;
  * @defgroup SMT Semantic Meta Tags
  */
 if ( !defined( 'MEDIAWIKI' ) ) {
-	die( 'This file is part of the SemanticMetaTags extension, it is not a valid entry point.' );
+	die( 'This file is part of the Semantic Meta Tags extension, it is not a valid entry point.' );
 }
 
 if ( defined( 'SMT_VERSION' ) ) {
@@ -55,7 +55,7 @@ class SemanticMetaTags {
 	 */
 	public static function initExtension() {
 
-		define( 'SMT_VERSION', '1.5.0-alpha' );
+		define( 'SMT_VERSION', '1.5.0' );
 
 		// Register extension info
 		$GLOBALS['wgExtensionCredits']['semantic'][] = [
