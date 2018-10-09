@@ -35,7 +35,9 @@ and annotated using the `meta property=""` description.
 $GLOBALS['smtgTagsProperties'] = [
 
 	// Standard meta tags
-	'keywords' => array( 'Has keywords', 'Has another keyword' ),
+	'keywords' => [
+		'Has keywords', 'Has another keyword'
+	],
 	'description' => 'Has some description',
 	'author' => 'Has last editor',
 

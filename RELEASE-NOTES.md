@@ -1,12 +1,23 @@
 This file contains the RELEASE-NOTES of the Semantic Meta Tags (a.k.a. SMT) extension.
 
+### 1.5.0
+
+Released on October 9, 2018.
+
+* Minimum requirement for
+  * PHP changed to version 5.6 and later
+  * Semantic MediaWiki changed to version 2.5 and later
+* Minor clean-up
+* Localization updates from https://translatewiki.net
+
 ### 1.4.0
 
 Released on June 7, 2017.
 
-* Requires PHP 5.5 or later
-* Requires MediaWiki 1.27 or later
-* Requires Semantic MediaWiki 2.4 or later
+* Minimum requirement for
+  * PHP changed to version 5.5 and later
+  * MediaWiki changed to version 1.27 and later
+  * Semantic MediaWiki changed to version 2.4 and later
 * `$smtgMetaPropertyPrefixes` to set which prefixes to meta elements should result in rendering as properties rather than names
 * Localization updates from https://translatewiki.net
 
@@ -21,7 +32,7 @@ Released on July 9, 2016.
 
 Released on December 19, 2015.
 
-* Requires Semantic MediaWiki 2.2 or later
+* Minimum requirement for Semantic MediaWiki changed to version 2.2 and later
 * Minor clean-up
 * Changed value aggregation so that DI values for the same property only appear once
 * Localization updates from https://translatewiki.net
