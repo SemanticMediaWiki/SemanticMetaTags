@@ -1,8 +1,9 @@
 {
 	"@metadata": {
 		"authors": [
-			"Vitorvicentevalente"
+			"Vitorvicentevalente",
+			"Hamilton Abreu"
 		]
 	},
-	"smt-desc": "Permite fornecer etiquetas meta geradas a partir de  [https://semantic-mediawiki.org anotações semânticas]"
+	"smt-desc": "Permite fornecer metaetiquetas geradas a partir de  [https://semantic-mediawiki.org anotações semânticas]"
 }
