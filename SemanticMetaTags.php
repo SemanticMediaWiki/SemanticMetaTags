@@ -9,14 +9,6 @@ use SMW\ApplicationFactory;
  *
  * @defgroup SMT Semantic Meta Tags
  */
-if ( !defined( 'MEDIAWIKI' ) ) {
-	die( 'This file is part of the Semantic Meta Tags extension, it is not a valid entry point.' );
-}
-
-if ( defined( 'SMT_VERSION' ) ) {
-	// Do not initialize more than once.
-	return 1;
-}
 
 SemanticMetaTags::load();
 
@@ -41,32 +33,12 @@ class SemanticMetaTags {
 			include_once __DIR__ . '/vendor/autoload.php';
 		}
 
-		// In case extension.json is being used, the succeeding steps will
-		// be handled by the ExtensionRegistry
-		self::initExtension();
-
-		$GLOBALS['wgExtensionFunctions'][] = function() {
-			self::onExtensionFunction();
-		};
 	}
 
 	/**
 	 * @since 1.0
 	 */
 	public static function initExtension() {
-
-		define( 'SMT_VERSION', '2.0.0-alpha' );
-
-		// Register extension info
-		$GLOBALS['wgExtensionCredits']['semantic'][] = [
-			'path'           => __FILE__,
-			'name'           => 'Semantic Meta Tags',
-			'author'         => [ 'James Hong Kong' ],
-			'url'            => 'https://github.com/SemanticMediaWiki/SemanticMetaTags/',
-			'descriptionmsg' => 'smt-desc',
-			'version'        => SMT_VERSION,
-			'license-name'   => 'GPL-2.0-or-later',
-		];
 
 		// Register message files
 		$GLOBALS['wgMessagesDirs']['SemanticMetaTags'] = __DIR__ . '/i18n';
@@ -87,8 +59,18 @@ class SemanticMetaTags {
 	 */
 	public static function onExtensionFunction() {
 
-		// Check requirements after LocalSetting.php has been processed
-		self::doCheckRequirements();
+		if ( !defined( 'SMW_VERSION' ) ) {
+
+			if ( PHP_SAPI === 'cli' || PHP_SAPI === 'phpdbg' ) {
+				die( "\nThe 'Semantic Meta Tags' extension requires 'Semantic MediaWiki' to be installed and enabled.\n" );
+			} else {
+				die(
+					'<b>Error:</b> The <a href="https://www.semantic-mediawiki.org/wiki/Extension:Semantic Meta Tags">Semantic Meta Tags</a> ' .
+					'extension requires <a href="https://www.semantic-mediawiki.org/wiki/Semantic_MediaWiki">Semantic MediaWiki</a> to be ' .
+					'installed and enabled.<br>'
+				);
+			}
+		}
 
 		$configuration = [
 			'metaTagsContentPropertySelector' => $GLOBALS['smtgTagsProperties'],
@@ -103,7 +85,6 @@ class SemanticMetaTags {
 			new Options( $configuration )
 		);
 
-		$hookRegistry->register();
 	}
 
 	/**
