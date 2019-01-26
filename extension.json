@@ -1,0 +1,26 @@
+{
+	"name": "SemanticMetaTags",
+	"version": "2.0.0-alpha",
+	"author": [
+		"James Hong Kong"
+	],
+	"url": "https://www.semantic-mediawiki.org/wiki/Extension:Semantic_Meta_Tags",
+	"descriptionmsg": "smt-desc",
+	"namemsg": "smt-name",
+	"license-name": "GPL-2.0-or-later",
+	"type": "semantic",
+	"requires": {
+		"MediaWiki": ">= 1.27"
+	},
+	"MessagesDirs": {
+		"SemanticMetaTags": [
+			"i18n"
+		]
+	},
+	"callback": "SemanticMetaTags::initExtension",
+	"ExtensionFunctions": [
+		"SemanticMetaTags::onExtensionFunction"
+	],
+	"load_composer_autoloader": true,
+	"manifest_version": 1
+}
