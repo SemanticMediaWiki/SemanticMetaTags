@@ -38,7 +38,7 @@ class SemanticMetaTags {
 	/**
 	 * @since 1.0
 	 */
-	public static function initExtension() {
+	public static function initExtension( $credits = [] ) {
 
 		// See https://phabricator.wikimedia.org/T151136
 		define( 'SMT_VERSION', isset( $credits['version'] ) ? $credits['version'] : 'UNKNOWN' );
@@ -60,7 +60,7 @@ class SemanticMetaTags {
 	/**
 	 * @since 1.0
 	 */
-	public static function initExtension( $credits = [] ) {
+	public static function onExtensionFunction() {
 
 		if ( !defined( 'SMW_VERSION' ) ) {
 
