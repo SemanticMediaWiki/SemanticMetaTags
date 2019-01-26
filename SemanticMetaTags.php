@@ -60,7 +60,7 @@ class SemanticMetaTags {
 	/**
 	 * @since 1.0
 	 */
-	public static function onExtensionFunction() {
+	public static function initExtension( $credits = [] ) {
 
 		if ( !defined( 'SMW_VERSION' ) ) {
 
@@ -87,6 +87,8 @@ class SemanticMetaTags {
 			ApplicationFactory::getInstance()->getStore(),
 			new Options( $configuration )
 		);
+		
+		$hookRegistry->register();
 
 	}
 
