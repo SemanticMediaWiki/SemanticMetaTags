@@ -40,6 +40,9 @@ class SemanticMetaTags {
 	 */
 	public static function initExtension() {
 
+		// See https://phabricator.wikimedia.org/T151136
+		define( 'SMT_VERSION', isset( $credits['version'] ) ? $credits['version'] : 'UNKNOWN' );
+
 		// Register message files
 		$GLOBALS['wgMessagesDirs']['SemanticMetaTags'] = __DIR__ . '/i18n';
 	}
