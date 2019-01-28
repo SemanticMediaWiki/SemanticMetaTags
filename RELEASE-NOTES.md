@@ -1,4 +1,13 @@
-This file contains the RELEASE-NOTES of the Semantic Meta Tags (a.k.a. SMT) extension.
+This file contains the RELEASE-NOTES of the **Semantic Meta Tags** (a.k.a. SMT) extension.
+
+### Semantic Compound Queries 2.0.0
+
+Released on January 29, 2019.
+
+* Minimum requirement for Semantic MediaWiki changed to version 3.0 and later
+* #39 Adds support for extension registration via "extension.json"  
+  → Now you have to use `wfLoadExtension( 'SemanticMetaTags' );` in the "LocalSettings.php" file to invoke the extension
+* Localization updates from https://translatewiki.net
 
 ### 1.5.0
 
