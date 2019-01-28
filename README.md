@@ -19,7 +19,7 @@ with content generated from selected properties to create:
 
 - PHP 5.6 or later
 - MediaWiki 1.27 or later
-- [Semantic MediaWiki][smw] 2.5 or later
+- [Semantic MediaWiki][smw] 3.0 or later
 
 ## Installation
 
@@ -44,7 +44,7 @@ If you do not have a "composer.local.json" file yet, create one and add the foll
 ```
 {
 	"require": {
-		"mediawiki/semantic-meta-tags": "~1.5"
+		"mediawiki/semantic-meta-tags": "~2.0"
 	}
 }
 ```
@@ -52,7 +52,7 @@ If you do not have a "composer.local.json" file yet, create one and add the foll
 If you already have a "composer.local.json" file add the following line to the end of the "require"
 section in your file:
 
-    "mediawiki/semantic-meta-tags": "~1.5"
+    "mediawiki/semantic-meta-tags": "~2.0"
 
 Remember to add a comma to the end of the preceding line in this section.
 
@@ -64,6 +64,12 @@ Run the following command in your shell:
 
 Note if you have Git installed on your system add the `--prefer-source` flag to the above command. Also
 note that it may be necessary to run this command twice. If unsure do it twice right away.
+
+### Step 4
+
+dd the following line to the end of your "LocalSettings.php" file:
+
+    wfLoadExtension( 'SemanticMetaTags' );
 
 ### Verify installation success
 
