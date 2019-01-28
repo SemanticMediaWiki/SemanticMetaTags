@@ -68,7 +68,7 @@ class SemanticMetaTags {
 				die( "\nThe 'Semantic Meta Tags' extension requires 'Semantic MediaWiki' to be installed and enabled.\n" );
 			} else {
 				die(
-					'<b>Error:</b> The <a href="https://www.semantic-mediawiki.org/wiki/Extension:Semantic Meta Tags">Semantic Meta Tags</a> ' .
+					'<b>Error:</b> The <a href="https://www.semantic-mediawiki.org/wiki/Extension:Semantic_Meta_Tags">Semantic Meta Tags</a> ' .
 					'extension requires <a href="https://www.semantic-mediawiki.org/wiki/Semantic_MediaWiki">Semantic MediaWiki</a> to be ' .
 					'installed and enabled.<br>'
 				);
