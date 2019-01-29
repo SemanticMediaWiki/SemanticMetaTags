@@ -1,6 +1,6 @@
 This file contains the RELEASE-NOTES of the **Semantic Meta Tags** (a.k.a. SMT) extension.
 
-### Semantic Compound Queries 2.0.0
+### 2.0.0
 
 Released on January 29, 2019.
 
