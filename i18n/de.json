@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"kghbln"
+			"kghbln",
+			"Metalhead64"
 		]
 	},
 	"smt-desc": "Ermöglicht das auf semantische Attribute gestützte Festlegen von Meta-Elementen"

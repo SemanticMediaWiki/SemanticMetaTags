@@ -1,8 +1,9 @@
 {
 	"@metadata": {
 		"authors": [
-			"Okras"
+			"Okras",
+			"Vlad5250"
 		]
 	},
-	"smt-desc": "Позволяет добавить мета-теги, сгенерированные из [https://semantic-mediawiki.org семантических аннотаций]"
+	"smt-desc": "Позволяет предоставлять метатеги, созданные из [https://www.semantic-mediawiki.org семантических аннотаций]"
 }

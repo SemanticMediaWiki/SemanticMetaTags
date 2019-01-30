@@ -1,8 +1,9 @@
 {
 	"@metadata": {
 		"authors": [
-			"Jaideraf"
+			"Jaideraf",
+			"Tks4Fish"
 		]
 	},
-	"smt-desc": "Permite fornecer meta tags geradas a partir de  [https://semantic-mediawiki.org marcações semânticas]"
+	"smt-desc": "Permite fornecer meta tags geradas a partir de [https://www.semantic-mediawiki.org marcações semânticas]"
 }
