@@ -2,8 +2,9 @@
 	"@metadata": {
 		"authors": [
 			"Rangekill",
-			"Rcdeboer"
+			"Rcdeboer",
+			"Xbaked potatox"
 		]
 	},
-	"smt-desc": "Maakt het mogelijk om meta-tags te genereren op basis van [https://semantic-mediawiki.org semantische annotaties]"
+	"smt-desc": "Toestaan om metatags aan te bieden die zijn gegenereerd op basis van [https://www.semantic-mediawiki.org semantische annotaties]"
 }
