@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"Jaroslav Cerny"
+		]
+	},
+	"smt-desc": "Umožňuje poskytovat meta tagy generované ze [https://www.semantic-mediawiki.org sémantických anotací]"
+}
