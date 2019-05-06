@@ -1,8 +1,9 @@
 {
 	"@metadata": {
 		"authors": [
-			"Obsuser"
+			"Obsuser",
+			"BadDog"
 		]
 	},
-	"smt-desc": "Омогућава додељивање мета тагова генерисаних из [https://semantic-mediawiki.org семантичких анотација]"
+	"smt-desc": "Омогућава додељивање мета ознака генерисаних из [https://www.semantic-mediawiki.org семантичких прибелешки]"
 }
