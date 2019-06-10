@@ -1,8 +1,9 @@
 {
 	"@metadata": {
 		"authors": [
-			"Vlad5250"
+			"Vlad5250",
+			"StanProg"
 		]
 	},
-	"smt-desc": "Предоставя възможност за мета тагове, създадени от [https://www.semantic-mediawiki.org семантичните анотации]"
+	"smt-desc": "Предоставя възможност за мета тагове, генерирани от [https://www.semantic-mediawiki.org семантични анотации]"
 }
