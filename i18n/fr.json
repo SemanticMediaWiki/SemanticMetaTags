@@ -1,8 +1,9 @@
 {
 	"@metadata": {
 		"authors": [
-			"Wladek92"
+			"Wladek92",
+			"Verdy p"
 		]
 	},
-	"smt-desc": "Permet que les balises meta soient générées à partir des [https://semantic-mediawiki.org annotations sémantiques]"
+	"smt-desc": "Permet de fournir des méta-balises générées à partir des [https://semantic-mediawiki.org/ annotations sémantiques]"
 }
