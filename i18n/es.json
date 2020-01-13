@@ -2,8 +2,9 @@
 	"@metadata": {
 		"authors": [
 			"Macofe",
-			"Fitoschido"
+			"Fitoschido",
+			"DannyS712"
 		]
 	},
-	"smt-desc": "Proporciona metaetiquetas generadas a partir de [https://semantic-mediawiki.org anotaciones semánticas]"
+	"smt-desc": "Proporciona metaetiquetas generadas a partir de [https://www.semantic-mediawiki.org anotaciones semánticas]"
 }
