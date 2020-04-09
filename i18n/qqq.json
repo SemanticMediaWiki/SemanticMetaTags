@@ -1,8 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Mwjames",
-			"Kghbln"
+			"Kghbln",
+			"Mwjames"
 		]
 	},
 	"smt-desc": "{{desc|name=Semantic Meta Tags|url=https://www.semantic-mediawiki.org/wiki/Extension:Semantic_Meta_Tags}}\nAn extension providing HTML <meta> tags generated from semantic annotations.",

@@ -1,8 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Ата",
-			"Vlad5250"
+			"Vlad5250",
+			"Ата"
 		]
 	},
 	"smt-desc": "Дозволяє забезпечити мета-теґи, що генеруються з [https://www.semantic-mediawiki.org семантичних анотацій]"
