@@ -5,6 +5,7 @@ namespace SMT;
 use SMW\SemanticData;
 use SMW\Store;
 use SMW\ParserData;
+use SMW\RequestOptions;
 
 /**
  * Sometimes the ParserCache provides an outdated ParserOutput with no
@@ -67,13 +68,15 @@ class LazySemanticDataLookup {
 			return $semanticData;
 		}
 
-		// In 2.3 SMW-core we expect that `$GLOBALS['smwgValueLookupCacheType']`
-		// is enabled by whichCachedValueLookupStore::getSemanticData returns results
-		// from Cache otherwise a DB connection is used
+		$requestOptions = new RequestOptions();
+		$requestOptions->setCaller( __METHOD__ );
+
+		$subject = $this->parserData->getSemanticData()->getSubject();
 
 		// Final method is the Store
 		return $this->store->getSemanticData(
-			$this->parserData->getSemanticData()->getSubject()
+			$subject,
+			$requestOptions
 		);
 	}
 
