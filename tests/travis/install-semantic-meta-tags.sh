@@ -14,7 +14,7 @@ function installToMediaWikiRoot {
 	then
 		composer require 'phpunit/phpunit='$PHPUNIT  --update-with-dependencies
 	else
-		composer require 'phpunit/phpunit=3.7.*' --update-with-dependencies
+		composer require 'phpunit/phpunit=6.5.*' --update-with-dependencies
 	fi
 
 	if [ "$SMT" != "" ]
@@ -61,6 +61,8 @@ function updateConfiguration {
 	then
 		echo '$wgLanguageCode = "'$SITELANG'";' >> LocalSettings.php
 	fi
+
+	echo 'define("SMW_PHPUNIT_PULL_VERSION_FROM_GITHUB", true);' >> LocalSettings.php
 
 	echo 'error_reporting(E_ALL| E_STRICT);' >> LocalSettings.php
 	echo 'ini_set("display_errors", 1);' >> LocalSettings.php

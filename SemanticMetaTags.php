@@ -26,6 +26,10 @@ class SemanticMetaTags {
 	 */
 	public static function load() {
 
+		if ( !defined( 'MEDIAWIKI' ) ) {
+			return;
+		}
+
 		// Load DefaultSettings
 		require_once __DIR__ . '/DefaultSettings.php';
 
@@ -87,18 +91,9 @@ class SemanticMetaTags {
 			ApplicationFactory::getInstance()->getStore(),
 			new Options( $configuration )
 		);
-		
+
 		$hookRegistry->register();
 
-	}
-
-	/**
-	 * @since 1.0
-	 *
-	 * @return string|null
-	 */
-	public static function getVersion() {
-		return SMT_VERSION;
 	}
 
 }

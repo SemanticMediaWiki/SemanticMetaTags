@@ -139,16 +139,16 @@ class MetaTagsProcessorTest extends \PHPUnit_Framework_TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$OutputPageHtmlTagsInserter = $this->getMockBuilder( '\SMT\OutputPageHtmlTagsInserter' )
+		$outputPageHtmlTagsInserter = $this->getMockBuilder( '\SMT\OutputPageHtmlTagsInserter' )
 			->disableOriginalConstructor()
-			->setMethods( [ 'canUseOutputPage' ] )
+			->setMethods( [ 'canUseOutputPage', 'addTagContentToOutputPage' ] )
 			->getMock();
 
-		$OutputPageHtmlTagsInserter->expects( $this->once() )
+		$outputPageHtmlTagsInserter->expects( $this->once() )
 			->method( 'canUseOutputPage' )
 			->will( $this->returnValue( true ) );
 
-		$OutputPageHtmlTagsInserter->expects( $this->never() )
+		$outputPageHtmlTagsInserter->expects( $this->never() )
 			->method( 'addTagContentToOutputPage' );
 
 		$instance = new MetaTagsProcessor(
@@ -156,7 +156,7 @@ class MetaTagsProcessorTest extends \PHPUnit_Framework_TestCase {
 		);
 
 		$instance->setMetaTagsStaticContentDescriptor( [ 'foo' => '' ] );
-		$instance->addMetaTags( $OutputPageHtmlTagsInserter );
+		$instance->addMetaTags( $outputPageHtmlTagsInserter );
 	}
 
 	/**

@@ -23,7 +23,7 @@ class MetaTagsContentGenerationIntegrationTest extends MwDBaseUnitTestCase {
 	private $pageDeleter;
 	private $subjects = [];
 
-	protected function setUp() {
+	protected function setUp() : void {
 		parent::setUp();
 
 		$this->pageCreator = UtilityFactory::getInstance()->newpageCreator();
@@ -61,7 +61,7 @@ class MetaTagsContentGenerationIntegrationTest extends MwDBaseUnitTestCase {
 		$hookRegistry->register();
 	}
 
-	protected function tearDown() {
+	protected function tearDown() : void {
 		$this->pageDeleter->doDeletePoolOfPages(
 			$this->subjects
 		);
@@ -88,7 +88,7 @@ class MetaTagsContentGenerationIntegrationTest extends MwDBaseUnitTestCase {
 				'[[SMT other keywords::AnotherKeywordMetaTag]]' .
 				'[[SMT description::Example description]]' );
 
-		$parserOutput = $this->pageCreator->getEditInfo()->output;
+		$parserOutput = $this->pageCreator->getEditInfo()->getOutput();
 
 		$outputPage->addParserOutputMetadata( $parserOutput );
 
