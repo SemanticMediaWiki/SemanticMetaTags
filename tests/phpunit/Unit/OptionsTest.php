@@ -43,7 +43,7 @@ class OptionsTest extends \PHPUnit_Framework_TestCase {
 
 		$instance = new Options();
 
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$instance->get( 'Foo' );
 	}
 
