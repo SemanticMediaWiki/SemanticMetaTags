@@ -23,7 +23,7 @@ jobs:
       php: 7.3
     - env: DB=sqlite; MW=REL1_34; SMW=~3.1@dev; PHPUNIT=6.5.*
       php: 7.2
-    - env: DB=mysql, MW=REL1_34; SMW=~3.2@dev; PHPUNIT=6.5.*
+    - env: DB=mysql; MW=REL1_34; SMW=~3.2@dev; PHPUNIT=6.5.*
       php: 7.3
   allow_failures:
     - env: DB=mysql; MW=master; SMW=~3.2@dev; PHPUNIT=8.5.*
