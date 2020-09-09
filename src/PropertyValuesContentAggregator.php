@@ -21,7 +21,7 @@ class PropertyValuesContentAggregator {
 	private $lazySemanticDataLookup;
 
 	/**
-	 * @var OutputPage $mOutputPage
+	 * @var \OutputPage $mOutputPage
 	 */
 	private $mOutputPage;
 
