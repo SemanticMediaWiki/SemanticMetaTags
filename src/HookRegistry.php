@@ -94,7 +94,8 @@ class HookRegistry {
 			);
 
 			$propertyValuesContentAggregator = new PropertyValuesContentAggregator(
-				$lazySemanticDataLookup
+				$lazySemanticDataLookup,
+				$outputPage
 			);
 
 			$propertyValuesContentAggregator->useFallbackChainForMultipleProperties(

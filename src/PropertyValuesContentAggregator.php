@@ -21,6 +21,11 @@ class PropertyValuesContentAggregator {
 	private $lazySemanticDataLookup;
 
 	/**
+	 * @var \OutputPage $mOutputPage
+	 */
+	private $mOutputPage;
+
+	/**
 	 * Whether multiple properties should be used through a fallback chain where
 	 * the first available property with content will determine the end of the
 	 * processing or content being simply concatenated
@@ -33,9 +38,11 @@ class PropertyValuesContentAggregator {
 	 * @since 1.0
 	 *
 	 * @param LazySemanticDataLookup $lazySemanticDataLookup
+	 * @param OutputPage $outputPage
 	 */
-	public function __construct( LazySemanticDataLookup $lazySemanticDataLookup ) {
+	public function __construct( LazySemanticDataLookup $lazySemanticDataLookup, \OutputPage $outputPage ) {
 		$this->lazySemanticDataLookup = $lazySemanticDataLookup;
+		$this->mOutputPage = $outputPage;
 	}
 
 	/**
@@ -66,27 +73,41 @@ class PropertyValuesContentAggregator {
 				break;
 			}
 
-			$this->fetchContentForProperty( trim( $property ), $values );
+			if ( is_string( $property ) ) {
+				$property = trim( $property );
+			}
+			$this->fetchContentForProperty( $property, $values );
 		}
 
 		return implode( ',', $values );
 	}
 
-	private function fetchContentForProperty( $property, &$values ) {
+	private function fetchContentForProperty( $property, array &$values ) {
 
-		$property = DIProperty::newFromUserLabel( $property );
-		$semanticData = $this->lazySemanticDataLookup->getSemanticData();
+		if ( is_callable( $property ) ) {
+			// This is actually a callback function.
+			$result = $property( $this->mOutputPage );
+			if ( $result ) {
+				foreach ( (array)$result as $value ) {
+					$values[$value] = (string)$value;
+				}
+			}
+		} else {
+			// This is a real property.
+			$property = DIProperty::newFromUserLabel( $property );
+			$semanticData = $this->lazySemanticDataLookup->getSemanticData();
 
-		$this->iterateToCollectPropertyValues(
-			$semanticData->getPropertyValues( $property ),
-			$values
-		);
-
-		foreach ( $semanticData->getSubSemanticData() as $subSemanticData ) {
 			$this->iterateToCollectPropertyValues(
-				$subSemanticData->getPropertyValues( $property ),
+				$semanticData->getPropertyValues( $property ),
 				$values
 			);
+
+			foreach ( $semanticData->getSubSemanticData() as $subSemanticData ) {
+				$this->iterateToCollectPropertyValues(
+					$subSemanticData->getPropertyValues( $property ),
+					$values
+				);
+			}
 		}
 	}
 
