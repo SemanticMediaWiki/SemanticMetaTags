@@ -52,7 +52,18 @@ $GLOBALS['smtgTagsProperties'] = [
 			return implode( ', ', array_unique( $redirect_titles ));
 		}
 	],
-	'description' => 'Has some description',
+	'description' => ['Has some description', function( OutputPage $outputPage ): string {
+		/* This example generates a fallback description for a page:
+		 *		for the main page, the site name from the message MediaWiki:pagetitle-view-mainpage,
+		 *		for other pages, page title, followed by subtitle from MediaWiki:Tagline.
+		 */
+		global $wgLanguageCode;
+		$title = $outputPage->getContext()->getTitle()->getText();
+		$main_page = wfMessage( 'mainpage' )->inLanguage( $wgLanguageCode ?: 'ru' )->escaped();
+		$site_name = wfMessage( 'pagetitle-view-mainpage' )->inLanguage( $wgLanguageCode ?: 'ru' )->escaped();
+		$subtitle = $title !== $main_page ? wfMessage( 'tagline' )->inLanguage( $wgLanguageCode ?: 'ru' )->escaped () : '';
+		return $title === $main_page ? $site_name : $title . '. ' . $subtitle;
+	}],
 	'author' => 'Has last editor',
 
 	// Summary card tag
