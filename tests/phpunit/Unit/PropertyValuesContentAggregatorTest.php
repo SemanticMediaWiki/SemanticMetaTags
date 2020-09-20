@@ -25,9 +25,13 @@ class PropertyValuesContentAggregatorTest extends \PHPUnit_Framework_TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
+		$outputPage = $this->getMockBuilder( 'OutputPage' )
+			->disableOriginalConstructor()
+			->getMock();
+
 		$this->assertInstanceOf(
 			'\SMT\PropertyValuesContentAggregator',
-			new PropertyValuesContentAggregator( $lazySemanticDataLookup )
+			new PropertyValuesContentAggregator( $lazySemanticDataLookup, $outputPage )
 		);
 	}
 
@@ -56,7 +60,11 @@ class PropertyValuesContentAggregatorTest extends \PHPUnit_Framework_TestCase {
 			->method( 'getSemanticData' )
 			->will( $this->returnValue( $semanticData ) );
 
-		$instance = new PropertyValuesContentAggregator( $lazySemanticDataLookup );
+		$outputPage = $this->getMockBuilder( 'OutputPage' )
+			->disableOriginalConstructor()
+			->getMock();
+
+		$instance = new PropertyValuesContentAggregator( $lazySemanticDataLookup, $outputPage );
 
 		$this->assertSame(
 			'Foo',
@@ -93,7 +101,11 @@ class PropertyValuesContentAggregatorTest extends \PHPUnit_Framework_TestCase {
 			->method( 'getSemanticData' )
 			->will( $this->returnValue( $semanticData ) );
 
-		$instance = new PropertyValuesContentAggregator( $lazySemanticDataLookup );
+		$outputPage = $this->getMockBuilder( 'OutputPage' )
+			->disableOriginalConstructor()
+			->getMock();
+
+		$instance = new PropertyValuesContentAggregator( $lazySemanticDataLookup, $outputPage );
 
 		$this->assertSame(
 			'http://username@example.org/foo,Foo',
@@ -134,7 +146,11 @@ class PropertyValuesContentAggregatorTest extends \PHPUnit_Framework_TestCase {
 			->method( 'getSemanticData' )
 			->will( $this->returnValue( $semanticData ) );
 
-		$instance = new PropertyValuesContentAggregator( $lazySemanticDataLookup );
+		$outputPage = $this->getMockBuilder( 'OutputPage' )
+			->disableOriginalConstructor()
+			->getMock();
+
+		$instance = new PropertyValuesContentAggregator( $lazySemanticDataLookup, $outputPage );
 
 		$this->assertSame(
 			'Foo-with-html-"<>"-escaping-to-happen-somewhere-else',
@@ -230,7 +246,11 @@ class PropertyValuesContentAggregatorTest extends \PHPUnit_Framework_TestCase {
 			->method( 'getSemanticData' )
 			->will( $this->returnValue( $semanticData ) );
 
-		$instance = new PropertyValuesContentAggregator( $lazySemanticDataLookup );
+		$outputPage = $this->getMockBuilder( 'OutputPage' )
+			->disableOriginalConstructor()
+			->getMock();
+
+		$instance = new PropertyValuesContentAggregator( $lazySemanticDataLookup, $outputPage );
 		$instance->useFallbackChainForMultipleProperties( $fallbackChainUsageState );
 
 		$this->assertSame(

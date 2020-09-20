@@ -90,6 +90,8 @@ class MetaTagsProcessor {
 
 		if ( is_string( $properties ) ) {
 			$properties = explode( ',', $properties );
+		} elseif ( is_callable( $properties ) ) {
+			$properties = [ $properties ];
 		}
 
 		$content = $this->propertyValuesContentAggregator->doAggregateFor(
