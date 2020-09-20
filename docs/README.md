@@ -15,9 +15,13 @@ and annotated using the `meta property=""` description.
 
 ## Configuration
 
-- `$GLOBALS['smtgTagsProperties']` array of tag, property assignments. If a given
-  property has multiple values (including subobjects) on a wiki page, the values
-  are concatenated into a single string separated by commas.
+- `$GLOBALS['smtgTagsProperties']` array of "tag => property" or "tag => callback"
+  assignments. If a given property has multiple values (including subobjects)
+  on a wiki page, the values are concatenated into a single string separated
+  by commas.
+-- callback is a function that ought to have the following signature:
+   `function( OutputPage $outputPage ): string`. This is the place to assign
+   MediaWiki messages, page properties like its title or plain strings to tags.
 - `$GLOBALS['smtgTagsPropertyFallbackUsage']` in case it is set `true` then the
   first property that returns a valid content for an assigned tag will be used
   exclusively.
@@ -36,7 +40,17 @@ $GLOBALS['smtgTagsProperties'] = [
 
 	// Standard meta tags
 	'keywords' => [
-		'Has keywords', 'Has another keyword'
+		'Has keywords',
+		'Has another keyword',
+		function( OutputPage $outputPage ): string {
+			// Redirects to the page are collected as keywords.
+			$redirects = $outputPage->getContext()->getTitle()->getRedirectsHere();
+			$redirect_titles = [];
+			foreach ( $redirects as $redirect ) {
+				$redirect_titles[] = $redirect->getText();
+			}
+			return implode( ', ', array_unique( $redirect_titles ));
+		}
 	],
 	'description' => 'Has some description',
 	'author' => 'Has last editor',
