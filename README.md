@@ -59,7 +59,7 @@ Note if you have Git installed on your system add the `--prefer-source` flag to 
 
 ### Step 3
 
-dd the following line to the end of your "LocalSettings.php" file:
+add the following line to the end of your "LocalSettings.php" file:
 
     wfLoadExtension( 'SemanticMetaTags' );
 
