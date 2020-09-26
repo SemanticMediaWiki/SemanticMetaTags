@@ -5,7 +5,7 @@ This file contains the RELEASE-NOTES of the **Semantic Meta Tags** (a.k.a. SMT) 
 Released on September 26, 2020.
 
 * Minimum requirement for
-  * PHP changed to version 7.0 and later
+  * PHP changed to version 7.1 and later
   * MediaWiki changed to version 1.31 and later
   * Semantic MediaWiki changed to version 3.1 and later
 * [#61](https://github.com/SemanticMediaWiki/SemanticMetaTags/issues/61) Adds support for fallback strings to be used if no annotation is present
