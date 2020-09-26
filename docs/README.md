@@ -21,7 +21,7 @@ and annotated using the `meta property=""` description.
   by commas.
 	* callback is a function that ought to have the following signature:
 	  `function( OutputPage $outputPage ): string`. This is the place to assign
-	  MediaWiki messages, page properties like its title or plain strings to tags.
+	  MediaWiki system messages, page properties like its title or plain strings to tags
 * `$GLOBALS['smtgTagsPropertyFallbackUsage']` in case it is set `true` then the
   first property that returns a valid content for an assigned tag will be used
   exclusively.
@@ -35,6 +35,41 @@ and annotated using the `meta property=""` description.
 
 ### Example settings
 
+#### Simple settings
+Best for wikis using templates on all content pages
+```php
+$GLOBALS['smtgTagsProperties'] = [
+
+	// Standard meta tags
+	'keywords' => [
+		'Has keywords', 'Has another keyword'
+	],
+	'description' => 'Has some description',
+	'author' => 'Has last editor',
+
+	// Summary card tag
+	'twitter:description' => 'Has some description',
+
+	// Open Graph protocol supported tag
+	'og:title' => 'Has title'
+];
+
+$GLOBALS['smtgTagsStrings'] = [
+
+	// Static content tag
+	'some:tag' => 'Content that is static'
+];
+
+$GLOBALS['smtgMetaPropertyPrefixes'] = [ 
+
+	// Open Graph prefixes
+	'og:',
+	'fb:'
+];
+```
+
+#### Advanced settings
+Best for wiki not using templates on all content pages
 ```php
 $GLOBALS['smtgTagsProperties'] = [
 
@@ -52,17 +87,21 @@ $GLOBALS['smtgTagsProperties'] = [
 			return implode( ', ', array_unique( $redirect_titles ));
 		}
 	],
-	'description' => ['Has some description', function( OutputPage $outputPage ): string {
-		/* This example generates a fallback description for a page:
-		 *		for the main page, the site name from the message MediaWiki:pagetitle-view-mainpage,
-		 *		for other pages, page title, followed by subtitle from MediaWiki:Tagline.
-		 */
-		global $wgLanguageCode;
-		$title = $outputPage->getContext()->getTitle()->getText();
-		$main_page = wfMessage( 'mainpage' )->inLanguage( $wgLanguageCode ?: 'ru' )->escaped();
-		$site_name = wfMessage( 'pagetitle-view-mainpage' )->inLanguage( $wgLanguageCode ?: 'ru' )->escaped();
-		$subtitle = $title !== $main_page ? wfMessage( 'tagline' )->inLanguage( $wgLanguageCode ?: 'ru' )->escaped () : '';
-		return $title === $main_page ? $site_name : $title . '. ' . $subtitle;
+	'description' => [
+		'Has some description',
+		function( OutputPage $outputPage ): string {
+			/** 
+			 * This example generates a fallback description for a page:
+			 * - for the main page, the site name from the message "MediaWiki:Pagetitle-view-mainpage",
+			 * - for other pages, page title, followed by subtitle from "MediaWiki:Tagline".
+			 * The language specified, e.g. 'ru' should match the language of your wiki's language
+			 */
+			global $wgLanguageCode;
+			$title = $outputPage->getContext()->getTitle()->getText();
+			$main_page = wfMessage( 'mainpage' )->inLanguage( $wgLanguageCode ?: 'ru' )->escaped();
+			$site_name = wfMessage( 'pagetitle-view-mainpage' )->inLanguage( $wgLanguageCode ?: 'ru' )->escaped();
+			$subtitle = $title !== $main_page ? wfMessage( 'tagline' )->inLanguage( $wgLanguageCode ?: 'ru' )->escaped() : '';
+			return $title === $main_page ? $site_name : $title . '. ' . $subtitle;
 	}],
 	'author' => 'Has last editor',
 
@@ -72,6 +111,8 @@ $GLOBALS['smtgTagsProperties'] = [
 	// Open Graph protocol supported tag
 	'og:title' => 'Has title'
 ];
+
+$GLOBALS['smtgTagsPropertyFallbackUsage'] = true;
 
 $GLOBALS['smtgTagsStrings'] = [
 
