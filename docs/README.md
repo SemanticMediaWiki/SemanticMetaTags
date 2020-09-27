@@ -69,7 +69,7 @@ $GLOBALS['smtgMetaPropertyPrefixes'] = [
 ```
 
 #### Advanced settings
-Best for wiki not using templates on all content pages
+Best for wikis not using templates on all content pages
 ```php
 $GLOBALS['smtgTagsProperties'] = [
 
