@@ -1,8 +1,9 @@
 {
 	"@metadata": {
 		"authors": [
-			"Fitoschido"
+			"Fitoschido",
+			"Toniher"
 		]
 	},
-	"smt-desc": "Proporciona metaetiquetes generades a partir d’[https://semantic-mediawiki.org anotacions semàntiques]"
+	"smt-desc": "Proporciona metaetiquetes generades a partir d’[https://www.semantic-mediawiki.org anotacions semàntiques]"
 }
