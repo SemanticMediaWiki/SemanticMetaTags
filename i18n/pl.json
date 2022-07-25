@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"SemanticPioneer"
+		]
+	},
+	"smt-desc": "Umożliwia dostarczenie metatagów wygenerowanych z [https://www.semantic-mediawiki.org adnotacji semantycznych]"
+}
