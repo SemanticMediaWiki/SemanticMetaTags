@@ -16,7 +16,7 @@ jobs:
       matrix:
         include:
           - mediawiki_version: '1.35'
-            semantic_mediawiki_version: 4.0.0
+            semantic_mediawiki_version: 4.1.0
             coverage: true
             experimental: false
           - mediawiki_version: '1.35'
