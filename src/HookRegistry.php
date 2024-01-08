@@ -62,6 +62,12 @@ class HookRegistry {
 
 	private function addCallbackHandlers( $store, $options ) {
 
+		$this->handlers['BeforePageDisplay'] = function ( $outputPage, $skin ) {
+			if ( !isset( $GLOBALS['wgSemanticMetaTagsDisableJsonLD'] ) ) {
+				new JsonLDSerializer( $skin->getTitle(), $outputPage );
+			}
+		};
+
 		/**
 		 * @see https://www.mediawiki.org/wiki/Manual:Hooks/OutputPageParserOutput
 		 */
