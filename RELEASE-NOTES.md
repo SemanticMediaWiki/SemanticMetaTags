@@ -1,5 +1,13 @@
 This file contains the RELEASE-NOTES of the **Semantic Meta Tags** (a.k.a. SMT) extension.
 
+### 3.1.0
+
+Released on March 20, 2024
+
+* Allows installing this extension with Semantic MediaWiki 4.0 and later 
+* Localization updates from https://translatewiki.net
+
+
 ### 3.0.0
 
 Released on September 26, 2020.
