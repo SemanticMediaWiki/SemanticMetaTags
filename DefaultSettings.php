@@ -17,19 +17,19 @@ if ( !defined( 'MEDIAWIKI' ) ) {
  *
  * 'keywords' => array( 'Has keywords', ... )
  */
-$GLOBALS['smtgTagsProperties'] = [];
+$GLOBALS['smtgTagsProperties'] = $GLOBALS['smtgTagsProperties'] ?? [];
 
 /**
  * Describes static content for an assigned `<meta>` tag
  *
  * 'some:tag' => 'Content that is static'
  */
-$GLOBALS['smtgTagsStrings'] = [];
+$GLOBALS['smtgTagsStrings'] = $GLOBALS['smtgTagsStrings'] ?? [];
 
 /**
  * Listed tags are generally assumed to be reserved or excluded for free use
  */
-$GLOBALS['smtgTagsBlacklist'] = [
+$GLOBALS['smtgTagsBlacklist'] = $GLOBALS['smtgTagsBlacklist'] ?? [
 	'generator',
 	'robots'
 ];
@@ -38,9 +38,9 @@ $GLOBALS['smtgTagsBlacklist'] = [
  * In case it is set `true` then the first property that returns a valid content
  * for an assigned tag will be used  exclusively.
  */
-$GLOBALS['smtgTagsPropertyFallbackUsage'] = false;
+$GLOBALS['smtgTagsPropertyFallbackUsage'] = $GLOBALS['smtgTagsPropertyFallbackUsage'] ?? false;
 
 /**
  * Identifies prefixes that require `meta:property:...`
  */
-$GLOBALS['smtgMetaPropertyPrefixes'] = [ 'og:' ];
+$GLOBALS['smtgMetaPropertyPrefixes'] = $GLOBALS['smtgMetaPropertyPrefixes'] ?? [ 'og:' ];
