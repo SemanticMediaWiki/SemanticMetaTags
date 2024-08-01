@@ -2,6 +2,7 @@
 
 namespace SMT;
 
+use MediaWiki\MediaWikiServices;
 use SMW\ApplicationFactory;
 use SMW\Store;
 use Hooks;
@@ -33,8 +34,15 @@ class HookRegistry {
 	 * @since  1.0
 	 */
 	public function register() {
-		foreach ( $this->handlers as $name => $callback ) {
-			Hooks::register( $name, $callback );
+		if ( class_exists( 'MediaWiki\HookContainer\HookContainer' ) ) {
+			$hookContainer = MediaWikiServices::getInstance()->getHookContainer();
+			foreach ( $this->handlers as $name => $callback ) {
+				$hookContainer->register( $name, $callback );
+			}
+		} else {
+			foreach ( $this->handlers as $name => $callback ) {
+				Hooks::register( $name, $callback );
+			}
 		}
 	}
 
@@ -46,7 +54,12 @@ class HookRegistry {
 	 * @return boolean
 	 */
 	public function isRegistered( $name ) {
-		return Hooks::isRegistered( $name );
+		if ( class_exists( 'MediaWiki\HookContainer\HookContainer' ) ) {
+			$hookContainer = MediaWikiServices::getInstance()->getHookContainer();
+			return $hookContainer->isRegistered( $name );
+		} else {
+			return Hooks::isRegistered( $name );
+		}
 	}
 
 	/**
