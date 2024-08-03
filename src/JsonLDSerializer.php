@@ -1,15 +1,16 @@
 <?php
 
+/**
+ * @see  https://www.mediawiki.org/wiki/Extension:PageProperties
+ * @author thomas-topway-it for Km-a
+ */
+
 namespace SMT;
 
 use Title;
 use OutputPage;
 use SpecialPage;
 use Html;
-
-/**
- * @credits https://www.mediawiki.org/wiki/Extension:PageProperties 
- */
 
 class JsonLDSerializer {
 	/**
