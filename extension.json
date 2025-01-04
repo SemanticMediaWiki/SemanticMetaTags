@@ -1,6 +1,6 @@
 {
 	"name": "SemanticMetaTags",
-	"version": "3.1.0",
+	"version": "3.2.0-beta",
 	"author": [
 		"James Hong Kong"
 	],
@@ -10,9 +10,9 @@
 	"license-name": "GPL-2.0-or-later",
 	"type": "semantic",
 	"requires": {
-		"MediaWiki": ">= 1.31",
+		"MediaWiki": ">= 1.39",
 		"extensions": {
-			"SemanticMediaWiki": ">= 3.1"
+			"SemanticMediaWiki": ">= 4.2.0"
 		}
 	},
 	"MessagesDirs": {
@@ -24,6 +24,16 @@
 	"ExtensionFunctions": [
 		"SemanticMetaTags::onExtensionFunction"
 	],
+	"AutoloadClasses": {
+		"SemanticMetaTags": "SemanticMetaTags.php"
+	},
+	"AutoloadNamespaces": {
+		"SMT\\": "src/"
+	},
+	"TestAutoloadNamespaces": {
+		"SMT\\Tests\\": "tests/phpunit/Unit/",
+		"SMT\\Tests\\Integration\\": "tests/phpunit/Integration/"
+	},
 	"load_composer_autoloader": true,
 	"manifest_version": 1
 }

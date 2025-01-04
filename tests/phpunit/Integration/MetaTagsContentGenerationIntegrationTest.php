@@ -2,28 +2,28 @@
 
 namespace SMT\Tests\Integration;
 
-use SMW\Tests\MwDBaseUnitTestCase;
-use SMW\Tests\Utils\UtilityFactory;
 use SMT\HookRegistry;
 use SMT\Options;
 use SMW\DIWikiPage;
+use SMW\Tests\SMWIntegrationTestCase;
+use SMW\Tests\Utils\UtilityFactory;
 
 /**
  * @group semantic-meta-tags
  * @group medium
  *
- * @license GNU GPL v2+
+ * @license GPL-2.0-or-later
  * @since 1.0
  *
  * @author mwjames
  */
-class MetaTagsContentGenerationIntegrationTest extends MwDBaseUnitTestCase {
+class MetaTagsContentGenerationIntegrationTest extends SMWIntegrationTestCase {
 
 	private $pageCreator;
 	private $pageDeleter;
 	private $subjects = [];
 
-	protected function setUp() : void {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->pageCreator = UtilityFactory::getInstance()->newpageCreator();
@@ -61,7 +61,7 @@ class MetaTagsContentGenerationIntegrationTest extends MwDBaseUnitTestCase {
 		$hookRegistry->register();
 	}
 
-	protected function tearDown() : void {
+	protected function tearDown(): void {
 		$this->pageDeleter->doDeletePoolOfPages(
 			$this->subjects
 		);
@@ -70,7 +70,6 @@ class MetaTagsContentGenerationIntegrationTest extends MwDBaseUnitTestCase {
 	}
 
 	public function testAddStandardMetaTag() {
-
 		$requestContext = new \RequestContext();
 		$outputPage = $requestContext->getOutput();
 
@@ -111,7 +110,6 @@ class MetaTagsContentGenerationIntegrationTest extends MwDBaseUnitTestCase {
 	}
 
 	public function testAddOpenGraphMetaTag() {
-
 		$requestContext = new \RequestContext();
 		$outputPage = $requestContext->getOutput();
 

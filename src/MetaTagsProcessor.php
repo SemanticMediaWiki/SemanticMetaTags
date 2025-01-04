@@ -3,7 +3,7 @@
 namespace SMT;
 
 /**
- * @license GNU GPL v2+
+ * @license GPL-2.0-or-later
  * @since 1.0
  *
  * @author mwjames
@@ -63,7 +63,6 @@ class MetaTagsProcessor {
 	 * @param OutputPageHtmlTagsInserter $outputPageHtmlTagsInserter
 	 */
 	public function addMetaTags( OutputPageHtmlTagsInserter $outputPageHtmlTagsInserter ) {
-
 		if ( !$outputPageHtmlTagsInserter->canUseOutputPage() ) {
 			return;
 		}
@@ -75,7 +74,6 @@ class MetaTagsProcessor {
 	}
 
 	private function addMetaTagsForProperties() {
-
 		foreach ( $this->metaTagsContentPropertySelector as $tag => $properties ) {
 
 			if ( $properties === '' || $properties === [] ) {
@@ -87,7 +85,6 @@ class MetaTagsProcessor {
 	}
 
 	private function addMetaTagsForAggregatedProperties( $tag, $properties ) {
-
 		if ( is_string( $properties ) ) {
 			$properties = explode( ',', $properties );
 		} elseif ( is_callable( $properties ) ) {
@@ -109,7 +106,6 @@ class MetaTagsProcessor {
 	}
 
 	private function addMetaTagsForStaticContent() {
-
 		foreach ( $this->metaTagsStaticContentDescriptor as $tag => $content ) {
 
 			if ( $content === '' ) {

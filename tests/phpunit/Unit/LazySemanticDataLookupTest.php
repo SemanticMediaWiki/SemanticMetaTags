@@ -9,15 +9,14 @@ use SMW\DIWikiPage;
  * @covers \SMT\LazySemanticDataLookup
  * @group semantic-meta-tags
  *
- * @license GNU GPL v2+
+ * @license GPL-2.0-or-later
  * @since 1.0
  *
  * @author mwjames
  */
-class LazySemanticDataLookupTest extends \PHPUnit_Framework_TestCase {
+class LazySemanticDataLookupTest extends \PHPUnit\Framework\TestCase {
 
 	public function testCanConstruct() {
-
 		$parserData = $this->getMockBuilder( '\SMW\ParserData' )
 			->disableOriginalConstructor()
 			->getMock();
@@ -33,14 +32,13 @@ class LazySemanticDataLookupTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testGetSemanticDataFromParserOutput() {
-
 		$semanticData = $this->getMockBuilder( '\SMW\SemanticData' )
 			->disableOriginalConstructor()
 			->getMock();
 
 		$semanticData->expects( $this->once() )
 			->method( 'isEmpty' )
-			->will( $this->returnValue( false ) );
+			->willReturn( false );
 
 		$parserData = $this->getMockBuilder( '\SMW\ParserData' )
 			->disableOriginalConstructor()
@@ -48,7 +46,7 @@ class LazySemanticDataLookupTest extends \PHPUnit_Framework_TestCase {
 
 		$parserData->expects( $this->once() )
 			->method( 'getSemanticData' )
-			->will( $this->returnValue( $semanticData ) );
+			->willReturn( $semanticData );
 
 		$store = $this->getMockBuilder( '\SMW\Store' )
 			->disableOriginalConstructor()
@@ -65,22 +63,21 @@ class LazySemanticDataLookupTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testGetSemanticDataFromStore() {
-
 		$semanticData = $this->getMockBuilder( '\SMW\SemanticData' )
 			->disableOriginalConstructor()
 			->getMock();
 
 		$semanticData->expects( $this->at( 0 ) )
 			->method( 'isEmpty' )
-			->will( $this->returnValue( true ) );
+			->willReturn( true );
 
 		$semanticData->expects( $this->at( 1 ) )
 			->method( 'isEmpty' )
-			->will( $this->returnValue( false ) );
+			->willReturn( false );
 
 		$semanticData->expects( $this->once() )
 			->method( 'getSubject' )
-			->will( $this->returnValue( new DIWikiPage( 'Foo', NS_MAIN ) ) );
+			->willReturn( new DIWikiPage( 'Foo', NS_MAIN ) );
 
 		$parserData = $this->getMockBuilder( '\SMW\ParserData' )
 			->disableOriginalConstructor()
@@ -88,7 +85,7 @@ class LazySemanticDataLookupTest extends \PHPUnit_Framework_TestCase {
 
 		$parserData->expects( $this->atLeastOnce() )
 			->method( 'getSemanticData' )
-			->will( $this->returnValue( $semanticData ) );
+			->willReturn( $semanticData );
 
 		$store = $this->getMockBuilder( '\SMW\Store' )
 			->disableOriginalConstructor()

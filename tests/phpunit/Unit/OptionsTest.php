@@ -8,15 +8,14 @@ use SMT\Options;
  * @covers \SMT\Options
  * @group semantic-meta-tags
  *
- * @license GNU GPL v2+
+ * @license GPL-2.0-or-later
  * @since   1.2
  *
  * @author mwjames
  */
-class OptionsTest extends \PHPUnit_Framework_TestCase {
+class OptionsTest extends \PHPUnit\Framework\TestCase {
 
 	public function testCanConstruct() {
-
 		$this->assertInstanceOf(
 			'\SMT\Options',
 			new Options()
@@ -24,7 +23,6 @@ class OptionsTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testAddOption() {
-
 		$instance = new Options();
 
 		$this->assertFalse(
@@ -40,7 +38,6 @@ class OptionsTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testUnregisteredKeyThrowsException() {
-
 		$instance = new Options();
 
 		$this->expectException( 'InvalidArgumentException' );

@@ -25,7 +25,6 @@ class SemanticMetaTags {
 	 * the extension is activated.
 	 */
 	public static function load() {
-
 		if ( !defined( 'MEDIAWIKI' ) ) {
 			return;
 		}
@@ -36,14 +35,12 @@ class SemanticMetaTags {
 		if ( is_readable( __DIR__ . '/vendor/autoload.php' ) ) {
 			include_once __DIR__ . '/vendor/autoload.php';
 		}
-
 	}
 
 	/**
 	 * @since 1.0
 	 */
 	public static function initExtension( $credits = [] ) {
-
 		// See https://phabricator.wikimedia.org/T151136
 		define( 'SMT_VERSION', isset( $credits['version'] ) ? $credits['version'] : 'UNKNOWN' );
 
@@ -55,7 +52,6 @@ class SemanticMetaTags {
 	 * @since 1.4
 	 */
 	public static function doCheckRequirements() {
-
 		if ( version_compare( $GLOBALS[ 'wgVersion' ], '1.27', 'lt' ) ) {
 			die( '<b>Error:</b> This version of <a href="https://github.com/SemanticMediaWiki/SemanticMetaTags/">SemanticMetaTags</a> is only compatible with MediaWiki 1.27 or above. You need to upgrade MediaWiki first.' );
 		}
@@ -65,7 +61,6 @@ class SemanticMetaTags {
 	 * @since 1.0
 	 */
 	public static function onExtensionFunction() {
-
 		if ( !defined( 'SMW_VERSION' ) ) {
 
 			if ( PHP_SAPI === 'cli' || PHP_SAPI === 'phpdbg' ) {
@@ -93,7 +88,6 @@ class SemanticMetaTags {
 		);
 
 		$hookRegistry->register();
-
 	}
 
 }
