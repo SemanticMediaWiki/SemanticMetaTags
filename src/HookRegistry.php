@@ -2,12 +2,12 @@
 
 namespace SMT;
 
+use MediaWiki\MediaWikiServices;
 use SMW\ApplicationFactory;
 use SMW\Store;
-use Hooks;
 
 /**
- * @license GNU GPL v2+
+ * @license GPL-2.0-or-later
  * @since 1.0
  *
  * @author mwjames
@@ -34,7 +34,7 @@ class HookRegistry {
 	 */
 	public function register() {
 		foreach ( $this->handlers as $name => $callback ) {
-			Hooks::register( $name, $callback );
+			MediaWikiServices::getInstance()->getHookContainer()->register( $name, $callback );
 		}
 	}
 
@@ -43,10 +43,10 @@ class HookRegistry {
 	 *
 	 * @param string $name
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function isRegistered( $name ) {
-		return Hooks::isRegistered( $name );
+		return MediaWikiServices::getInstance()->getHookContainer()->isRegistered( $name );
 	}
 
 	/**
@@ -54,19 +54,17 @@ class HookRegistry {
 	 *
 	 * @param string $name
 	 *
-	 * @return Callable|false
+	 * @return callable|false
 	 */
 	public function getHandlerFor( $name ) {
 		return isset( $this->handlers[$name] ) ? $this->handlers[$name] : false;
 	}
 
 	private function addCallbackHandlers( $store, $options ) {
-
 		/**
 		 * @see https://www.mediawiki.org/wiki/Manual:Hooks/OutputPageParserOutput
 		 */
-		$this->handlers['OutputPageParserOutput'] = function ( &$outputPage, $parserOutput ) use( $store, $options ) {
-
+		$this->handlers['OutputPageParserOutput'] = static function ( &$outputPage, $parserOutput ) use( $store, $options ) {
 			$parserData = ApplicationFactory::getInstance()->newParserData(
 				$outputPage->getTitle(),
 				$parserOutput

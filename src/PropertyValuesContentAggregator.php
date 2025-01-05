@@ -8,7 +8,7 @@ use SMWDIBlob as DIBlob;
 use SMWDIUri as DIUri;
 
 /**
- * @license GNU GPL v2+
+ * @license GPL-2.0-or-later
  * @since 1.0
  *
  * @author mwjames
@@ -21,7 +21,7 @@ class PropertyValuesContentAggregator {
 	private $lazySemanticDataLookup;
 
 	/**
-	 * @var \OutputPage $mOutputPage
+	 * @var \OutputPage
 	 */
 	private $mOutputPage;
 
@@ -30,7 +30,7 @@ class PropertyValuesContentAggregator {
 	 * the first available property with content will determine the end of the
 	 * processing or content being simply concatenated
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	private $useFallbackChainForMultipleProperties = false;
 
@@ -48,7 +48,7 @@ class PropertyValuesContentAggregator {
 	/**
 	 * @since  1.0
 	 *
-	 * @param boolean $useFallbackChainForMultipleProperties
+	 * @param bool $useFallbackChainForMultipleProperties
 	 */
 	public function useFallbackChainForMultipleProperties( $useFallbackChainForMultipleProperties ) {
 		$this->useFallbackChainForMultipleProperties = $useFallbackChainForMultipleProperties;
@@ -62,7 +62,6 @@ class PropertyValuesContentAggregator {
 	 * @return string
 	 */
 	public function doAggregateFor( array $propertyNames ) {
-
 		$values = [];
 
 		foreach ( $propertyNames as $property ) {
@@ -83,7 +82,6 @@ class PropertyValuesContentAggregator {
 	}
 
 	private function fetchContentForProperty( $property, array &$values ) {
-
 		if ( is_callable( $property ) ) {
 			// This is actually a callback function.
 			$result = $property( $this->mOutputPage );
@@ -112,14 +110,13 @@ class PropertyValuesContentAggregator {
 	}
 
 	private function iterateToCollectPropertyValues( array $propertyValues, &$values ) {
-
 		foreach ( $propertyValues as $value ) {
 
 			// Content escaping (htmlspecialchars) is being carried out
 			// by the instance that adds the content
 			if ( $value instanceof DIBlob ) {
 				$values[$value->getHash()] = $value->getString();
-			} elseif( $value instanceof DIWikiPage || $value instanceof DIUri ) {
+			} elseif ( $value instanceof DIWikiPage || $value instanceof DIUri ) {
 				$values[$value->getHash()] = $value->getSortKey();
 			}
 		}

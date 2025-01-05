@@ -3,21 +3,19 @@
 namespace SMT\Tests;
 
 use SMT\MetaTagsProcessor;
-use SMT\OutputPageHtmlTagsInserter;
 
 /**
  * @covers \SMT\MetaTagsProcessor
  * @group semantic-meta-tags
  *
- * @license GNU GPL v2+
+ * @license GPL-2.0-or-later
  * @since 1.0
  *
  * @author mwjames
  */
-class MetaTagsProcessorTest extends \PHPUnit_Framework_TestCase {
+class MetaTagsProcessorTest extends \PHPUnit\Framework\TestCase {
 
 	public function testCanConstruct() {
-
 		$propertyValuesContentAggregator = $this->getMockBuilder( '\SMT\PropertyValuesContentAggregator' )
 			->disableOriginalConstructor()
 			->getMock();
@@ -29,7 +27,6 @@ class MetaTagsProcessorTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testTryToAddTags() {
-
 		$propertyValuesContentAggregator = $this->getMockBuilder( '\SMT\PropertyValuesContentAggregator' )
 			->disableOriginalConstructor()
 			->getMock();
@@ -43,7 +40,7 @@ class MetaTagsProcessorTest extends \PHPUnit_Framework_TestCase {
 
 		$OutputPageHtmlTagsInserter->expects( $this->once() )
 			->method( 'canUseOutputPage' )
-			->will( $this->returnValue( false ) );
+			->willReturn( false );
 
 		$instance = new MetaTagsProcessor(
 			$propertyValuesContentAggregator
@@ -57,7 +54,6 @@ class MetaTagsProcessorTest extends \PHPUnit_Framework_TestCase {
 	 * @dataProvider invalidPropertySelectorProvider
 	 */
 	public function testTryToModifyOutputPageForInvalidPropertySelector( $propertySelector ) {
-
 		$propertyValuesContentAggregator = $this->getMockBuilder( '\SMT\PropertyValuesContentAggregator' )
 			->disableOriginalConstructor()
 			->getMock();
@@ -77,12 +73,12 @@ class MetaTagsProcessorTest extends \PHPUnit_Framework_TestCase {
 
 		$OutputPageHtmlTagsInserter = $this->getMockBuilder( '\SMT\OutputPageHtmlTagsInserter' )
 			->setConstructorArgs( [ $outputPage ] )
-			->setMethods( [ 'canUseOutputPage' ] )
+			->onlyMethods( [ 'canUseOutputPage' ] )
 			->getMock();
 
 		$OutputPageHtmlTagsInserter->expects( $this->once() )
 			->method( 'canUseOutputPage' )
-			->will( $this->returnValue( true ) );
+			->willReturn( true );
 
 		$instance = new MetaTagsProcessor(
 			$propertyValuesContentAggregator
@@ -96,15 +92,14 @@ class MetaTagsProcessorTest extends \PHPUnit_Framework_TestCase {
 	 * @dataProvider validPropertySelectorProvider
 	 */
 	public function testModifyOutputPageForValidPropertySelector( $propertySelector, $properties, $expected ) {
-
 		$propertyValuesContentAggregator = $this->getMockBuilder( '\SMT\PropertyValuesContentAggregator' )
 			->disableOriginalConstructor()
 			->getMock();
 
 		$propertyValuesContentAggregator->expects( $this->once() )
 			->method( 'doAggregateFor' )
-			->with( $this->equalTo( $properties ) )
-			->will( $this->returnValue( $expected['content'] ) );
+			->with( $properties )
+			->willReturn( $expected['content'] );
 
 		$outputPage = $this->getMockBuilder( '\OutputPage' )
 			->disableOriginalConstructor()
@@ -113,17 +108,17 @@ class MetaTagsProcessorTest extends \PHPUnit_Framework_TestCase {
 		$outputPage->expects( $this->once() )
 			->method( 'addMeta' )
 			->with(
-				$this->equalTo( $expected['tag'] ),
-				$this->equalTo( $expected['content'] ) );
+				$expected['tag'],
+				$expected['content'] );
 
 		$OutputPageHtmlTagsInserter = $this->getMockBuilder( '\SMT\OutputPageHtmlTagsInserter' )
 			->setConstructorArgs( [ $outputPage ] )
-			->setMethods( [ 'canUseOutputPage' ] )
+			->onlyMethods( [ 'canUseOutputPage' ] )
 			->getMock();
 
 		$OutputPageHtmlTagsInserter->expects( $this->once() )
 			->method( 'canUseOutputPage' )
-			->will( $this->returnValue( true ) );
+			->willReturn( true );
 
 		$instance = new MetaTagsProcessor(
 			$propertyValuesContentAggregator
@@ -134,19 +129,18 @@ class MetaTagsProcessorTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testTryToModifyOutputPageForEmptyStaticContent() {
-
 		$propertyValuesContentAggregator = $this->getMockBuilder( '\SMT\PropertyValuesContentAggregator' )
 			->disableOriginalConstructor()
 			->getMock();
 
 		$outputPageHtmlTagsInserter = $this->getMockBuilder( '\SMT\OutputPageHtmlTagsInserter' )
 			->disableOriginalConstructor()
-			->setMethods( [ 'canUseOutputPage', 'addTagContentToOutputPage' ] )
+			->onlyMethods( [ 'canUseOutputPage', 'addTagContentToOutputPage' ] )
 			->getMock();
 
 		$outputPageHtmlTagsInserter->expects( $this->once() )
 			->method( 'canUseOutputPage' )
-			->will( $this->returnValue( true ) );
+			->willReturn( true );
 
 		$outputPageHtmlTagsInserter->expects( $this->never() )
 			->method( 'addTagContentToOutputPage' );
@@ -163,7 +157,6 @@ class MetaTagsProcessorTest extends \PHPUnit_Framework_TestCase {
 	 * @dataProvider staticContentProvider
 	 */
 	public function testModifyOutputPageForStaticContentDescriptor( $contentDescriptor, $expected ) {
-
 		$propertyValuesContentAggregator = $this->getMockBuilder( '\SMT\PropertyValuesContentAggregator' )
 			->disableOriginalConstructor()
 			->getMock();
@@ -175,17 +168,17 @@ class MetaTagsProcessorTest extends \PHPUnit_Framework_TestCase {
 		$outputPage->expects( $this->once() )
 			->method( 'addMeta' )
 			->with(
-				$this->equalTo( $expected['tag'] ),
-				$this->equalTo( $expected['content'] ) );
+				$expected['tag'],
+				$expected['content'] );
 
 		$OutputPageHtmlTagsInserter = $this->getMockBuilder( '\SMT\OutputPageHtmlTagsInserter' )
 			->setConstructorArgs( [ $outputPage ] )
-			->setMethods( [ 'canUseOutputPage' ] )
+			->onlyMethods( [ 'canUseOutputPage' ] )
 			->getMock();
 
 		$OutputPageHtmlTagsInserter->expects( $this->once() )
 			->method( 'canUseOutputPage' )
-			->will( $this->returnValue( true ) );
+			->willReturn( true );
 
 		$instance = new MetaTagsProcessor(
 			$propertyValuesContentAggregator
@@ -196,7 +189,6 @@ class MetaTagsProcessorTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function invalidPropertySelectorProvider() {
-
 		$provider = [];
 
 		$provider[] = [
@@ -219,7 +211,6 @@ class MetaTagsProcessorTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function validPropertySelectorProvider() {
-
 		$provider = [];
 
 		$provider[] = [
@@ -256,7 +247,6 @@ class MetaTagsProcessorTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function staticContentProvider() {
-
 		$provider = [];
 
 		$provider[] = [

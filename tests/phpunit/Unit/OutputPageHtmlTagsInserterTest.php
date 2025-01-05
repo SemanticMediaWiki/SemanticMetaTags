@@ -8,15 +8,14 @@ use SMT\OutputPageHtmlTagsInserter;
  * @covers \SMT\OutputPageHtmlTagsInserter
  * @group semantic-meta-tags
  *
- * @license GNU GPL v2+
+ * @license GPL-2.0-or-later
  * @since 1.0
  *
  * @author mwjames
  */
-class OutputPageHtmlTagsInserterTest extends \PHPUnit_Framework_TestCase {
+class OutputPageHtmlTagsInserterTest extends \PHPUnit\Framework\TestCase {
 
 	public function testCanConstruct() {
-
 		$outputPage = $this->getMockBuilder( '\OutputPage' )
 			->disableOriginalConstructor()
 			->getMock();
@@ -28,14 +27,13 @@ class OutputPageHtmlTagsInserterTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testTryToUseOutputPageForSpecialPage() {
-
 		$title = $this->getMockBuilder( '\Title' )
 			->disableOriginalConstructor()
 			->getMock();
 
 		$title->expects( $this->any() )
 			->method( 'isSpecialPage' )
-			->will( $this->returnValue( true ) );
+			->willReturn( true );
 
 		$outputPage = $this->getMockBuilder( '\OutputPage' )
 			->disableOriginalConstructor()
@@ -46,7 +44,7 @@ class OutputPageHtmlTagsInserterTest extends \PHPUnit_Framework_TestCase {
 
 		$outputPage->expects( $this->atLeastOnce() )
 			->method( 'getTitle' )
-			->will( $this->returnValue( $title ) );
+			->willReturn( $title );
 
 		$instance = new OutputPageHtmlTagsInserter( $outputPage );
 
@@ -56,14 +54,13 @@ class OutputPageHtmlTagsInserterTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testTryToUseOutputPageForNonViewAction() {
-
 		$title = $this->getMockBuilder( '\Title' )
 			->disableOriginalConstructor()
 			->getMock();
 
 		$title->expects( $this->any() )
 			->method( 'isSpecialPage' )
-			->will( $this->returnValue( false ) );
+			->willReturn( false );
 
 		$outputPage = $this->getMockBuilder( '\OutputPage' )
 			->disableOriginalConstructor()
@@ -74,7 +71,7 @@ class OutputPageHtmlTagsInserterTest extends \PHPUnit_Framework_TestCase {
 
 		$outputPage->expects( $this->atLeastOnce() )
 			->method( 'getTitle' )
-			->will( $this->returnValue( $title ) );
+			->willReturn( $title );
 
 		$instance = new OutputPageHtmlTagsInserter( $outputPage );
 		$instance->setActionName( 'foo' );
@@ -85,7 +82,6 @@ class OutputPageHtmlTagsInserterTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testTryToAddContentForBlacklistedTag() {
-
 		$outputPage = $this->getMockBuilder( '\OutputPage' )
 			->disableOriginalConstructor()
 			->getMock();
@@ -103,7 +99,6 @@ class OutputPageHtmlTagsInserterTest extends \PHPUnit_Framework_TestCase {
 	 * @dataProvider nonOgTagProvider
 	 */
 	public function testAddTagForNonOgContent( $tag, $content, $expected ) {
-
 		$outputPage = $this->getMockBuilder( '\OutputPage' )
 			->disableOriginalConstructor()
 			->getMock();
@@ -111,8 +106,8 @@ class OutputPageHtmlTagsInserterTest extends \PHPUnit_Framework_TestCase {
 		$outputPage->expects( $this->once() )
 			->method( 'addMeta' )
 			->with(
-				$this->equalTo( $expected['tag'] ),
-				$this->equalTo( $expected['content'] ) );
+				$expected['tag'],
+				$expected['content'] );
 
 		$instance = new OutputPageHtmlTagsInserter( $outputPage );
 		$instance->addTagContentToOutputPage( $tag, $content );
@@ -122,7 +117,6 @@ class OutputPageHtmlTagsInserterTest extends \PHPUnit_Framework_TestCase {
 	 * @dataProvider propertyTagProvider
 	 */
 	public function testAddTagOnMetaPropertyPrefixContent( $prefixes, $tag, $content, $expected ) {
-
 		$outputPage = $this->getMockBuilder( '\OutputPage' )
 			->disableOriginalConstructor()
 			->getMock();
@@ -130,7 +124,7 @@ class OutputPageHtmlTagsInserterTest extends \PHPUnit_Framework_TestCase {
 		$outputPage->expects( $this->once() )
 			->method( 'addHeadItem' )
 			->with(
-				$this->equalTo( $expected['tag'] ),
+				$expected['tag'],
 				$this->stringContains( $expected['item'] ) );
 
 		$instance = new OutputPageHtmlTagsInserter( $outputPage );
@@ -143,7 +137,6 @@ class OutputPageHtmlTagsInserterTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function nonOgTagProvider() {
-
 		$provider = [];
 
 		$provider[] = [
@@ -180,7 +173,6 @@ class OutputPageHtmlTagsInserterTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function propertyTagProvider() {
-
 		$provider = [];
 
 		$provider[] = [

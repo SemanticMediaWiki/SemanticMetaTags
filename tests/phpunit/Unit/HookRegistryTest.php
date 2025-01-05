@@ -10,15 +10,14 @@ use Title;
  * @covers \SMT\HookRegistry
  * @group semantic-meta-tags
  *
- * @license GNU GPL v2+
+ * @license GPL-2.0-or-later
  * @since 1.0
  *
  * @author mwjames
  */
-class HookRegistryTest extends \PHPUnit_Framework_TestCase {
+class HookRegistryTest extends \PHPUnit\Framework\TestCase {
 
 	public function testCanConstruct() {
-
 		$store = $this->getMockBuilder( '\SMW\Store' )
 			->disableOriginalConstructor()
 			->getMockForAbstractClass();
@@ -34,7 +33,6 @@ class HookRegistryTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testRegister() {
-
 		$store = $this->getMockBuilder( '\SMW\Store' )
 			->disableOriginalConstructor()
 			->getMockForAbstractClass();
@@ -56,23 +54,17 @@ class HookRegistryTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function doTestRegisteredOutputPageParserOutputHandler( $instance ) {
-
 		$handler = 'OutputPageParserOutput';
 
 		$title = Title::newFromText( __METHOD__ );
-
-		$webRequest = $this->getMockBuilder( '\WebRequest' )
-			->disableOriginalConstructor()
-			->getMock();
 
 		$context = $this->getMockBuilder( '\IContextSource' )
 			->disableOriginalConstructor()
 			->getMock();
 
-		// *** conform SMW 'getRequest' tests
 		$context->expects( $this->any() )
-			->method( 'getRequest' )
-			->will( $this->returnValue( $webRequest ) );
+			->method( 'getActionName' )
+			->willReturn( 'view' );
 
 		$outputPage = $this->getMockBuilder( '\OutputPage' )
 			->disableOriginalConstructor()
@@ -80,11 +72,11 @@ class HookRegistryTest extends \PHPUnit_Framework_TestCase {
 
 		$outputPage->expects( $this->atLeastOnce() )
 			->method( 'getTitle' )
-			->will( $this->returnValue( $title ) );
+			->willReturn( $title );
 
 		$outputPage->expects( $this->atLeastOnce() )
 			->method( 'getContext' )
-			->will( $this->returnValue( $context ) );
+			->willReturn( $context );
 
 		$parserOutput = $this->getMockBuilder( '\ParserOutput' )
 			->disableOriginalConstructor()
@@ -101,8 +93,8 @@ class HookRegistryTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	private function assertThatHookIsExcutable( \Closure $handler, $arguments ) {
-		$this->assertInternalType(
-			'boolean',
+		$this->assertIsBool(
+
 			call_user_func_array( $handler, $arguments )
 		);
 	}

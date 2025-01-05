@@ -2,17 +2,17 @@
 
 namespace SMT;
 
-use SMW\SemanticData;
-use SMW\Store;
 use SMW\ParserData;
 use SMW\RequestOptions;
+use SMW\SemanticData;
+use SMW\Store;
 
 /**
  * Sometimes the ParserCache provides an outdated ParserOutput with no
  * external data (e.g SematicData) attached therefore try to get the data
  * by other means.
  *
- * @license GNU GPL v2+
+ * @license GPL-2.0-or-later
  * @since 1.0
  *
  * @author mwjames
@@ -51,7 +51,6 @@ class LazySemanticDataLookup {
 	 * @return SemanticData
 	 */
 	public function getSemanticData() {
-
 		if ( $this->semanticData === null ) {
 			$this->semanticData = $this->fetchSemanticData();
 		}
@@ -60,7 +59,6 @@ class LazySemanticDataLookup {
 	}
 
 	private function fetchSemanticData() {
-
 		// First try the ParserOuput
 		$semanticData = $this->parserData->getSemanticData();
 

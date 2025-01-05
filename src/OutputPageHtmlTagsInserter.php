@@ -5,7 +5,7 @@ namespace SMT;
 use OutputPage;
 
 /**
- * @license GNU GPL v2+
+ * @license GPL-2.0-or-later
  * @since 1.0
  *
  * @author mwjames
@@ -28,7 +28,7 @@ class OutputPageHtmlTagsInserter {
 	private $metaPropertyPrefixes = [];
 
 	/**
-	 * @var boolean
+	 * @var bool
 	 */
 	private $metaPropertyMarkup = false;
 
@@ -76,10 +76,9 @@ class OutputPageHtmlTagsInserter {
 	/**
 	 * @since  1.0
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function canUseOutputPage() {
-
 		if ( $this->outputPage->getTitle() === null || $this->outputPage->getTitle()->isSpecialPage() || $this->actionName !== 'view' ) {
 			return false;
 		}
@@ -94,7 +93,6 @@ class OutputPageHtmlTagsInserter {
 	 * @param string $content
 	 */
 	public function addTagContentToOutputPage( $tag, $content ) {
-
 		$tag = strtolower( htmlspecialchars( trim( $tag ) ) );
 		$content = htmlspecialchars( $content );
 
@@ -110,7 +108,6 @@ class OutputPageHtmlTagsInserter {
 	}
 
 	private function addMetaPropertyMarkup( $tag, $content ) {
-
 		$comment = '';
 
 		if ( !$this->metaPropertyMarkup ) {
@@ -127,7 +124,6 @@ class OutputPageHtmlTagsInserter {
 	}
 
 	private function reqMetaPropertyMarkup( $tag ) {
-
 		// If a tag contains a `og:` such as `og:title` it is expected to be a
 		// OpenGraph protocol tag along with other prefixes maintained in
 		// $GLOBALS['smtgMetaPropertyPrefixes']
