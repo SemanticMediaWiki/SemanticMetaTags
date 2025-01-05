@@ -69,7 +69,8 @@ class HookRegistryTest extends \PHPUnit_Framework_TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$context->expects( $this->atLeastOnce() )
+		// *** conform SMW 'getRequest' tests
+		$context->expects( $this->any() )
 			->method( 'getRequest' )
 			->will( $this->returnValue( $webRequest ) );
 
