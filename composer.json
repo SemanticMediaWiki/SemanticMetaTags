@@ -31,7 +31,6 @@
 		"composer/installers": "1.*,>=1.0.1"	
 	},
 	"require-dev": {
-		"mediawiki/semantic-media-wiki": "@dev",
 		"squizlabs/php_codesniffer": "~2.1",
 		"phpmd/phpmd": "~2.1"
 	},
@@ -40,17 +39,12 @@
 			"dev-master": "3.x-dev"
 		}
 	},
-	"autoload": {
-		"files" : [
-			"DefaultSettings.php",
-			"SemanticMetaTags.php"
-		],
-		"psr-4": {
-			"SMT\\": "src/"
-		}
-	},
+	"autoload": {},
 	"config": {
-		"process-timeout": 0
+		"process-timeout": 0,
+		"allow-plugins": {
+			"composer/installers": true
+		}
 	},
 	"scripts":{
 		"test": "php ../../tests/phpunit/phpunit.php -c phpunit.xml.dist",
