@@ -11,6 +11,7 @@ use SMW\Tests\Utils\UtilityFactory;
 /**
  * @group semantic-meta-tags
  * @group medium
+ * @group Database
  *
  * @license GPL-2.0-or-later
  * @since 1.0
