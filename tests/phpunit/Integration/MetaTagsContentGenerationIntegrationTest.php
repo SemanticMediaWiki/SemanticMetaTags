@@ -29,6 +29,11 @@ class MetaTagsContentGenerationIntegrationTest extends SMWIntegrationTestCase {
 		$this->pageCreator = UtilityFactory::getInstance()->newpageCreator();
 		$this->pageDeleter = UtilityFactory::getInstance()->newPageDeleter();
 
+		// @see LinksUpdateTest
+		$this->mwHooksHandler = $this->testEnvironment->getUtilityFactory()->newMwHooksHandler();
+		$this->mwHooksHandler->deregisterListedHooks();
+		$this->mwHooksHandler->invokeHooksFromRegistry();
+
 		$metaTagsBlacklist = [
 			'robots'
 		];
