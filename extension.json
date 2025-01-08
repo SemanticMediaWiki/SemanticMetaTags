@@ -41,5 +41,5 @@
 		"SMT\\Tests\\Integration\\": "tests/phpunit/Integration/"
 	},
 	"load_composer_autoloader": true,
-	"manifest_version": 1
+	"manifest_version": 2
 }
