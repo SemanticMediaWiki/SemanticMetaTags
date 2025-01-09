@@ -28,7 +28,10 @@
 	},
 	"require": {
 		"php": ">=7.4",
-		"composer/installers": ">=1.0.1"
+		"composer/installers": ">=1.0.1",
+		"mediawiki/semantic-media-wiki": "~3.1|~4.0|~5.0",
+		"easyrdf/easyrdf": "~1.1",
+		"ml/json-ld": "^1.2"
 	},
 	"require-dev": {
 		"mediawiki/mediawiki-codesniffer": "43.0.0",
