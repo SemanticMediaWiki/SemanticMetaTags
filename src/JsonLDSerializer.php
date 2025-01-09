@@ -7,10 +7,10 @@
 
 namespace SMT;
 
-use Title;
+use Html;
 use OutputPage;
 use SpecialPage;
-use Html;
+use Title;
 
 class JsonLDSerializer {
 	/**
