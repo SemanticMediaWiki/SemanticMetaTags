@@ -29,8 +29,8 @@
 	"require": {
 		"php": ">=7.1",
 		"composer/installers": "1.*,>=1.0.1",
-		"mediawiki/semantic-media-wiki": "~3.1|~4.0",
-		"easyrdf/easyrdf": "*",
+		"mediawiki/semantic-media-wiki": "~3.1|~4.0|~5.0",
+		"easyrdf/easyrdf": "~1.1",
 		"ml/json-ld": "^1.2"
 	},
 	"require-dev": {
@@ -53,7 +53,10 @@
 		}
 	},
 	"config": {
-		"process-timeout": 0
+		"process-timeout": 0,
+		"allow-plugins": {
+			"composer/installers": false
+		}
 	},
 	"scripts":{
 		"test": "php ../../tests/phpunit/phpunit.php -c phpunit.xml.dist",
