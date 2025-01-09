@@ -61,8 +61,7 @@ class HookRegistry {
 	}
 
 	private function addCallbackHandlers( $store, $options ) {
-
-		$this->handlers['BeforePageDisplay'] = function ( $outputPage, $skin ) {
+		$this->handlers['BeforePageDisplay'] = static function ( $outputPage, $skin ) {
 			if ( empty( $GLOBALS['wgSemanticMetaTagsDisableJsonLD'] ) ) {
 				new JsonLDSerializer( $skin->getTitle(), $outputPage );
 			}
