@@ -20,12 +20,6 @@
 			"i18n"
 		]
 	},
-	"AutoloadNamespaces": {
-		"SMT\\": "src"
-	},
-	"AutoloadClasses": {
-		"SemanticMetaTags": "SemanticMetaTags.php"
-	},
 	"callback": "SemanticMetaTags::initExtension",
 	"ExtensionFunctions": [
 		"SemanticMetaTags::onExtensionFunction"
