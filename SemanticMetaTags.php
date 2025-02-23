@@ -2,7 +2,7 @@
 
 use SMT\HookRegistry;
 use SMT\Options;
-use SMW\ApplicationFactory;
+use SMW\Services\ServicesFactory as ApplicationFactory;
 
 /**
  * @see https://github.com/SemanticMediaWiki/SemanticMetaTags/
