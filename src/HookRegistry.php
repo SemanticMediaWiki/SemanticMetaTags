@@ -3,7 +3,7 @@
 namespace SMT;
 
 use MediaWiki\MediaWikiServices;
-use SMW\ApplicationFactory;
+use SMW\Services\ServicesFactory as ApplicationFactory;
 use SMW\Store;
 
 /**
