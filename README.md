@@ -16,7 +16,7 @@ with content generated from selected properties to create:
 
 ## Requirements
 
-- PHP 7.1 or later
+- PHP 7.4 or later
 - MediaWiki 1.31 or later
 - [Semantic MediaWiki][smw] 3.1 or later
 
