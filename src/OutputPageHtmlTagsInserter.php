@@ -104,6 +104,10 @@ class OutputPageHtmlTagsInserter {
 			return $this->addMetaPropertyMarkup( $tag, $content );
 		}
 
+		if ( $this->reqMetaHttpEquivs( $tag ) ) {
+			return $this->addMetaHttpEquivMarkup( $tag, $content );
+		}
+
 		$this->outputPage->addMeta( $tag, $content );
 	}
 
@@ -135,5 +139,31 @@ class OutputPageHtmlTagsInserter {
 
 		return false;
 	}
+
+	private function reqMetaHttpEquivs( $tag ) {
+
+		// If a tag contains a `og:` such as `og:title` it is expected to be a
+		// OpenGraph protocol tag along with other prefixes maintained in
+		// $GLOBALS['smtgMetaPropertyPrefixes']
+		return in_array( $tag, $GLOBALS['smtgMetaHttpEquivs'] );
+	}
+
+	private function addMetaHttpEquivMarkup( $tag, $content ) {
+
+		$comment = '';
+
+		if ( !$this->metaPropertyMarkup ) {
+			$comment .= '<!-- Semantic MetaTags -->' . "\n";
+			$this->metaPropertyMarkup = true;
+		}
+
+		$content = $comment . \Html::element( 'meta', [
+			'http-equiv' => $tag,
+			'content'  => $content
+		] );
+
+		$this->outputPage->addHeadItem( "meta:property:$tag", $content );
+	}
+
 
 }
