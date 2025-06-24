@@ -12,7 +12,7 @@
 	"requires": {
 		"MediaWiki": ">= 1.39",
 		"extensions": {
-			"SemanticMediaWiki": ">= 4.2.0"
+			"SemanticMediaWiki": ">= 5.0.0"
 		}
 	},
 	"MessagesDirs": {
