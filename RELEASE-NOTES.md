@@ -2,11 +2,13 @@ This file contains the RELEASE-NOTES of the **Semantic Meta Tags** (a.k.a. SMT) 
 
 ### 4.0.0
 
-Not released yet
+Released on September 14, 2025.
 
 * Minimum requirement for
   * MediaWiki changed to version 1.39 and later
-  * Semantic MediaWiki changed to version 4 and later
+  * Semantic MediaWiki changed to version 5.0 and later
+  * PHP changed to version 8.1 and later
+* Localization updates from https://translatewiki.net
 
 ### 3.1.0
 
