@@ -56,7 +56,7 @@ class JsonLDSerializer {
 
 			try {
 				$foaf = new \EasyRdf\Graph( $export_url );
-				$foaf->load();
+				@$foaf->load();
 
 				$format = \EasyRdf\Format::getFormat( 'jsonld' );
 				$output = $foaf->serialise( $format, [
