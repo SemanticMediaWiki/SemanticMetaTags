@@ -173,15 +173,15 @@ class PropertyValuesContentAggregatorTest extends \PHPUnit\Framework\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$semanticData->expects( $this->at( 0 ) )
-			->method( 'getPropertyValues' )
-			->with( DIProperty::newFromUserLabel( 'foo' ) )
-			->willReturn( $propertyValues[0] );
-
-		$semanticData->expects( $this->at( 2 ) )
-			->method( 'getPropertyValues' )
-			->with( DIProperty::newFromUserLabel( 'bar' ) )
-			->willReturn( $propertyValues[2] );
+		$semanticData->method( 'getPropertyValues' )
+			->withConsecutive(
+				[ DIProperty::newFromUserLabel( 'foo' ) ],
+				[ DIProperty::newFromUserLabel( 'bar' ) ]
+		)
+		->willReturnOnConsecutiveCalls(
+			$propertyValues[0],
+			$propertyValues[2]
+		);
 
 		$semanticData->expects( $this->any() )
 			->method( 'getSubSemanticData' )
