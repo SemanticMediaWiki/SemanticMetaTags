@@ -52,7 +52,7 @@ class JsonLDSerializer {
 				'page' => $title->getFullText(),
 				'recursive' => '1',
 				'backlinks' => 0
-			] );
+			], false, PROTO_FALLBACK );
 
 			try {
 				$foaf = new \EasyRdf\Graph( $export_url );
