@@ -2,8 +2,9 @@
 	"@metadata": {
 		"authors": [
 			"Hamilton Abreu",
+			"Mansil alfalb",
 			"Vitorvicentevalente"
 		]
 	},
-	"smt-desc": "Permite fornecer metaetiquetas geradas a partir de  [https://semantic-mediawiki.org anotações semânticas]"
+	"smt-desc": "Permite fornecer etiquetas meta geradas a partir de  [https://semantic-mediawiki.org anotações semânticas]"
 }
