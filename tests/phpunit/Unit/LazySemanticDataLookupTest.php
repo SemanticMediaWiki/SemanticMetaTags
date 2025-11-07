@@ -67,13 +67,8 @@ class LazySemanticDataLookupTest extends \PHPUnit\Framework\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$semanticData->expects( $this->at( 0 ) )
-			->method( 'isEmpty' )
-			->willReturn( true );
-
-		$semanticData->expects( $this->at( 1 ) )
-			->method( 'isEmpty' )
-			->willReturn( false );
+		$semanticData->method( 'isEmpty' )
+			->willReturnOnConsecutiveCalls( true, false );
 
 		$semanticData->expects( $this->once() )
 			->method( 'getSubject' )
