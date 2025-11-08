@@ -1,5 +1,14 @@
 This file contains the RELEASE-NOTES of the **Semantic Meta Tags** (a.k.a. SMT) extension.
 
+### 4.1.0
+
+Released on November 8, 2025.
+
+* Minimum requirement for
+  * Semantic MediaWiki changed to version 5.1 and later
+* Bug fixes and code improvements related to JSON-LD support
+* Localization updates from https://translatewiki.net
+
 ### 4.0.0
 
 Released on September 14, 2025.
@@ -8,6 +17,7 @@ Released on September 14, 2025.
   * MediaWiki changed to version 1.39 and later
   * Semantic MediaWiki changed to version 5.0 and later
   * PHP changed to version 8.1 and later
+* Added Schema.org support via JSON-LD
 * Localization updates from https://translatewiki.net
 
 ### 3.1.0
