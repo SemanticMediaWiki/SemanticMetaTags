@@ -18,7 +18,7 @@ with content generated from selected properties to create:
 
 - PHP 8.1 or later
 - MediaWiki 1.39 or later
-- [Semantic MediaWiki][smw] 5.0 or later
+- [Semantic MediaWiki][smw] 5.1 or later
 
 ## Installation
 
@@ -36,7 +36,7 @@ create one and add the following content to it:
 ```
 {
 	"require": {
-		"mediawiki/semantic-meta-tags": "~4.0"
+		"mediawiki/semantic-meta-tags": "~4.1"
 	}
 }
 ```
@@ -44,7 +44,7 @@ create one and add the following content to it:
 If you already have a "composer.local.json" file add the following line to the end of the "require"
 section in your file:
 
-    "mediawiki/semantic-meta-tags": "~4.0"
+    "mediawiki/semantic-meta-tags": "~4.1"
 
 Remember to add a comma to the end of the preceding line in this section.
 
