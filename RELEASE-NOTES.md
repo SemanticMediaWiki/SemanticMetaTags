@@ -1,5 +1,12 @@
 This file contains the RELEASE-NOTES of the **Semantic Meta Tags** (a.k.a. SMT) extension.
 
+### 4.1.1
+
+Released on November 28, 2025.
+
+* Improved support for protocol-relative wiki URLs
+* Localization updates from https://translatewiki.net
+
 ### 4.1.0
 
 Released on November 8, 2025.
