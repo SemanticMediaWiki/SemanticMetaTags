@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"Stefan2255"
+		]
+	},
+	"smt-desc": "Tillåter att tillhandahålla metataggar genererade från [https://www.semantic-mediawiki.org semantiska annoteringar]"
+}
