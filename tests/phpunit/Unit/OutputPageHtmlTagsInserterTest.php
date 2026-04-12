@@ -2,6 +2,7 @@
 
 namespace SMT\Tests;
 
+use MediaWiki\Title\Title;
 use SMT\OutputPageHtmlTagsInserter;
 
 /**
@@ -27,7 +28,7 @@ class OutputPageHtmlTagsInserterTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	public function testTryToUseOutputPageForSpecialPage() {
-		$title = $this->getMockBuilder( '\Title' )
+		$title = $this->getMockBuilder( Title::class )
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -54,7 +55,7 @@ class OutputPageHtmlTagsInserterTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	public function testTryToUseOutputPageForNonViewAction() {
-		$title = $this->getMockBuilder( '\Title' )
+		$title = $this->getMockBuilder( Title::class )
 			->disableOriginalConstructor()
 			->getMock();
 
