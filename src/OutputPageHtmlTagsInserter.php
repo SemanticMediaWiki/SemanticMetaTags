@@ -2,6 +2,7 @@
 
 namespace SMT;
 
+use MediaWiki\Html\Html;
 use OutputPage;
 
 /**
@@ -115,7 +116,7 @@ class OutputPageHtmlTagsInserter {
 			$this->metaPropertyMarkup = true;
 		}
 
-		$content = $comment . \Html::element( 'meta', [
+		$content = $comment . Html::element( 'meta', [
 			'property' => $tag,
 			'content'  => $content
 		] );
