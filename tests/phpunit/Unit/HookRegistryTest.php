@@ -2,9 +2,9 @@
 
 namespace SMT\Tests;
 
+use MediaWiki\Title\Title;
 use SMT\HookRegistry;
 use SMT\Options;
-use Title;
 
 /**
  * @covers \SMT\HookRegistry

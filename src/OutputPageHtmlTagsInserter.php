@@ -2,7 +2,8 @@
 
 namespace SMT;
 
-use OutputPage;
+use MediaWiki\Html\Html;
+use MediaWiki\Output\OutputPage;
 
 /**
  * @license GPL-2.0-or-later
@@ -115,7 +116,7 @@ class OutputPageHtmlTagsInserter {
 			$this->metaPropertyMarkup = true;
 		}
 
-		$content = $comment . \Html::element( 'meta', [
+		$content = $comment . Html::element( 'meta', [
 			'property' => $tag,
 			'content'  => $content
 		] );

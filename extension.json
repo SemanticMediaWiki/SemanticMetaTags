@@ -10,9 +10,9 @@
 	"license-name": "GPL-2.0-or-later",
 	"type": "semantic",
 	"requires": {
-		"MediaWiki": ">= 1.39",
+		"MediaWiki": ">= 1.43",
 		"extensions": {
-			"SemanticMediaWiki": ">= 5.0.0"
+			"SemanticMediaWiki": ">= 6.0.0"
 		}
 	},
 	"MessagesDirs": {
@@ -31,8 +31,7 @@
 		"SMT\\": "src/"
 	},
 	"TestAutoloadNamespaces": {
-		"SMT\\Tests\\": "tests/phpunit/Unit/",
-		"SMT\\Tests\\Integration\\": "tests/phpunit/Integration/"
+		"SMT\\Tests\\": "tests/phpunit/"
 	},
 	"load_composer_autoloader": true,
 	"manifest_version": 2

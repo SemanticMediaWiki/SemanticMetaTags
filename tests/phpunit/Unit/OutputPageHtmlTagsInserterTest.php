@@ -2,6 +2,8 @@
 
 namespace SMT\Tests;
 
+use MediaWiki\Output\OutputPage;
+use MediaWiki\Title\Title;
 use SMT\OutputPageHtmlTagsInserter;
 
 /**
@@ -16,7 +18,7 @@ use SMT\OutputPageHtmlTagsInserter;
 class OutputPageHtmlTagsInserterTest extends \PHPUnit\Framework\TestCase {
 
 	public function testCanConstruct() {
-		$outputPage = $this->getMockBuilder( '\OutputPage' )
+		$outputPage = $this->getMockBuilder( OutputPage::class )
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -27,7 +29,7 @@ class OutputPageHtmlTagsInserterTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	public function testTryToUseOutputPageForSpecialPage() {
-		$title = $this->getMockBuilder( '\Title' )
+		$title = $this->getMockBuilder( Title::class )
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -35,7 +37,7 @@ class OutputPageHtmlTagsInserterTest extends \PHPUnit\Framework\TestCase {
 			->method( 'isSpecialPage' )
 			->willReturn( true );
 
-		$outputPage = $this->getMockBuilder( '\OutputPage' )
+		$outputPage = $this->getMockBuilder( OutputPage::class )
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -54,7 +56,7 @@ class OutputPageHtmlTagsInserterTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	public function testTryToUseOutputPageForNonViewAction() {
-		$title = $this->getMockBuilder( '\Title' )
+		$title = $this->getMockBuilder( Title::class )
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -62,7 +64,7 @@ class OutputPageHtmlTagsInserterTest extends \PHPUnit\Framework\TestCase {
 			->method( 'isSpecialPage' )
 			->willReturn( false );
 
-		$outputPage = $this->getMockBuilder( '\OutputPage' )
+		$outputPage = $this->getMockBuilder( OutputPage::class )
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -82,7 +84,7 @@ class OutputPageHtmlTagsInserterTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	public function testTryToAddContentForBlacklistedTag() {
-		$outputPage = $this->getMockBuilder( '\OutputPage' )
+		$outputPage = $this->getMockBuilder( OutputPage::class )
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -99,7 +101,7 @@ class OutputPageHtmlTagsInserterTest extends \PHPUnit\Framework\TestCase {
 	 * @dataProvider nonOgTagProvider
 	 */
 	public function testAddTagForNonOgContent( $tag, $content, $expected ) {
-		$outputPage = $this->getMockBuilder( '\OutputPage' )
+		$outputPage = $this->getMockBuilder( OutputPage::class )
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -117,7 +119,7 @@ class OutputPageHtmlTagsInserterTest extends \PHPUnit\Framework\TestCase {
 	 * @dataProvider propertyTagProvider
 	 */
 	public function testAddTagOnMetaPropertyPrefixContent( $prefixes, $tag, $content, $expected ) {
-		$outputPage = $this->getMockBuilder( '\OutputPage' )
+		$outputPage = $this->getMockBuilder( OutputPage::class )
 			->disableOriginalConstructor()
 			->getMock();
 
