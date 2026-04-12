@@ -3,7 +3,7 @@
 namespace SMT;
 
 use MediaWiki\Html\Html;
-use OutputPage;
+use MediaWiki\Output\OutputPage;
 
 /**
  * @license GPL-2.0-or-later
