@@ -7,10 +7,11 @@
 
 namespace SMT;
 
-use Html;
-use OutputPage;
-use SpecialPage;
-use Title;
+use Exception;
+use MediaWiki\Html\Html;
+use MediaWiki\Output\OutputPage;
+use MediaWiki\SpecialPage\SpecialPage;
+use MediaWiki\Title\Title;
 
 class JsonLDSerializer {
 	/**
