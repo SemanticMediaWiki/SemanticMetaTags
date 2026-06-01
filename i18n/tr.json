@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"BaRaN6161 TURK"
+			"BaRaN6161 TURK",
+			"HakanIST"
 		]
 	},
 	"smt-desc": "[https://www.semantic-mediawiki.org Semantik ek açıklamalarından] oluşturulan meta etiketlerin sağlanmasına izin verir"
