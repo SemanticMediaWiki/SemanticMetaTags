@@ -18,14 +18,14 @@ jobs:
       matrix:
         include:
           - mediawiki_version: '1.43'
-            smw_version: 6.0.1
+            smw_version: dev-master
             php_version: 8.1
             database_type: mysql
             database_image: "mariadb:10"
             coverage: true
             experimental: false
           - mediawiki_version: '1.43'
-            smw_version: 6.0.1
+            smw_version: dev-master
             php_version: 8.1
             database_type: mysql
             database_image: "mariadb:10"
