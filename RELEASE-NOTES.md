@@ -1,5 +1,14 @@
 This file contains the RELEASE-NOTES of the **Semantic Meta Tags** (a.k.a. SMT) extension.
 
+### 7.0.0-alpha
+
+* Added support for Semantic MediaWiki 7.0
+* Raised the minimum requirement for
+  * Semantic MediaWiki to version 7.0 and later
+  * MediaWiki to version 1.43 and later
+* Updated to Semantic MediaWiki 7.0's namespaced data-item classes
+* The major version jumps from 4.x to 7.0 to track the Semantic MediaWiki release it supports
+
 ### 4.1.1
 
 Released on November 28, 2025.

@@ -3,7 +3,7 @@
 namespace SMT\Tests;
 
 use SMT\LazySemanticDataLookup;
-use SMW\DIWikiPage;
+use SMW\DataItems\WikiPage;
 
 /**
  * @covers \SMT\LazySemanticDataLookup
@@ -32,7 +32,7 @@ class LazySemanticDataLookupTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	public function testGetSemanticDataFromParserOutput() {
-		$semanticData = $this->getMockBuilder( '\SMW\SemanticData' )
+		$semanticData = $this->getMockBuilder( '\SMW\DataModel\SemanticData' )
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -63,7 +63,7 @@ class LazySemanticDataLookupTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	public function testGetSemanticDataFromStore() {
-		$semanticData = $this->getMockBuilder( '\SMW\SemanticData' )
+		$semanticData = $this->getMockBuilder( '\SMW\DataModel\SemanticData' )
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -72,7 +72,7 @@ class LazySemanticDataLookupTest extends \PHPUnit\Framework\TestCase {
 
 		$semanticData->expects( $this->once() )
 			->method( 'getSubject' )
-			->willReturn( new DIWikiPage( 'Foo', NS_MAIN ) );
+			->willReturn( new WikiPage( 'Foo', NS_MAIN ) );
 
 		$parserData = $this->getMockBuilder( '\SMW\ParserData' )
 			->disableOriginalConstructor()

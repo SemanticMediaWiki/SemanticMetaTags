@@ -4,7 +4,7 @@ namespace SMT\Tests\Integration;
 
 use SMT\HookRegistry;
 use SMT\Options;
-use SMW\DIWikiPage;
+use SMW\DataItems\WikiPage;
 use SMW\Tests\SMWIntegrationTestCase;
 use SMW\Tests\Utils\UtilityFactory;
 
@@ -78,7 +78,7 @@ class MetaTagsContentGenerationIntegrationTest extends SMWIntegrationTestCase {
 			$this->markTestSkipped( 'OutputPage::getMetaTags does not exist for this MW version' );
 		}
 
-		$subject = new DIWikiPage( __METHOD__, NS_MAIN );
+		$subject = new WikiPage( __METHOD__, NS_MAIN );
 		$requestContext->setTitle( $subject->getTitle() );
 
 		$this->pageCreator
@@ -118,7 +118,7 @@ class MetaTagsContentGenerationIntegrationTest extends SMWIntegrationTestCase {
 			$this->markTestSkipped( 'OutputPage::addParserOutputMetadata does not exist for this MW version' );
 		}
 
-		$subject = new DIWikiPage( __METHOD__, NS_MAIN );
+		$subject = new WikiPage( __METHOD__, NS_MAIN );
 		$requestContext->setTitle( $subject->getTitle() );
 
 		$this->pageCreator
