@@ -1,6 +1,6 @@
 This file contains the RELEASE-NOTES of the **Semantic Meta Tags** (a.k.a. SMT) extension.
 
-### 7.0.0-alpha
+### 5.0.0-alpha
 
 * Added support for Semantic MediaWiki 7.0
 * Raised the minimum requirement for
@@ -8,7 +8,6 @@ This file contains the RELEASE-NOTES of the **Semantic Meta Tags** (a.k.a. SMT) 
   * MediaWiki to version 1.43 and later
 * Updated to Semantic MediaWiki 7.0's namespaced data-item classes
 * Moved the extension registration and settings defaults into `extension.json` (the `$smtg…` configuration variable names are unchanged)
-* The major version jumps from 4.x to 7.0 to track the Semantic MediaWiki release it supports
 
 ### 4.1.1
 
