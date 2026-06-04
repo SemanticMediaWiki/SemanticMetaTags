@@ -38,6 +38,10 @@ class I18nJsonFileIntegrityTest extends \PHPUnit\Framework\TestCase {
 		$provider = [];
 		$location = $GLOBALS['wgMessagesDirs']['SemanticMetaTags'];
 
+		if ( is_array( $location ) ) {
+			$location = $location[0];
+		}
+
 		$bulkFileProvider = UtilityFactory::getInstance()->newBulkFileProvider( $location );
 		$bulkFileProvider->searchByFileExtension( 'json' );
 
