@@ -20,18 +20,42 @@
 			"i18n"
 		]
 	},
-	"callback": "SemanticMetaTags::initExtension",
 	"ExtensionFunctions": [
-		"SemanticMetaTags::onExtensionFunction"
+		"SMT\\Setup::onExtensionFunction"
 	],
-	"AutoloadClasses": {
-		"SemanticMetaTags": "SemanticMetaTags.php"
-	},
 	"AutoloadNamespaces": {
 		"SMT\\": "src/"
 	},
 	"TestAutoloadNamespaces": {
 		"SMT\\Tests\\": "tests/phpunit/"
+	},
+	"config_prefix": "smtg",
+	"config": {
+		"TagsProperties": {
+			"value": [],
+			"description": "An array of tags that assigns related properties such as `'keywords' => [ 'Has keywords', ... ]`."
+		},
+		"TagsStrings": {
+			"value": [],
+			"description": "Describes static content for an assigned `<meta>` tag such as `'some:tag' => 'Content that is static'`."
+		},
+		"TagsBlacklist": {
+			"value": [
+				"generator",
+				"robots"
+			],
+			"description": "Listed tags are generally assumed to be reserved or excluded for free use."
+		},
+		"TagsPropertyFallbackUsage": {
+			"value": false,
+			"description": "In case it is set `true` then the first property that returns a valid content for an assigned tag will be used exclusively."
+		},
+		"MetaPropertyPrefixes": {
+			"value": [
+				"og:"
+			],
+			"description": "Identifies prefixes that require `meta:property:...`."
+		}
 	},
 	"load_composer_autoloader": true,
 	"manifest_version": 2
