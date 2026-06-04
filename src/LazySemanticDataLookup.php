@@ -2,9 +2,9 @@
 
 namespace SMT;
 
+use SMW\DataModel\SemanticData;
 use SMW\ParserData;
 use SMW\RequestOptions;
-use SMW\SemanticData;
 use SMW\Store;
 
 /**

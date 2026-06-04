@@ -2,10 +2,11 @@
 
 namespace SMT;
 
-use SMW\DIProperty;
-use SMW\DIWikiPage;
-use SMWDIBlob as DIBlob;
-use SMWDIUri as DIUri;
+use MediaWiki\Output\OutputPage;
+use SMW\DataItems\Blob;
+use SMW\DataItems\Property;
+use SMW\DataItems\Uri;
+use SMW\DataItems\WikiPage;
 
 /**
  * @license GPL-2.0-or-later
@@ -21,7 +22,7 @@ class PropertyValuesContentAggregator {
 	private $lazySemanticDataLookup;
 
 	/**
-	 * @var \OutputPage
+	 * @var OutputPage
 	 */
 	private $mOutputPage;
 
@@ -40,7 +41,7 @@ class PropertyValuesContentAggregator {
 	 * @param LazySemanticDataLookup $lazySemanticDataLookup
 	 * @param OutputPage $outputPage
 	 */
-	public function __construct( LazySemanticDataLookup $lazySemanticDataLookup, \OutputPage $outputPage ) {
+	public function __construct( LazySemanticDataLookup $lazySemanticDataLookup, OutputPage $outputPage ) {
 		$this->lazySemanticDataLookup = $lazySemanticDataLookup;
 		$this->mOutputPage = $outputPage;
 	}
@@ -92,7 +93,7 @@ class PropertyValuesContentAggregator {
 			}
 		} else {
 			// This is a real property.
-			$property = DIProperty::newFromUserLabel( $property );
+			$property = Property::newFromUserLabel( $property );
 			$semanticData = $this->lazySemanticDataLookup->getSemanticData();
 
 			$this->iterateToCollectPropertyValues(
@@ -114,9 +115,9 @@ class PropertyValuesContentAggregator {
 
 			// Content escaping (htmlspecialchars) is being carried out
 			// by the instance that adds the content
-			if ( $value instanceof DIBlob ) {
+			if ( $value instanceof Blob ) {
 				$values[$value->getHash()] = $value->getString();
-			} elseif ( $value instanceof DIWikiPage || $value instanceof DIUri ) {
+			} elseif ( $value instanceof WikiPage || $value instanceof Uri ) {
 				$values[$value->getHash()] = $value->getSortKey();
 			}
 		}
