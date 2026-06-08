@@ -36,7 +36,7 @@ create one and add the following content to it:
 ```
 {
 	"require": {
-		"mediawiki/semantic-meta-tags": "~4.1"
+		"mediawiki/semantic-meta-tags": "~5.0"
 	}
 }
 ```
@@ -44,7 +44,7 @@ create one and add the following content to it:
 If you already have a "composer.local.json" file add the following line to the end of the "require"
 section in your file:
 
-    "mediawiki/semantic-meta-tags": "~4.1"
+    "mediawiki/semantic-meta-tags": "~5.0"
 
 Remember to add a comma to the end of the preceding line in this section.
 
@@ -77,7 +77,7 @@ have a look at the contribution guideline.
 
 ## Tests
 
-This extension provides unit and integration tests that are run by a [continues integration platform][travis]
+This extension provides unit and integration tests that are run by a [continuous integration platform][ci]
 but can also be executed using `composer phpunit` from the extension base directory.
 
 ## License
@@ -86,7 +86,7 @@ but can also be executed using `composer phpunit` from the extension base direct
 
 [smw]: https://github.com/SemanticMediaWiki/SemanticMediaWiki
 [contributors]: https://github.com/SemanticMediaWiki/SemanticMetaTags/graphs/contributors
-[travis]: https://travis-ci.org/SemanticMediaWiki/SemanticMetaTags
+[ci]: https://github.com/SemanticMediaWiki/SemanticMetaTags/actions
 [gpl-licence]: https://www.gnu.org/copyleft/gpl.html
 [composer]: https://getcomposer.org/
 [opg]: http://ogp.me/
