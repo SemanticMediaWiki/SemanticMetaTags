@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"Wizzard"
+		]
+	},
+	"smt-desc": "Umožňuje poskytovať meta značky generované zo [https://www.semantic-mediawiki.org sémantických anotácií]"
+}
