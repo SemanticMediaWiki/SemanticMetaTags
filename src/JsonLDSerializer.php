@@ -7,12 +7,13 @@
 
 namespace SMT;
 
-use Exception;
-use MediaWiki\Html\Html;
-use MediaWiki\Logger\LoggerFactory;
-use MediaWiki\Output\OutputPage;
-use MediaWiki\SpecialPage\SpecialPage;
-use MediaWiki\Title\Title;
+use Html;
+use MediaWiki\MediaWikiServices;
+use OutputPage;
+use SpecialPage;
+use Throwable;
+use Title;
+use Wikimedia\ObjectCache\WANObjectCache;
 
 class JsonLDSerializer {
 	/**
@@ -46,37 +47,80 @@ class JsonLDSerializer {
 			return;
 		}
 
+		# HOTFIX BEG 2026-07-13 Harden JSON-LD RDF fetch path (safe errors, absolute URL, cache)
+        if ( $outputPage->isDisabled() ) {
+                        return;
+                }
+		
 		// @TODO use directly the function makeExportDataForSubject
 		// SemanticMediawiki/includes/export/SMW_Exporter.php
-		$export_rdf = SpecialPage::getTitleFor( 'ExportRDF' );
-		if ( $export_rdf->isKnown() ) {
-			$export_url = $export_rdf->getFullURL( [
-				'page' => $title->getFullText(),
-				'recursive' => '1',
-				'backlinks' => 0
-			], false, PROTO_FALLBACK );
+                $export_rdf = SpecialPage::getTitleFor( 'ExportRDF' );
+                if ( !$export_rdf->isKnown() ) {
+                        return;
+                }
 
-			try {
-				$foaf = new \EasyRdf\Graph( $export_url );
-				$foaf->load();
+                $export_url = $export_rdf->getFullURL( [
+                        'page' => $title->getFullText(),
+                        'recursive' => '1',
+                        'backlinks' => 0
+                ], false, PROTO_FALLBACK );
 
-				$format = \EasyRdf\Format::getFormat( 'jsonld' );
-				$output = $foaf->serialise( $format, [
-					'compact' => true,
-				] );
+                $urlUtils = MediaWikiServices::getInstance()->getUrlUtils();
+                $exportUrlBits = $urlUtils->parse( $export_url );
+                if ( $exportUrlBits === null || ( $exportUrlBits['host'] ?? '' ) === '' ) {
+                        $export_url = (string)$urlUtils->expand( $export_url, PROTO_CANONICAL );
+                        $exportUrlBits = $urlUtils->parse( $export_url );
+                        if ( $exportUrlBits === null || ( $exportUrlBits['host'] ?? '' ) === '' ) {
+                                wfDebugLog(
+                                        'SemanticMetaTags',
+                                        __METHOD__ . ' could not build absolute RDF export URL for ' . $title->getPrefixedText()
+                                );
+                                return;
+                        }
+                }
 
-			} catch ( Exception $e ) {
-				LoggerFactory::getInstance( 'smt' )->error( 'EasyRdf error: ' . $export_url );
-				return;
-			}
+		
+                $revisionId = (int)$title->getLatestRevID();
+                $wanCache = MediaWikiServices::getInstance()->getMainWANObjectCache();
+                $cacheKey = $wanCache->makeKey(
+                        'SemanticMetaTags',
+                        'jsonld',
+                        $title->getNamespace(),
+                        $title->getDBkey(),
+                        $revisionId,
+                        'v1'
+                );
 
-			// https://hotexamples.com/examples/-/EasyRdf_Graph/serialise/php-easyrdf_graph-serialise-method-examples.html
-			if ( is_scalar( $output ) ) {
-				$outputPage->addHeadItem( 'json-ld', Html::Element(
-						'script', [ 'type' => 'application/ld+json' ], $output
-					)
-				);
-			}
-		}
-	}
+                try {
+                        $output = $wanCache->getWithSetCallback(
+                                $cacheKey,
+                                WANObjectCache::TTL_HOUR,
+                                static function () use ( $export_url ) {
+                                        $foaf = new \EasyRdf\Graph( $export_url );
+                                        $foaf->load();
+
+                                        $format = \EasyRdf\Format::getFormat( 'jsonld' );
+                                        $result = $foaf->serialise( $format, [
+                                                'compact' => true,
+                                        ] );
+
+                                        return is_scalar( $result ) ? (string)$result : '';
+                                }
+                        );
+                        if ( is_string( $output ) && $output !== '' ) {
+                                $outputPage->addHeadItem( 'json-ld', Html::Element(
+                                                'script', [ 'type' => 'application/ld+json' ], $output
+                                        )
+                                );
+                        }
+                } catch ( Throwable $e ) {
+                        wfDebugLog(
+                                'SemanticMetaTags',
+                                __METHOD__ . ' failed for ' . $title->getPrefixedText() .
+                                ' (url: ' . $export_url . '): ' . $e->getMessage()
+                        );
+                        return;
+                }
+                # HOTFIX END 2026-07-13 Harden JSON-LD RDF fetch path (safe errors, absolute URL, cache)
+        }
 }
