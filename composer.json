@@ -80,7 +80,7 @@
 		],
 		"unit": "@phpunit --testsuite semantic-meta-tags-unit",
 		"integration": "@phpunit --testsuite semantic-meta-tags-integration",
-		"phpunit-coverage": "@phpunit --testdox --coverage-text --coverage-html coverage/php --coverage-clover coverage/php/coverage.xml",
+		"phpunit-coverage": "@phpunit --testdox --coverage-text --coverage-html coverage/php --coverage-clover extensions/SemanticMetaTags/coverage/php/coverage.xml",
 		"post-test-coverage": [
 			"sed -i 's|/var/www/html/extensions/SemanticMetaTags/||g' coverage/php/coverage.xml",
 			"find coverage/php -type f -name '*.html' -exec sed -i 's|/var/www/html/extensions/||g' {} +"
