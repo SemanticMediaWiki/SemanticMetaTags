@@ -31,6 +31,12 @@
 	},
 	"config_prefix": "smtg",
 	"config": {
+		"JsonLDDisableCache": {
+			"value": false
+		},
+		"JsonLDCacheStore": {
+			"value": "SessionCache"
+		},
 		"TagsProperties": {
 			"value": [],
 			"description": "An array of tags that assigns related properties such as `'keywords' => [ 'Has keywords', ... ]`."

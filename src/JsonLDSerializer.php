@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @see  https://www.mediawiki.org/wiki/Extension:PageProperties
+ * @see https://www.mediawiki.org/wiki/Extension:PageProperties
  * @author thomas-topway-it for KM-A
  */
 
@@ -10,23 +10,27 @@ namespace SMT;
 use Exception;
 use MediaWiki\Html\Html;
 use MediaWiki\Logger\LoggerFactory;
+use MediaWiki\MediaWikiServices;
 use MediaWiki\Output\OutputPage;
-use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\Title\Title;
+use SMW\Exporter\ExporterFactory;
 
 class JsonLDSerializer {
+	 /* @var OutputPage */
+	 private $outputPage;
+
 	/**
 	 * @param Title $title
 	 * @param OutputPage $outputPage
 	 */
 	public function __construct( $title, $outputPage ) {
 		if ( $this->isKnownArticle( $title ) ) {
-			$this->setJsonLD( $title, $outputPage );
+			$this->outputPage = $outputPage;
+			$this->setJsonLD( $title );
 		}
 	}
 
 	/**
-	 * @see https://gerrit.wikimedia.org/r/plugins/gitiles/mediawiki/extensions/PageProperties/+/548d30609c512a79e202dfa7c02a298c66ca34fa/includes/PageProperties.php
 	 * @param Title $title
 	 * @return bool
 	 */
@@ -36,47 +40,113 @@ class JsonLDSerializer {
 	}
 
 	/**
-	 * @see https://gerrit.wikimedia.org/r/plugins/gitiles/mediawiki/extensions/PageProperties/+/548d30609c512a79e202dfa7c02a298c66ca34fa/includes/PageProperties.php
+	 * @see https://gerrit.wikimedia.org/r/plugins/gitiles/mediawiki/extensions/SubpageNavigation/+/refs/heads/master/includes/SubpageNavigation.php#278
+	 * 
+	 * @return mixed|false
+	 */
+	private function getCache() {
+		switch ( $GLOBALS['smtgJsonLDCacheStore'] ) {
+			case 'LocalServerObjectCache':
+				return MediaWikiServices::getInstance()->getLocalServerObjectCache();
+
+			// @see https://github.com/SemanticMediaWiki/SemanticMetaTags/pull/118
+			case 'WANObjectCache':
+				return MediaWikiServices::getInstance()->getMainWANObjectCache();
+
+			case 'SessionCache':
+			default:
+				// @see MediaWiki\Session\SessionManager
+				$config = MediaWikiServices::getInstance()->getMainConfig();
+				$store = \ObjectCache::getInstance( $config->get(
+					class_exists( 'MainConfigNames' ) ? MainConfigNames::SessionCacheType : 'SessionCacheType' ) );
+				return new \CachedBagOStuff( $store );
+		}
+	}
+
+	/**
 	 * @param Title $title
-	 * @param OutputPage $outputPage
+	 * @return string|null
+	 */
+	private function getJsonLDOutput( $title ) {
+		// @see SMW\Query\ResultPrinters\RdfResultPrinter
+		$exporterFactory = new ExporterFactory();
+		$serializer = $exporterFactory->newRDFXMLSerializer();
+		$export_controller = $exporterFactory->newExportController( $serializer );
+
+		$this->outputPage->disable();
+		ob_start();
+
+		try {
+			$recursive = true;
+			$export_controller->enableBacklinks( false );
+			$revisionDate = false;
+			$pages = [ $title->getFullText() ];
+			$export_controller->printPages( $pages, $recursive, $revisionDate );
+
+		} catch ( Exception $e ) {
+			ob_end_clean();
+			LoggerFactory::getInstance( 'smt' )->error( 'SMW ExporterFactory error: ' . $e->getMessage() );
+			return;
+		}
+
+		$data = ob_get_clean();
+
+		try {
+			$foaf = new \EasyRdf\Graph( $title->getFullUrl(), $data );
+			$format = \EasyRdf\Format::getFormat( 'jsonld' );
+			return $foaf->serialise( $format, [
+				'compact' => true,
+			] );
+
+		} catch ( Exception $e ) {
+			LoggerFactory::getInstance( 'smt' )->error( 'EasyRdf error: ' . $e->getMessage() );
+		}
+	}
+
+	/**
+	 * @param Title $title
 	 * @return void
 	 */
-	public static function setJsonLD( $title, $outputPage ) {
+	public function setJsonLD( $title ) {
 		if ( !class_exists( '\EasyRdf\Graph' ) || !class_exists( '\ML\JsonLD\JsonLD' ) ) {
 			return;
 		}
 
-		// @TODO use directly the function makeExportDataForSubject
-		// SemanticMediawiki/includes/export/SMW_Exporter.php
-		$export_rdf = SpecialPage::getTitleFor( 'ExportRDF' );
-		if ( $export_rdf->isKnown() ) {
-			$export_url = $export_rdf->getFullURL( [
-				'page' => $title->getFullText(),
-				'recursive' => '1',
-				'backlinks' => 0
-			], false, PROTO_FALLBACK );
+		$cache = null;
+		if ( empty( $GLOBALS['smtgJsonLDDisableCache'] ) ) {
+			$revisionId = (int)$title->getLatestRevID();
+			$cache = $this->getCache();
 
-			try {
-				$foaf = new \EasyRdf\Graph( $export_url );
-				$foaf->load();
+			if ( $cache ) {
+				$cacheKey = $cache->makeKey(
+					'SemanticMetaTags',
+					'jsonld',
+					$title->getNamespace(),
+					$title->getDBkey(),
+					$revisionId,
+				);
 
-				$format = \EasyRdf\Format::getFormat( 'jsonld' );
-				$output = $foaf->serialise( $format, [
-					'compact' => true,
-				] );
-
-			} catch ( Exception $e ) {
-				LoggerFactory::getInstance( 'smt' )->error( 'EasyRdf error: ' . $export_url );
-				return;
-			}
-
-			// https://hotexamples.com/examples/-/EasyRdf_Graph/serialise/php-easyrdf_graph-serialise-method-examples.html
-			if ( is_scalar( $output ) ) {
-				$outputPage->addHeadItem( 'json-ld', Html::Element(
-						'script', [ 'type' => 'application/ld+json' ], $output
-					)
+				$thisClass = $this;
+				$output = $cache->getWithSetCallback(
+					$cacheKey,
+					$cache::TTL_INDEFINITE,
+					static function () use ( &$thisClass, $title ) {
+						return $thisClass->getJsonLDOutput( $title );
+					}
 				);
 			}
+		}
+
+		if ( !$cache ) {		
+			$output = $this->getJsonLDOutput( $title );
+		}
+
+		// https://hotexamples.com/examples/-/EasyRdf_Graph/serialise/php-easyrdf_graph-serialise-method-examples.html
+		if ( is_string( $output ) && !empty( $output ) ) {
+			$this->outputPage->addHeadItem( 'json-ld', Html::Element(
+					'script', [ 'type' => 'application/ld+json' ], $output
+				)
+			);
 		}
 	}
 }
